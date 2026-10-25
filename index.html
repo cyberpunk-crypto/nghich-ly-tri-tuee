@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nghịch Lý Trí Tuệ | Mind Paradox - Pure Logic Deduction</title>
+  <meta name="description" content="Trò chơi suy luận logic thuần túy dựa trên đại số tuyến tính modulo 2, bảng chân trị và nghịch lý tự tham chiếu Gödel.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+  <!-- Audio Context Elements (Synthesized Web Audio API used for zero external assets dependency) -->
+
+  <!-- App Container -->
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="game-title">NGHỊCH LÝ TRÍ TUỆ</h1>
+          <span class="game-subtitle">HỆ THỐNG SUY LUẬN LOGIC THUẦN TÚY</span>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <!-- Player Rank Badge -->
+        <div class="rank-badge" id="hud-rank-badge" title="Cấp bậc danh hiệu hiện tại">
+          <span class="rank-icon" id="hud-rank-icon">🛡️</span>
+          <span class="rank-name" id="hud-rank-name">Tập sự Suy Luận</span>
+        </div>
+
+        <!-- XP Progress Bar -->
+        <div class="xp-container" title="Tiến trình kinh nghiệm tích lũy">
+          <div class="xp-info">
+            <span class="xp-label">XP TÍCH LŨY</span>
+            <span class="xp-values" id="hud-xp-text">0 / 300 XP</span>
+          </div>
+          <div class="xp-bar-bg">
+            <div class="xp-bar-fill" id="hud-xp-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="header-actions">
+          <button id="btn-sound-toggle" class="btn-icon" title="Bật/Tắt hiệu ứng âm thanh">
+            <span id="sound-icon">🔊</span>
+          </button>
+          
+          <button id="btn-open-quests" class="btn-secondary btn-quests" title="Mở danh sách nhiệm vụ và phần thưởng">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Nhiệm Vụ</span>
+            <span id="quest-badge-count" class="badge-count hidden">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stage Selector Tabs -->
+    <nav class="stage-nav">
+      <div class="stage-tabs" id="stage-tabs-container">
+        <button class="stage-tab active" data-stage="1" id="tab-stage-1">
+          <div class="tab-index">01</div>
+          <div class="tab-content">
+            <span class="tab-title">Nghịch Lý Đảo Chiều</span>
+            <span class="tab-subtitle">Ma trận Modulo 2</span>
+          </div>
+          <div class="tab-status" id="tab-status-1">
+            <span class="status-indicator"></span>
+          </div>
+        </button>
+
+        <button class="stage-tab" data-stage="2" id="tab-stage-2">
+          <div class="tab-index">02</div>
+          <div class="tab-content">
+            <span class="tab-title">Nghịch Lý Kẻ Nói Dối</span>
+            <span class="tab-subtitle">Cổng Chân Trị 4 Chiều</span>
+          </div>
+          <div class="tab-status" id="tab-status-2">
+            <span class="status-indicator">🔒</span>
+          </div>
+        </button>
+
+        <button class="stage-tab" data-stage="3" id="tab-stage-3">
+          <div class="tab-index">03</div>
+          <div class="tab-content">
+            <span class="tab-title">Nghịch Lý Tự Tham Chiếu</span>
+            <span class="tab-subtitle">Khóa Số Tự Miêu Tả Gödel</span>
+          </div>
+          <div class="tab-status" id="tab-status-3">
+            <span class="status-indicator">🔒</span>
+          </div>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Workspace (Grid Layout: Canvas Left + Clue Board Right) -->
+    <main class="main-workspace">
+      <!-- Left Column: Canvas Arena & Controls -->
+      <section class="arena-section">
+        <div class="arena-card">
+          <!-- Stage Meta Bar -->
+          <div class="arena-header">
+            <div class="stage-title-wrap">
+              <span class="stage-badge" id="current-stage-tag">MÀN 1</span>
+              <h2 class="stage-heading" id="current-stage-title">Nghịch Lý Đảo Chiều</h2>
+            </div>
+            <div class="stage-stats-preview">
+              <div class="stat-pill">
+                <span class="stat-label">Nước đi:</span>
+                <span class="stat-val highlight" id="arena-moves-val">0</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Tối ưu:</span>
+                <span class="stat-val" id="arena-optimal-val">≤ 4</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas Container -->
+          <div class="canvas-viewport" id="canvas-wrapper">
+            <canvas id="game-canvas" width="600" height="450"></canvas>
+            <div id="canvas-overlay-notice" class="canvas-overlay hidden"></div>
+          </div>
+
+          <!-- Arena Action Bar -->
+          <div class="arena-controls">
+            <div class="controls-left">
+              <button id="btn-hint" class="btn-tool" title="Mở khóa một manh mối gợi ý (-100 XP Thưởng No-Hint)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                  <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
+                </svg>
+                <span>Gợi Ý</span>
+                <span class="hint-count-badge" id="hint-count-indicator">3/3</span>
+              </button>
+
+              <button id="btn-reset" class="btn-tool btn-reset" title="Đặt lại trạng thái ban đầu của câu đố">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 2v6h6"></path>
+                  <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
+                  <path d="M21 22v-6h-6"></path>
+                  <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
+                </svg>
+                <span>Đặt Lại</span>
+              </button>
+            </div>
+
+            <div class="controls-right">
+              <button id="btn-verify" class="btn-primary btn-verify" title="Kiểm tra hệ thống suy luận hiện tại">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <span>KIỂM TRA ĐÁP ÁN</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Deductive Notebook / Clue Board -->
+      <aside class="clue-board-section">
+        <div class="clue-board-card">
+          <div class="clue-board-header">
+            <div class="board-title-group">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                <line x1="9" y1="7" x2="15" y2="7"></line>
+                <line x1="9" y1="11" x2="15" y2="11"></line>
+              </svg>
+              <h3 class="clue-board-title">BẢNG SUY LUẬN & MANH MỐI</h3>
+            </div>
+            <span class="board-badge">Sổ Tay Logic</span>
+          </div>
+
+          <div class="clue-board-content">
+            <!-- Axioms Section -->
+            <div class="notebook-block">
+              <div class="block-label">
+                <span class="label-dot cyan"></span>
+                <span>HỆ TIÊN ĐỀ LOGIC (AXIOMS)</span>
+              </div>
+              <ul class="axioms-list" id="axioms-list-container">
+                <!-- Injected via UIController.renderClues -->
+              </ul>
+            </div>
+
+            <!-- Unlocked Hints Section -->
+            <div class="notebook-block">
+              <div class="block-label">
+                <span class="label-dot amber"></span>
+                <span>MANH MỐI ĐÃ MỞ KHÓA</span>
+              </div>
+              <div class="unlocked-hints-wrap" id="unlocked-hints-container">
+                <div class="empty-hints-notice">Chưa có manh mối nào được mở khóa. Hãy suy luận dựa trên tiên đề hoặc nhấn nút Gợi Ý.</div>
+              </div>
+            </div>
+
+            <!-- Logic Feedback / Contradiction Inspector -->
+            <div class="notebook-block" id="feedback-block">
+              <div class="block-label">
+                <span class="label-dot rose"></span>
+                <span>PHÂN TÍCH MÂU THUẪN (CONTRADICTION LOG)</span>
+              </div>
+              <div class="contradiction-box" id="contradiction-details-container">
+                <span class="placeholder-text">Chưa phát hiện mâu thuẫn. Hệ thống sẵn sàng cho lần kiểm tra tiếp theo.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- 1. Victory Modal -->
+  <div class="modal-overlay hidden" id="victory-modal">
+    <div class="modal-card victory-card">
+      <div class="modal-glow-bg"></div>
+      
+      <div class="modal-header-center">
+        <div class="victory-icon-wrap">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        </div>
+        <h2 class="modal-title">CHỨNG MINH THÀNH CÔNG!</h2>
+        <p class="modal-subtitle" id="victory-stage-name">Bạn đã tìm ra nghiệm duy nhất của Nghịch Lý Đảo Chiều</p>
+      </div>
+
+      <div class="victory-stats-table">
+        <div class="stat-row">
+          <span class="row-label">Điểm Base hoàn thành</span>
+          <span class="row-val" id="vic-base-xp">+150 XP</span>
+        </div>
+        <div class="stat-row">
+          <span class="row-label">Thưởng Thuần Khiết (Không Hint)</span>
+          <span class="row-val highlight-amber" id="vic-bonus-nohint">+100 XP</span>
+        </div>
+        <div class="stat-row">
+          <span class="row-label">Thưởng Nước Đi Tối Ưu</span>
+          <span class="row-val highlight-cyan" id="vic-bonus-moves">+50 XP</span>
+        </div>
+        <div class="stat-row total-row">
+          <span class="row-label">TỔNG XP ĐẠT ĐƯỢC</span>
+          <span class="row-val total-xp" id="vic-total-xp">+300 XP</span>
+        </div>
+      </div>
+
+      <div class="victory-moves-summary" id="vic-moves-summary">
+        Đã hoàn thành sau <strong>4 nước đi</strong> (Số bước tối ưu: 4)
+      </div>
+
+      <div class="modal-actions">
+        <button id="btn-replay-stage" class="btn-secondary">Chơi Lại</button>
+        <button id="btn-next-stage" class="btn-primary">Sang Màn Kế Tiếp →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Level Up Modal -->
+  <div class="modal-overlay hidden" id="levelup-modal">
+    <div class="modal-card levelup-card">
+      <div class="modal-header-center">
+        <div class="levelup-badge-anim">
+          <span class="levelup-icon" id="levelup-icon">👑</span>
+        </div>
+        <h2 class="modal-title highlight-amber">THĂNG CẤP DANH HIỆU!</h2>
+        <p class="modal-subtitle">Trí tuệ logic của bạn đã đạt đến tầm cao mới</p>
+      </div>
+
+      <div class="levelup-display">
+        <div class="new-rank-name" id="levelup-rank-name">HỌC GIẢ PHÂN TÍCH</div>
+        <div class="new-rank-desc" id="levelup-rank-desc">Bạn đã chứng minh khả năng giải mã các cấu trúc logic phức tạp!</div>
+      </div>
+
+      <div class="modal-actions single">
+        <button id="btn-levelup-ack" class="btn-primary">Tiếp Tục Cuộc Hành Trình</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Quest Log Modal -->
+  <div class="modal-overlay hidden" id="quest-modal">
+    <div class="modal-card quest-card">
+      <div class="modal-header-split">
+        <div class="modal-title-wrap">
+          <h2 class="modal-title">BẢNG NHIỆM VỤ & DANH HIỆU</h2>
+          <p class="modal-subtitle">Hoàn thành các cột mốc tư duy để nhận thêm điểm thưởng kinh nghiệm</p>
+        </div>
+        <button id="btn-close-quest-modal" class="btn-close" aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="quest-list" id="quest-list-container">
+        <!-- Injected via UIController.renderQuestList -->
+      </div>
+
+      <div class="modal-footer-bar">
+        <span class="quest-summary-text" id="quest-completion-summary">Đã hoàn thành: 0 / 6</span>
+        <button id="btn-quest-close" class="btn-secondary">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- SCRIPT LOADING (STRICT ORDER) -->
+  <script src="js/puzzles.js"></script>
+  <script src="js/logic.js"></script>
+  <script src="js/gameState.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
