@@ -1,14 +1,1288 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nghịch Lý Trí Tuệ | Mind Paradox - Pure Logic Deduction</title>
-  <meta name="description" content="Trò chơi suy luận logic thuần túy dựa trên đại số tuyến tính modulo 2, bảng chân trị và nghịch lý tự tham chiếu Gödel.">
+  <title>Nghá»‹ch LÃ½ TrÃ­ Tuá»‡ | Mind Paradox - Pure Logic Deduction</title>
+  <meta name="description" content="TrÃ² chÆ¡i suy luáº­n logic thuáº§n tÃºy dá»±a trÃªn Ä‘áº¡i sá»‘ tuyáº¿n tÃ­nh modulo 2, báº£ng chÃ¢n trá»‹ vÃ  nghá»‹ch lÃ½ tá»± tham chiáº¿u GÃ¶del.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* ==========================================================================
+   css/style.css - NGHá»ŠCH LÃ TRÃ TUá»† (MIND PARADOX)
+   Theme: Cyber Minimalist Slate (Dark Mode Premium)
+   Palette: Slate #090d16, Panel #131b2e, Cyan #06b6d4, Indigo #6366f1,
+            Emerald #10b981, Amber #f59e0b, Rose #f43f5e
+   ========================================================================== */
+
+:root {
+  --bg-main: #090d16;
+  --bg-panel: #131b2e;
+  --bg-panel-elevated: #1a243d;
+  --bg-panel-soft: #0e1525;
+  --border-subtle: #1e293b;
+  --border-active: #334155;
+  --border-highlight: rgba(6, 182, 212, 0.4);
+
+  --accent-cyan: #06b6d4;
+  --accent-cyan-light: #22d3ee;
+  --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+  
+  --accent-indigo: #6366f1;
+  --accent-indigo-light: #818cf8;
+  --accent-indigo-glow: rgba(99, 102, 241, 0.25);
+
+  --accent-emerald: #10b981;
+  --accent-emerald-glow: rgba(16, 185, 129, 0.25);
+
+  --accent-amber: #f59e0b;
+  --accent-amber-glow: rgba(245, 158, 11, 0.25);
+
+  --accent-rose: #f43f5e;
+  --accent-rose-glow: rgba(244, 63, 94, 0.25);
+
+  --text-main: #f8fafc;
+  --text-body: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --font-ui: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.05);
+  --shadow-glow-cyan: 0 0 20px rgba(6, 182, 212, 0.35);
+  --shadow-glow-indigo: 0 0 20px rgba(99, 102, 241, 0.35);
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-body);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Subtle Geometric Background Grid */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Layout Container */
+.app-layout {
+  position: relative;
+  z-index: 1;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   1. APP HEADER
+   ========================================================================== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(99, 102, 241, 0.2));
+  border: 1px solid var(--border-highlight);
+  border-radius: var(--radius-md);
+  color: var(--accent-cyan-light);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--text-main);
+  background: linear-gradient(90deg, #ffffff, var(--accent-cyan-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-subtitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Rank Badge */
+.rank-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: default;
+  transition: var(--transition-normal);
+}
+
+.rank-badge:hover {
+  border-color: var(--accent-indigo);
+  background: var(--bg-panel-elevated);
+}
+
+.rank-icon {
+  font-size: 1.1rem;
+}
+
+.rank-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+}
+
+/* XP Bar */
+.xp-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 170px;
+}
+
+.xp-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+}
+
+.xp-label {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.xp-values {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent-cyan-light);
+}
+
+.xp-bar-bg {
+  width: 100%;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-indigo), var(--accent-cyan));
+  border-radius: 999px;
+  box-shadow: 0 0 10px var(--accent-cyan-glow);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background: var(--bg-panel-elevated);
+  border-color: var(--border-active);
+  color: var(--text-main);
+}
+
+.btn-quests {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  background: var(--bg-panel-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-quests:hover {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: var(--accent-indigo-light);
+  box-shadow: var(--shadow-glow-indigo);
+}
+
+.badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  background: var(--accent-amber);
+  color: #000;
+  border-radius: 999px;
+  animation: pulse-badge 1.8s infinite;
+}
+
+@keyframes pulse-badge {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+  70% { transform: scale(1.08); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+/* ==========================================================================
+   2. STAGE SELECTOR TABS
+   ========================================================================== */
+.stage-nav {
+  width: 100%;
+}
+
+.stage-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stage-tab {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-tab::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: transparent;
+  transition: var(--transition-fast);
+}
+
+.stage-tab:hover:not(.locked) {
+  background: var(--bg-panel-elevated);
+  border-color: var(--border-active);
+  transform: translateY(-2px);
+}
+
+.stage-tab.active {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(19, 27, 46, 0.95));
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.18);
+}
+
+.stage-tab.active::before {
+  background: var(--accent-cyan);
+}
+
+.stage-tab.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.tab-index {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dim);
+  transition: var(--transition-fast);
+}
+
+.stage-tab.active .tab-index {
+  color: var(--accent-cyan-light);
+}
+
+.tab-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+}
+
+.tab-subtitle {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.tab-status {
+  font-size: 1rem;
+}
+
+.status-indicator.solved {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid var(--accent-emerald);
+  border-radius: 50%;
+  color: var(--accent-emerald);
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   3. MAIN WORKSPACE (2-COLUMN GRID)
+   ========================================================================== */
+.main-workspace {
+  display: grid;
+  grid-template-columns: 640px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Left Arena Card */
+.arena-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.arena-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stage-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stage-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid var(--accent-cyan);
+  border-radius: var(--radius-sm);
+  color: var(--accent-cyan-light);
+  letter-spacing: 0.06em;
+}
+
+.stage-heading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.stage-stats-preview {
+  display: flex;
+  gap: 10px;
+}
+
+.stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+.stat-label {
+  color: var(--text-muted);
+}
+
+.stat-val {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.stat-val.highlight {
+  color: var(--accent-cyan-light);
+  font-size: 0.95rem;
+}
+
+/* Canvas Viewport */
+.canvas-viewport {
+  position: relative;
+  width: 600px;
+  height: 450px;
+  margin: 0 auto;
+  background: #090e1a;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 8px 24px -6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+#game-canvas {
+  display: block;
+  width: 600px;
+  height: 450px;
+  cursor: default;
+}
+
+/* Error Shake Effect on Canvas Viewport */
+.canvas-viewport.shake-error {
+  animation: viewport-shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  border-color: var(--accent-rose);
+  box-shadow: inset 0 0 30px rgba(244, 63, 94, 0.3), 0 0 25px rgba(244, 63, 94, 0.4);
+}
+
+@keyframes viewport-shake {
+  10%, 90% { transform: translate3d(-3px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+/* Arena Action Bar */
+.arena-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.controls-left {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-tool {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-panel-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-tool:hover {
+  background: var(--bg-panel-soft);
+  border-color: var(--border-active);
+  color: var(--text-main);
+  transform: translateY(-1px);
+}
+
+.btn-reset:hover {
+  border-color: var(--accent-rose);
+  color: #fda4af;
+}
+
+.hint-count-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid var(--accent-amber);
+  color: var(--accent-amber);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+
+/* Glow Primary Button */
+.btn-primary.btn-verify {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  border: none;
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: var(--transition-normal);
+}
+
+.btn-primary.btn-verify:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 26px rgba(6, 182, 212, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-primary.btn-verify:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   4. RIGHT COLUMN: CLUE BOARD / NOTEBOOK
+   ========================================================================== */
+.clue-board-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 550px;
+}
+
+.clue-board-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
+}
+
+.board-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent-cyan-light);
+}
+
+.clue-board-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.board-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+.clue-board-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.notebook-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.block-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.label-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.label-dot.cyan { background: var(--accent-cyan); box-shadow: 0 0 6px var(--accent-cyan); }
+.label-dot.amber { background: var(--accent-amber); box-shadow: 0 0 6px var(--accent-amber); }
+.label-dot.rose { background: var(--accent-rose); box-shadow: 0 0 6px var(--accent-rose); }
+
+/* Axioms List */
+.axioms-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.axiom-item {
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  color: var(--text-body);
+  transition: var(--transition-fast);
+}
+
+.axiom-item:hover {
+  background: var(--bg-panel-elevated);
+  border-color: var(--border-active);
+  border-left-color: var(--accent-cyan-light);
+}
+
+.axiom-item strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* Unlocked Hints Wrap */
+.unlocked-hints-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hint-item {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-left: 3px solid var(--accent-amber);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  color: #fef08a;
+  animation: slide-in 0.3s ease;
+}
+
+.empty-hints-notice {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-dim);
+  padding: 10px 14px;
+  background: var(--bg-panel-soft);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+/* Contradiction Box */
+.contradiction-box {
+  background: rgba(244, 63, 94, 0.05);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-left: 3px solid var(--accent-rose);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #fecdd3;
+  min-height: 60px;
+}
+
+.contradiction-box .placeholder-text {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.contradiction-box ul {
+  padding-left: 18px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ==========================================================================
+   5. MODALS & POPUPS
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(9, 13, 22, 0.85);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 1;
+  transition: opacity var(--transition-normal);
+}
+
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-card {
+  position: relative;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(6, 182, 212, 0.15);
+  max-width: 500px;
+  width: 90%;
+  animation: modal-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+@keyframes modal-enter {
+  0% { transform: scale(0.92) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-header-center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.victory-icon-wrap {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+  border: 1px solid var(--accent-emerald);
+  border-radius: 50%;
+  color: var(--accent-emerald);
+  margin-bottom: 6px;
+  box-shadow: 0 0 25px var(--accent-emerald-glow);
+  animation: float-icon 3s ease-in-out infinite;
+}
+
+@keyframes float-icon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.modal-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.modal-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* Victory Breakdown Table */
+.victory-stats-table {
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+}
+
+.row-label {
+  color: var(--text-body);
+}
+
+.row-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.highlight-amber { color: var(--accent-amber) !important; }
+.highlight-cyan { color: var(--accent-cyan-light) !important; }
+
+.stat-row.total-row {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.total-row .row-label {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.total-row .total-xp {
+  font-size: 1.25rem;
+  color: var(--accent-cyan-light);
+  text-shadow: 0 0 10px var(--accent-cyan-glow);
+}
+
+.victory-moves-summary {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-actions.single {
+  grid-template-columns: 1fr;
+}
+
+/* Buttons */
+.btn-primary {
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-indigo));
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  padding: 12px 20px;
+  background: var(--bg-panel-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-panel-soft);
+  color: var(--text-main);
+  border-color: var(--border-active);
+}
+
+/* Level Up Modal Styles */
+.levelup-badge-anim {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(99, 102, 241, 0.2));
+  border: 2px solid var(--accent-amber);
+  border-radius: 50%;
+  font-size: 2.5rem;
+  box-shadow: 0 0 35px var(--accent-amber-glow);
+  animation: pulse-levelup 2s infinite alternate;
+}
+
+@keyframes pulse-levelup {
+  0% { transform: scale(1); box-shadow: 0 0 20px var(--accent-amber-glow); }
+  100% { transform: scale(1.1); box-shadow: 0 0 40px rgba(245, 158, 11, 0.5); }
+}
+
+.levelup-display {
+  text-align: center;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.new-rank-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--accent-amber);
+  margin-bottom: 6px;
+}
+
+.new-rank-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Quest Log Modal Styles */
+.quest-card {
+  max-width: 680px;
+}
+
+.modal-header-split {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-close:hover {
+  color: var(--text-main);
+}
+
+.quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 6px;
+  margin-bottom: 20px;
+}
+
+/* Custom Scrollbar */
+.quest-list::-webkit-scrollbar {
+  width: 6px;
+}
+.quest-list::-webkit-scrollbar-track {
+  background: var(--bg-panel-soft);
+  border-radius: 999px;
+}
+.quest-list::-webkit-scrollbar-thumb {
+  background: var(--border-active);
+  border-radius: 999px;
+}
+
+.quest-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  transition: var(--transition-fast);
+}
+
+.quest-item.completed {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.quest-item.claimed {
+  opacity: 0.6;
+}
+
+.quest-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quest-header-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quest-title {
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.quest-reward-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid var(--accent-cyan);
+  border-radius: 999px;
+  color: var(--accent-cyan-light);
+}
+
+.quest-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.btn-claim {
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-amber), #ea580c);
+  border: none;
+  border-radius: var(--radius-md);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 10px var(--accent-amber-glow);
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-claim:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.quest-status-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+}
+
+.quest-status-badge.claimed {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+}
+
+.quest-status-badge.locked {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-dim);
+  border: 1px dashed var(--border-subtle);
+}
+
+.modal-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+}
+
+.quest-summary-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   6. TOAST NOTIFICATIONS
+   ========================================================================== */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  min-width: 280px;
+  max-width: 380px;
+  padding: 12px 18px;
+  background: var(--bg-panel-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: toast-slide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+@keyframes toast-slide {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.toast.toast-success {
+  border-left: 4px solid var(--accent-emerald);
+  color: #a7f3d0;
+}
+
+.toast.toast-error {
+  border-left: 4px solid var(--accent-rose);
+  color: #fecdd3;
+}
+
+.toast.toast-info {
+  border-left: 4px solid var(--accent-cyan);
+  color: #bae6fd;
+}
+
+.toast.toast-warning {
+  border-left: 4px solid var(--accent-amber);
+  color: #fef08a;
+}
+
+/* ==========================================================================
+   7. RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .main-workspace {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .arena-card, .clue-board-card {
+    width: 100%;
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 680px) {
+  .app-layout {
+    padding: 12px 12px 30px;
+  }
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .header-status {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .stage-tabs {
+    grid-template-columns: 1fr;
+  }
+  .canvas-viewport {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+  }
+  #game-canvas {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+</style>
 </head>
 <body class="dark-theme">
   <!-- Audio Context Elements (Synthesized Web Audio API used for zero external assets dependency) -->
@@ -26,22 +1300,22 @@
           </svg>
         </div>
         <div class="brand-text">
-          <h1 class="game-title">NGHỊCH LÝ TRÍ TUỆ</h1>
-          <span class="game-subtitle">HỆ THỐNG SUY LUẬN LOGIC THUẦN TÚY</span>
+          <h1 class="game-title">NGHá»ŠCH LÃ TRÃ TUá»†</h1>
+          <span class="game-subtitle">Há»† THá»NG SUY LUáº¬N LOGIC THUáº¦N TÃšY</span>
         </div>
       </div>
 
       <div class="header-status">
         <!-- Player Rank Badge -->
-        <div class="rank-badge" id="hud-rank-badge" title="Cấp bậc danh hiệu hiện tại">
-          <span class="rank-icon" id="hud-rank-icon">🛡️</span>
-          <span class="rank-name" id="hud-rank-name">Tập sự Suy Luận</span>
+        <div class="rank-badge" id="hud-rank-badge" title="Cáº¥p báº­c danh hiá»‡u hiá»‡n táº¡i">
+          <span class="rank-icon" id="hud-rank-icon">ðŸ›¡ï¸</span>
+          <span class="rank-name" id="hud-rank-name">Táº­p sá»± Suy Luáº­n</span>
         </div>
 
         <!-- XP Progress Bar -->
-        <div class="xp-container" title="Tiến trình kinh nghiệm tích lũy">
+        <div class="xp-container" title="Tiáº¿n trÃ¬nh kinh nghiá»‡m tÃ­ch lÅ©y">
           <div class="xp-info">
-            <span class="xp-label">XP TÍCH LŨY</span>
+            <span class="xp-label">XP TÃCH LÅ¨Y</span>
             <span class="xp-values" id="hud-xp-text">0 / 300 XP</span>
           </div>
           <div class="xp-bar-bg">
@@ -51,11 +1325,11 @@
 
         <!-- Actions -->
         <div class="header-actions">
-          <button id="btn-sound-toggle" class="btn-icon" title="Bật/Tắt hiệu ứng âm thanh">
-            <span id="sound-icon">🔊</span>
+          <button id="btn-sound-toggle" class="btn-icon" title="Báº­t/Táº¯t hiá»‡u á»©ng Ã¢m thanh">
+            <span id="sound-icon">ðŸ”Š</span>
           </button>
           
-          <button id="btn-open-quests" class="btn-secondary btn-quests" title="Mở danh sách nhiệm vụ và phần thưởng">
+          <button id="btn-open-quests" class="btn-secondary btn-quests" title="Má»Ÿ danh sÃ¡ch nhiá»‡m vá»¥ vÃ  pháº§n thÆ°á»Ÿng">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
@@ -63,7 +1337,7 @@
               <line x1="16" y1="17" x2="8" y2="17"></line>
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-            <span>Nhiệm Vụ</span>
+            <span>Nhiá»‡m Vá»¥</span>
             <span id="quest-badge-count" class="badge-count hidden">0</span>
           </button>
         </div>
@@ -76,8 +1350,8 @@
         <button class="stage-tab active" data-stage="1" id="tab-stage-1">
           <div class="tab-index">01</div>
           <div class="tab-content">
-            <span class="tab-title">Nghịch Lý Đảo Chiều</span>
-            <span class="tab-subtitle">Ma trận Modulo 2</span>
+            <span class="tab-title">Nghá»‹ch LÃ½ Äáº£o Chiá»u</span>
+            <span class="tab-subtitle">Ma tráº­n Modulo 2</span>
           </div>
           <div class="tab-status" id="tab-status-1">
             <span class="status-indicator"></span>
@@ -87,22 +1361,22 @@
         <button class="stage-tab" data-stage="2" id="tab-stage-2">
           <div class="tab-index">02</div>
           <div class="tab-content">
-            <span class="tab-title">Nghịch Lý Kẻ Nói Dối</span>
-            <span class="tab-subtitle">Cổng Chân Trị 4 Chiều</span>
+            <span class="tab-title">Nghá»‹ch LÃ½ Káº» NÃ³i Dá»‘i</span>
+            <span class="tab-subtitle">Cá»•ng ChÃ¢n Trá»‹ 4 Chiá»u</span>
           </div>
           <div class="tab-status" id="tab-status-2">
-            <span class="status-indicator">🔒</span>
+            <span class="status-indicator">ðŸ”’</span>
           </div>
         </button>
 
         <button class="stage-tab" data-stage="3" id="tab-stage-3">
           <div class="tab-index">03</div>
           <div class="tab-content">
-            <span class="tab-title">Nghịch Lý Tự Tham Chiếu</span>
-            <span class="tab-subtitle">Khóa Số Tự Miêu Tả Gödel</span>
+            <span class="tab-title">Nghá»‹ch LÃ½ Tá»± Tham Chiáº¿u</span>
+            <span class="tab-subtitle">KhÃ³a Sá»‘ Tá»± MiÃªu Táº£ GÃ¶del</span>
           </div>
           <div class="tab-status" id="tab-status-3">
-            <span class="status-indicator">🔒</span>
+            <span class="status-indicator">ðŸ”’</span>
           </div>
         </button>
       </div>
@@ -116,17 +1390,17 @@
           <!-- Stage Meta Bar -->
           <div class="arena-header">
             <div class="stage-title-wrap">
-              <span class="stage-badge" id="current-stage-tag">MÀN 1</span>
-              <h2 class="stage-heading" id="current-stage-title">Nghịch Lý Đảo Chiều</h2>
+              <span class="stage-badge" id="current-stage-tag">MÃ€N 1</span>
+              <h2 class="stage-heading" id="current-stage-title">Nghá»‹ch LÃ½ Äáº£o Chiá»u</h2>
             </div>
             <div class="stage-stats-preview">
               <div class="stat-pill">
-                <span class="stat-label">Nước đi:</span>
+                <span class="stat-label">NÆ°á»›c Ä‘i:</span>
                 <span class="stat-val highlight" id="arena-moves-val">0</span>
               </div>
               <div class="stat-pill">
-                <span class="stat-label">Tối ưu:</span>
-                <span class="stat-val" id="arena-optimal-val">≤ 4</span>
+                <span class="stat-label">Tá»‘i Æ°u:</span>
+                <span class="stat-val" id="arena-optimal-val">â‰¤ 4</span>
               </div>
             </div>
           </div>
@@ -140,34 +1414,34 @@
           <!-- Arena Action Bar -->
           <div class="arena-controls">
             <div class="controls-left">
-              <button id="btn-hint" class="btn-tool" title="Mở khóa một manh mối gợi ý (-100 XP Thưởng No-Hint)">
+              <button id="btn-hint" class="btn-tool" title="Má»Ÿ khÃ³a má»™t manh má»‘i gá»£i Ã½ (-100 XP ThÆ°á»Ÿng No-Hint)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M9 18h6"></path>
                   <path d="M10 22h4"></path>
                   <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
                 </svg>
-                <span>Gợi Ý</span>
+                <span>Gá»£i Ã</span>
                 <span class="hint-count-badge" id="hint-count-indicator">3/3</span>
               </button>
 
-              <button id="btn-reset" class="btn-tool btn-reset" title="Đặt lại trạng thái ban đầu của câu đố">
+              <button id="btn-reset" class="btn-tool btn-reset" title="Äáº·t láº¡i tráº¡ng thÃ¡i ban Ä‘áº§u cá»§a cÃ¢u Ä‘á»‘">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 2v6h6"></path>
                   <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
                   <path d="M21 22v-6h-6"></path>
                   <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
                 </svg>
-                <span>Đặt Lại</span>
+                <span>Äáº·t Láº¡i</span>
               </button>
             </div>
 
             <div class="controls-right">
-              <button id="btn-verify" class="btn-primary btn-verify" title="Kiểm tra hệ thống suy luận hiện tại">
+              <button id="btn-verify" class="btn-primary btn-verify" title="Kiá»ƒm tra há»‡ thá»‘ng suy luáº­n hiá»‡n táº¡i">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                   <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
-                <span>KIỂM TRA ĐÁP ÁN</span>
+                <span>KIá»‚M TRA ÄÃP ÃN</span>
               </button>
             </div>
           </div>
@@ -185,9 +1459,9 @@
                 <line x1="9" y1="7" x2="15" y2="7"></line>
                 <line x1="9" y1="11" x2="15" y2="11"></line>
               </svg>
-              <h3 class="clue-board-title">BẢNG SUY LUẬN & MANH MỐI</h3>
+              <h3 class="clue-board-title">Báº¢NG SUY LUáº¬N & MANH Má»I</h3>
             </div>
-            <span class="board-badge">Sổ Tay Logic</span>
+            <span class="board-badge">Sá»• Tay Logic</span>
           </div>
 
           <div class="clue-board-content">
@@ -195,7 +1469,7 @@
             <div class="notebook-block">
               <div class="block-label">
                 <span class="label-dot cyan"></span>
-                <span>HỆ TIÊN ĐỀ LOGIC (AXIOMS)</span>
+                <span>Há»† TIÃŠN Äá»€ LOGIC (AXIOMS)</span>
               </div>
               <ul class="axioms-list" id="axioms-list-container">
                 <!-- Injected via UIController.renderClues -->
@@ -206,10 +1480,10 @@
             <div class="notebook-block">
               <div class="block-label">
                 <span class="label-dot amber"></span>
-                <span>MANH MỐI ĐÃ MỞ KHÓA</span>
+                <span>MANH Má»I ÄÃƒ Má»ž KHÃ“A</span>
               </div>
               <div class="unlocked-hints-wrap" id="unlocked-hints-container">
-                <div class="empty-hints-notice">Chưa có manh mối nào được mở khóa. Hãy suy luận dựa trên tiên đề hoặc nhấn nút Gợi Ý.</div>
+                <div class="empty-hints-notice">ChÆ°a cÃ³ manh má»‘i nÃ o Ä‘Æ°á»£c má»Ÿ khÃ³a. HÃ£y suy luáº­n dá»±a trÃªn tiÃªn Ä‘á» hoáº·c nháº¥n nÃºt Gá»£i Ã.</div>
               </div>
             </div>
 
@@ -217,10 +1491,10 @@
             <div class="notebook-block" id="feedback-block">
               <div class="block-label">
                 <span class="label-dot rose"></span>
-                <span>PHÂN TÍCH MÂU THUẪN (CONTRADICTION LOG)</span>
+                <span>PHÃ‚N TÃCH MÃ‚U THUáºªN (CONTRADICTION LOG)</span>
               </div>
               <div class="contradiction-box" id="contradiction-details-container">
-                <span class="placeholder-text">Chưa phát hiện mâu thuẫn. Hệ thống sẵn sàng cho lần kiểm tra tiếp theo.</span>
+                <span class="placeholder-text">ChÆ°a phÃ¡t hiá»‡n mÃ¢u thuáº«n. Há»‡ thá»‘ng sáºµn sÃ ng cho láº§n kiá»ƒm tra tiáº¿p theo.</span>
               </div>
             </div>
           </div>
@@ -243,36 +1517,36 @@
             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
           </svg>
         </div>
-        <h2 class="modal-title">CHỨNG MINH THÀNH CÔNG!</h2>
-        <p class="modal-subtitle" id="victory-stage-name">Bạn đã tìm ra nghiệm duy nhất của Nghịch Lý Đảo Chiều</p>
+        <h2 class="modal-title">CHá»¨NG MINH THÃ€NH CÃ”NG!</h2>
+        <p class="modal-subtitle" id="victory-stage-name">Báº¡n Ä‘Ã£ tÃ¬m ra nghiá»‡m duy nháº¥t cá»§a Nghá»‹ch LÃ½ Äáº£o Chiá»u</p>
       </div>
 
       <div class="victory-stats-table">
         <div class="stat-row">
-          <span class="row-label">Điểm Base hoàn thành</span>
+          <span class="row-label">Äiá»ƒm Base hoÃ n thÃ nh</span>
           <span class="row-val" id="vic-base-xp">+150 XP</span>
         </div>
         <div class="stat-row">
-          <span class="row-label">Thưởng Thuần Khiết (Không Hint)</span>
+          <span class="row-label">ThÆ°á»Ÿng Thuáº§n Khiáº¿t (KhÃ´ng Hint)</span>
           <span class="row-val highlight-amber" id="vic-bonus-nohint">+100 XP</span>
         </div>
         <div class="stat-row">
-          <span class="row-label">Thưởng Nước Đi Tối Ưu</span>
+          <span class="row-label">ThÆ°á»Ÿng NÆ°á»›c Äi Tá»‘i Æ¯u</span>
           <span class="row-val highlight-cyan" id="vic-bonus-moves">+50 XP</span>
         </div>
         <div class="stat-row total-row">
-          <span class="row-label">TỔNG XP ĐẠT ĐƯỢC</span>
+          <span class="row-label">Tá»”NG XP Äáº T ÄÆ¯á»¢C</span>
           <span class="row-val total-xp" id="vic-total-xp">+300 XP</span>
         </div>
       </div>
 
       <div class="victory-moves-summary" id="vic-moves-summary">
-        Đã hoàn thành sau <strong>4 nước đi</strong> (Số bước tối ưu: 4)
+        ÄÃ£ hoÃ n thÃ nh sau <strong>4 nÆ°á»›c Ä‘i</strong> (Sá»‘ bÆ°á»›c tá»‘i Æ°u: 4)
       </div>
 
       <div class="modal-actions">
-        <button id="btn-replay-stage" class="btn-secondary">Chơi Lại</button>
-        <button id="btn-next-stage" class="btn-primary">Sang Màn Kế Tiếp →</button>
+        <button id="btn-replay-stage" class="btn-secondary">ChÆ¡i Láº¡i</button>
+        <button id="btn-next-stage" class="btn-primary">Sang MÃ n Káº¿ Tiáº¿p â†’</button>
       </div>
     </div>
   </div>
@@ -282,19 +1556,19 @@
     <div class="modal-card levelup-card">
       <div class="modal-header-center">
         <div class="levelup-badge-anim">
-          <span class="levelup-icon" id="levelup-icon">👑</span>
+          <span class="levelup-icon" id="levelup-icon">ðŸ‘‘</span>
         </div>
-        <h2 class="modal-title highlight-amber">THĂNG CẤP DANH HIỆU!</h2>
-        <p class="modal-subtitle">Trí tuệ logic của bạn đã đạt đến tầm cao mới</p>
+        <h2 class="modal-title highlight-amber">THÄ‚NG Cáº¤P DANH HIá»†U!</h2>
+        <p class="modal-subtitle">TrÃ­ tuá»‡ logic cá»§a báº¡n Ä‘Ã£ Ä‘áº¡t Ä‘áº¿n táº§m cao má»›i</p>
       </div>
 
       <div class="levelup-display">
-        <div class="new-rank-name" id="levelup-rank-name">HỌC GIẢ PHÂN TÍCH</div>
-        <div class="new-rank-desc" id="levelup-rank-desc">Bạn đã chứng minh khả năng giải mã các cấu trúc logic phức tạp!</div>
+        <div class="new-rank-name" id="levelup-rank-name">Há»ŒC GIáº¢ PHÃ‚N TÃCH</div>
+        <div class="new-rank-desc" id="levelup-rank-desc">Báº¡n Ä‘Ã£ chá»©ng minh kháº£ nÄƒng giáº£i mÃ£ cÃ¡c cáº¥u trÃºc logic phá»©c táº¡p!</div>
       </div>
 
       <div class="modal-actions single">
-        <button id="btn-levelup-ack" class="btn-primary">Tiếp Tục Cuộc Hành Trình</button>
+        <button id="btn-levelup-ack" class="btn-primary">Tiáº¿p Tá»¥c Cuá»™c HÃ nh TrÃ¬nh</button>
       </div>
     </div>
   </div>
@@ -304,10 +1578,10 @@
     <div class="modal-card quest-card">
       <div class="modal-header-split">
         <div class="modal-title-wrap">
-          <h2 class="modal-title">BẢNG NHIỆM VỤ & DANH HIỆU</h2>
-          <p class="modal-subtitle">Hoàn thành các cột mốc tư duy để nhận thêm điểm thưởng kinh nghiệm</p>
+          <h2 class="modal-title">Báº¢NG NHIá»†M Vá»¤ & DANH HIá»†U</h2>
+          <p class="modal-subtitle">HoÃ n thÃ nh cÃ¡c cá»™t má»‘c tÆ° duy Ä‘á»ƒ nháº­n thÃªm Ä‘iá»ƒm thÆ°á»Ÿng kinh nghiá»‡m</p>
         </div>
-        <button id="btn-close-quest-modal" class="btn-close" aria-label="Đóng">&times;</button>
+        <button id="btn-close-quest-modal" class="btn-close" aria-label="ÄÃ³ng">&times;</button>
       </div>
 
       <div class="quest-list" id="quest-list-container">
@@ -315,8 +1589,8 @@
       </div>
 
       <div class="modal-footer-bar">
-        <span class="quest-summary-text" id="quest-completion-summary">Đã hoàn thành: 0 / 6</span>
-        <button id="btn-quest-close" class="btn-secondary">Đóng</button>
+        <span class="quest-summary-text" id="quest-completion-summary">ÄÃ£ hoÃ n thÃ nh: 0 / 6</span>
+        <button id="btn-quest-close" class="btn-secondary">ÄÃ³ng</button>
       </div>
     </div>
   </div>
@@ -325,11 +1599,2701 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- SCRIPT LOADING (STRICT ORDER) -->
-  <script src="js/puzzles.js"></script>
-  <script src="js/logic.js"></script>
-  <script src="js/gameState.js"></script>
-  <script src="js/renderer.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/main.js"></script>
+<script>
+// --- puzzles.js ---
+// js/puzzles.js
+// Dá»¯ liá»‡u cÃ¡c mÃ n chÆ¡i nghá»‹ch lÃ½ logic thuáº§n tÃºy
+
+const PUZZLES_DATA = [
+  {
+    id: 1,
+    title: 'Nghá»‹ch LÃ½ Äáº£o Chiá»u',
+    subtitle: 'Parity Matrix / Inversion Switches',
+    type: 'PARITY_MATRIX',
+    difficulty: 'CÆ¡ báº£n',
+    baseXP: 150,
+    optimalMoves: 4,
+    description: 'Má»™t ma tráº­n cÃ´ng táº¯c 3x3 Ä‘á»‘i xá»©ng. KÃ­ch hoáº¡t má»™t Ã´ sáº½ Ä‘áº£o ngÆ°á»£c tráº¡ng thÃ¡i cá»§a chÃ­nh nÃ³ vÃ  cÃ¡c Ã´ ká» cáº¡nh (trÃªn, dÆ°á»›i, trÃ¡i, pháº£i). HÃ£y Ä‘Æ°a toÃ n bá»™ 9 Ã´ vá» tráº¡ng thÃ¡i kÃ­ch hoáº¡t (1).',
+    initialState: [1, 0, 1, 0, 1, 0, 1, 0, 1],
+    targetState: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    solution: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    optimalActions: [1, 3, 5, 7],
+    clues: [
+      'TiÃªn Ä‘á» 1: LÅ©y Ä‘áº³ng Modulo 2 - Gáº¡t má»™t cÃ´ng táº¯c 2 láº§n tÆ°Æ¡ng Ä‘Æ°Æ¡ng khÃ´ng gáº¡t (x âŠ• x = 0).',
+      'TiÃªn Ä‘á» 2: Ã” trung tÃ¢m nháº­n 5 tÃ¡c Ä‘á»™ng (chÃ­nh nÃ³ + 4 cáº¡nh). Do hiá»‡n táº¡i Ä‘Ã£ báº­t (1), tá»•ng sá»‘ láº§n kÃ­ch hoáº¡t 4 cáº¡nh + tÃ¢m pháº£i lÃ  sá»‘ cháºµn.',
+      'TiÃªn Ä‘á» 3: XÃ©t 4 gÃ³c: Má»—i gÃ³c chá»‰ nháº­n tÃ¡c Ä‘á»™ng tá»« chÃ­nh nÃ³ vÃ  2 Ã´ cáº¡nh ká».'
+    ],
+    hints: [
+      'ChÃº Ã½ tÃ­nh Ä‘á»‘i xá»©ng cá»§a bÃ n cá» vÃ  4 Ã´ gÃ³c ban Ä‘áº§u Ä‘á»u Ä‘Ã£ báº­t (1).',
+      'Ã” trung tÃ¢m (Ã´ sá»‘ 4) hiá»‡n táº¡i Ä‘ang báº­t. Thá»­ khÃ´ng gáº¡t Ã´ trung tÃ¢m mÃ  chá»‰ tÃ¡c Ä‘á»™ng vÃ o cÃ¡c Ã´ lÃ¢n cáº­n.',
+      'Nghiá»‡m tá»‘i Æ°u: Gáº¡t chÃ­nh xÃ¡c 4 Ã´ hÃ¬nh chá»¯ tháº­p: TrÃªn (Ã´ 1), TrÃ¡i (Ã´ 3), Pháº£i (Ã´ 5), DÆ°á»›i (Ã´ 7).'
+    ]
+  },
+  {
+    id: 2,
+    title: 'Nghá»‹ch LÃ½ Káº» NÃ³i Dá»‘i',
+    subtitle: 'Knights & Knaves Deduction',
+    type: 'KNIGHTS_KNAVES',
+    difficulty: 'Trung cáº¥p',
+    baseXP: 200,
+    optimalMoves: 4,
+    description: '4 nhÃ¢n váº­t A, B, C, D canh giá»¯ 4 Cá»•ng Logic. Hiá»‡p sÄ© (KNIGHT) luÃ´n nÃ³i tháº­t, Káº» giáº£ máº¡o (KNAVE) luÃ´n nÃ³i dá»‘i. HÃ£y xÃ¡c Ä‘á»‹nh chÃ­nh xÃ¡c danh tÃ­nh cá»§a tá»«ng ngÆ°á»i.',
+    characters: [
+      { id: 'A', name: 'Alice', statement: 'B lÃ  káº» giáº£ máº¡o (Knave).' },
+      { id: 'B', name: 'Bob', statement: 'C lÃ  káº» giáº£ máº¡o (Knave).' },
+      { id: 'C', name: 'Chloe', statement: 'D lÃ  káº» giáº£ máº¡o (Knave).' },
+      { id: 'D', name: 'Daniel', statement: 'ChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o.' }
+    ],
+    initialState: {
+      A: null,
+      B: null,
+      C: null,
+      D: null
+    },
+    solution: {
+      A: 'KNAVE',
+      B: 'KNIGHT',
+      C: 'KNAVE',
+      D: 'KNIGHT'
+    },
+    clues: [
+      'A tuyÃªn bá»‘: "B lÃ  káº» giáº£ máº¡o (Knave)" (A âŸº Â¬B).',
+      'B tuyÃªn bá»‘: "C lÃ  káº» giáº£ máº¡o (Knave)" (B âŸº Â¬C).',
+      'C tuyÃªn bá»‘: "D lÃ  káº» giáº£ máº¡o (Knave)" (C âŸº Â¬D).',
+      'D tuyÃªn bá»‘: "ChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o" (D âŸº count(Knaves) == 2).'
+    ],
+    hints: [
+      'Náº¿u X nÃ³i Y lÃ  Knave, thÃ¬ X vÃ  Y cÃ³ báº£n cháº¥t trÃ¡i ngÆ°á»£c nhau (má»™t ngÆ°á»i lÃ  Knight, ngÆ°á»i kia lÃ  Knave).',
+      'VÃ¬ chuá»—i A âŸº Â¬B, B âŸº Â¬C, C âŸº Â¬D: A vÃ  C cÃ¹ng phe, B vÃ  D cÃ¹ng phe. LuÃ´n cÃ³ Ä‘Ãºng 2 Knave vÃ  2 Knight!',
+      'VÃ¬ luÃ´n cÃ³ Ä‘Ãºng 2 Knave, lá»i D nÃ³i luÃ´n lÃ  Sá»± Tháº­t. Váº­y D cháº¯c cháº¯n lÃ  KNIGHT! Tá»« Ä‘Ã³ suy ra B lÃ  KNIGHT, cÃ²n A vÃ  C lÃ  KNAVE.'
+    ]
+  },
+  {
+    id: 3,
+    title: 'Nghá»‹ch LÃ½ Tá»± Tham Chiáº¿u',
+    subtitle: "GÃ¶del's Autobiographical Lock",
+    type: 'AUTOBIOGRAPHICAL_LOCK',
+    difficulty: 'Cao cáº¥p',
+    baseXP: 250,
+    optimalMoves: 6,
+    description: 'á»” khÃ³a sá»‘ gá»“m 4 Ã´ [S0, S1, S2, S3]. Má»—i Ã´ Si tuyÃªn bá»‘ sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong toÃ n bá»™ 4 Ã´ sá»‘. HÃ£y tÃ¬m tá»• há»£p thá»a mÃ£n nghá»‹ch lÃ½ tá»± tham chiáº¿u.',
+    initialState: [0, 0, 0, 0],
+    solution: [2, 0, 2, 0],
+    targetState: [2, 0, 2, 0],
+    clues: [
+      'TiÃªn Ä‘á» Báº£o toÃ n Táº§n suáº¥t: Tá»•ng giÃ¡ trá»‹ S0 + S1 + S2 + S3 = 4.',
+      'TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: Ã” S0 vÃ  S2 pháº£i cÃ³ giÃ¡ trá»‹ cháºµn (S0, S2 âˆˆ {0, 2}).',
+      'Quy luáº­t Tá»± tham chiáº¿u: GiÃ¡ trá»‹ táº¡i Ã´ thá»© i (0-3) pháº£i báº±ng chÃ­nh xÃ¡c sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong 4 Ã´.'
+    ],
+    hints: [
+      'Tá»•ng 4 chá»¯ sá»‘ pháº£i luÃ´n báº±ng 4 vÃ¬ cÃ³ Ä‘Ãºng 4 vá»‹ trÃ­ trong dÃ£y sá»‘.',
+      'S0 khÃ´ng thá»ƒ báº±ng 0 (vÃ¬ náº¿u báº±ng 0 thÃ¬ khÃ´ng cÃ³ sá»‘ 0 nÃ o, dáº«n Ä‘áº¿n mÃ¢u thuáº«n). Do S0 cháºµn nÃªn S0 = 2.',
+      'Khi S0 = 2, cÃ³ hai sá»‘ 0 á»Ÿ cÃ¡c vá»‹ trÃ­ khÃ¡c (S1=0, S3=0). Chá»¯ sá»‘ 2 xuáº¥t hiá»‡n á»Ÿ S0 vÃ  chÃ­nh S2. Nghiá»‡m chuáº©n xÃ¡c lÃ  [2, 0, 2, 0].'
+    ]
+  }
+];
+
+// Helper method to retrieve puzzle by ID
+PUZZLES_DATA.getById = function (id) {
+  return PUZZLES_DATA.find(function (p) { return p.id === id; }) || null;
+};
+
+// Export cho cáº£ trÃ¬nh duyá»‡t (window) láº«n Node.js (module.exports)
+if (typeof window !== 'undefined') {
+  window.PUZZLES_DATA = PUZZLES_DATA;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = PUZZLES_DATA;
+  module.exports.PUZZLES_DATA = PUZZLES_DATA;
+}
+
+
+// --- logic.js ---
+// js/logic.js
+// Core Logic Engine cho Nghá»‹ch LÃ½ TrÃ­ Tuá»‡ (Mind Paradox)
+
+/**
+ * Module PuzzleEngine
+ * Quáº£n lÃ½ tráº¡ng thÃ¡i logic vÃ  kiá»ƒm tra nghiá»‡m chá»©ng minh cho tá»«ng mÃ n chÆ¡i
+ */
+const PuzzleEngine = (function () {
+  // Láº¥y nguá»“n dá»¯ liá»‡u PUZZLES_DATA tá»« scope hiá»‡n táº¡i hoáº·c mÃ´i trÆ°á»ng Node/Browser
+  function getPuzzlesSource() {
+    if (typeof PUZZLES_DATA !== 'undefined') {
+      return PUZZLES_DATA;
+    }
+    if (typeof window !== 'undefined' && window.PUZZLES_DATA) {
+      return window.PUZZLES_DATA;
+    }
+    try {
+      const required = require('./puzzles');
+      return required.PUZZLES_DATA || required;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  let currentPuzzle = null;
+  let currentState = null;
+
+  /**
+   * Khá»Ÿi táº¡o mÃ n chÆ¡i (1, 2, hoáº·c 3), reset lÆ°á»£t Ä‘i, cá» hint
+   * @param {number} puzzleId 
+   */
+  function init(puzzleId) {
+    const id = typeof puzzleId === 'undefined' ? 1 : Number(puzzleId);
+    let puzzles = getPuzzlesSource();
+    if (puzzles && puzzles.PUZZLES_DATA) {
+      puzzles = puzzles.PUZZLES_DATA;
+    }
+    const list = Array.isArray(puzzles) ? puzzles : (puzzles ? Object.values(puzzles) : []);
+    const puzzle = list.find(function (p) { return p && (p.id === id || p.id === puzzleId); });
+
+    if (!puzzle) {
+      throw new Error('Puzzle not found with id: ' + puzzleId);
+    }
+
+    currentPuzzle = puzzle;
+
+    // Khá»Ÿi táº¡o state tÆ°Æ¡ng á»©ng tá»«ng loáº¡i mÃ n
+    if (puzzle.id === 1 || puzzle.type === 'PARITY_MATRIX') {
+      currentState = {
+        values: Array.isArray(puzzle.initialState) ? puzzle.initialState.slice() : [1, 0, 1, 0, 1, 0, 1, 0, 1],
+        moves: 0,
+        hintsUsed: 0
+      };
+    } else if (puzzle.id === 2 || puzzle.type === 'KNIGHTS_KNAVES') {
+      currentState = {
+        assignments: Object.assign({}, puzzle.initialState || { A: null, B: null, C: null, D: null }),
+        moves: 0,
+        hintsUsed: 0
+      };
+    } else if (puzzle.id === 3 || puzzle.type === 'AUTOBIOGRAPHICAL_LOCK') {
+      currentState = {
+        digits: Array.isArray(puzzle.initialState) ? puzzle.initialState.slice() : [0, 0, 0, 0],
+        moves: 0,
+        hintsUsed: 0
+      };
+    } else {
+      currentState = {
+        moves: 0,
+        hintsUsed: 0
+      };
+    }
+  }
+
+  /**
+   * Tráº£ vá» thÃ´ng tin meta cá»§a mÃ n (id, title, type, optimalMoves, clues, hints)
+   * @returns {Object|null}
+   */
+  function getCurrentPuzzle() {
+    if (!currentPuzzle) return null;
+    return {
+      id: currentPuzzle.id,
+      title: currentPuzzle.title,
+      subtitle: currentPuzzle.subtitle || '',
+      type: currentPuzzle.type,
+      optimalMoves: currentPuzzle.optimalMoves,
+      clues: currentPuzzle.clues ? currentPuzzle.clues.slice() : [],
+      hints: currentPuzzle.hints ? currentPuzzle.hints.slice() : [],
+      description: currentPuzzle.description || '',
+      baseXP: currentPuzzle.baseXP || 0,
+      characters: currentPuzzle.characters ? currentPuzzle.characters.slice() : []
+    };
+  }
+
+  /**
+   * Tráº£ vá» state tÆ°Æ¡ng tÃ¡c hiá»‡n táº¡i
+   * MÃ n 1: { values: Array<number>(9), moves: number, hintsUsed: number }
+   * MÃ n 2: { assignments: { A, B, C, D }, moves: number, hintsUsed: number }
+   * MÃ n 3: { digits: Array<number>(4), moves: number, hintsUsed: number }
+   * @returns {Object}
+   */
+  function getState() {
+    if (!currentState) return null;
+
+    if (currentState.values) {
+      return {
+        values: currentState.values.slice(),
+        moves: currentState.moves,
+        hintsUsed: currentState.hintsUsed
+      };
+    }
+
+    if (currentState.assignments) {
+      return {
+        assignments: Object.assign({}, currentState.assignments),
+        moves: currentState.moves,
+        hintsUsed: currentState.hintsUsed
+      };
+    }
+
+    if (currentState.digits) {
+      return {
+        digits: currentState.digits.slice(),
+        moves: currentState.moves,
+        hintsUsed: currentState.hintsUsed
+      };
+    }
+
+    return Object.assign({}, currentState);
+  }
+
+  /**
+   * Thá»±c hiá»‡n hÃ nh Ä‘á»™ng tÆ°Æ¡ng tÃ¡c:
+   * - MÃ n 1: action = { type: 'TOGGLE_SWITCH', payload: { index: number } } (0..8)
+   * - MÃ n 2: action = { type: 'SET_ROLE', payload: { character: 'A'|'B'|'C'|'D', role: 'KNIGHT'|'KNAVE' } }
+   * - MÃ n 3: action = { type: 'CHANGE_DIGIT', payload: { index: number, delta: number } } (delta = +1 hoáº·c -1)
+   * Tá»± Ä‘á»™ng tÄƒng biáº¿n moves. Tráº£ vá» true náº¿u há»£p lá»‡.
+   * @param {{ type: string, payload: any }} action
+   * @returns {boolean}
+   */
+  function interact(action) {
+    if (!action || !action.type || !currentState) {
+      return false;
+    }
+
+    const payload = action.payload || {};
+
+    switch (action.type) {
+      case 'TOGGLE_SWITCH': {
+        const idx = typeof payload.index === 'string' ? parseInt(payload.index, 10) : payload.index;
+        if (typeof idx !== 'number' || isNaN(idx) || idx < 0 || idx > 8 || !Number.isInteger(idx)) {
+          return false;
+        }
+        if (!currentState.values) return false;
+
+        const row = Math.floor(idx / 3);
+        const col = idx % 3;
+
+        // Ma tráº­n 3x3: Äáº£o tráº¡ng thÃ¡i Ã´ hiá»‡n táº¡i vÃ  cÃ¡c Ã´ ká» cáº¡nh (trÃªn, dÆ°á»›i, trÃ¡i, pháº£i)
+        const targets = [idx];
+        if (row > 0) targets.push(idx - 3); // TrÃªn
+        if (row < 2) targets.push(idx + 3); // DÆ°á»›i
+        if (col > 0) targets.push(idx - 1); // TrÃ¡i
+        if (col < 2) targets.push(idx + 1); // Pháº£i
+
+        for (let i = 0; i < targets.length; i++) {
+          const t = targets[i];
+          currentState.values[t] = currentState.values[t] === 1 ? 0 : 1;
+        }
+
+        currentState.moves++;
+        return true;
+      }
+
+      case 'SET_ROLE': {
+        if (!payload.character || !currentState.assignments) return false;
+        const char = String(payload.character).toUpperCase();
+        if (!['A', 'B', 'C', 'D'].includes(char)) return false;
+
+        let role = payload.role;
+        if (role !== null && role !== undefined) {
+          role = String(role).toUpperCase();
+          if (role !== 'KNIGHT' && role !== 'KNAVE') return false;
+        } else {
+          role = null;
+        }
+
+        currentState.assignments[char] = role;
+        currentState.moves++;
+        return true;
+      }
+
+      case 'CHANGE_DIGIT': {
+        const idx = typeof payload.index === 'string' ? parseInt(payload.index, 10) : payload.index;
+        if (typeof idx !== 'number' || isNaN(idx) || idx < 0 || idx > 3 || !Number.isInteger(idx)) {
+          return false;
+        }
+        if (!currentState.digits) return false;
+
+        const val = typeof payload.value === 'string' ? parseInt(payload.value, 10) : payload.value;
+        const delta = typeof payload.delta === 'string' ? parseInt(payload.delta, 10) : payload.delta;
+
+        if (typeof val === 'number' && !isNaN(val) && Number.isInteger(val)) {
+          currentState.digits[idx] = ((val % 4) + 4) % 4;
+        } else if (typeof delta === 'number' && !isNaN(delta) && Number.isInteger(delta)) {
+          currentState.digits[idx] = ((currentState.digits[idx] + delta) % 4 + 4) % 4;
+        } else {
+          return false;
+        }
+
+        currentState.moves++;
+        return true;
+      }
+
+      default:
+        return false;
+    }
+  }
+
+  /**
+   * KhÃ´i phá»¥c cÃ¢u Ä‘á»‘ vá» tráº¡ng thÃ¡i khá»Ÿi Ä‘iá»ƒm ban Ä‘áº§u
+   */
+  function reset() {
+    if (!currentPuzzle) return;
+    init(currentPuzzle.id);
+  }
+
+  /**
+   * Má»Ÿ khÃ³a gá»£i Ã½ tiáº¿p theo, tÄƒng hintsUsed
+   * @returns {{ success: boolean, hintText: string, hintsRemaining: number }}
+   */
+  function useHint() {
+    if (!currentPuzzle || !currentState) {
+      return { success: false, hintText: 'ChÆ°a khá»Ÿi táº¡o mÃ n chÆ¡i.', hintsRemaining: 0 };
+    }
+
+    const hints = currentPuzzle.hints || [];
+    if (currentState.hintsUsed < hints.length) {
+      const hintText = hints[currentState.hintsUsed];
+      currentState.hintsUsed++;
+      const hintsRemaining = hints.length - currentState.hintsUsed;
+      return {
+        success: true,
+        hintText: hintText,
+        hintsRemaining: hintsRemaining
+      };
+    }
+
+    return {
+      success: false,
+      hintText: hints.length > 0 ? hints[hints.length - 1] : 'KhÃ´ng cÃ²n gá»£i Ã½ nÃ o khÃ¡c.',
+      hintsRemaining: 0
+    };
+  }
+
+  /**
+   * Kiá»ƒm tra tráº¡ng thÃ¡i hiá»‡n táº¡i so vá»›i nghiá»‡m chá»©ng minh logic.
+   * Tráº£ vá» solved: true náº¿u Ä‘Ãºng 100%; solved: false kÃ¨m danh sÃ¡ch mÃ¢u thuáº«n (details)
+   * @returns {{ solved: boolean, message: string, details: Array<string> }}
+   */
+  function checkSolution() {
+    if (!currentPuzzle || !currentState) {
+      return { solved: false, message: 'ChÆ°a khá»Ÿi táº¡o mÃ n chÆ¡i.', details: ['KhÃ´ng cÃ³ dá»¯ liá»‡u mÃ n chÆ¡i.'] };
+    }
+
+    // --- MÃ€N 1: NGHá»ŠCH LÃ Äáº¢O CHIá»€U (PARITY MATRIX) ---
+    if (currentPuzzle.id === 1 || currentPuzzle.type === 'PARITY_MATRIX') {
+      const values = currentState.values;
+      const offIndices = [];
+
+      for (let i = 0; i < values.length; i++) {
+        if (values[i] !== 1) {
+          offIndices.push(i);
+        }
+      }
+
+      if (offIndices.length === 0) {
+        return {
+          solved: true,
+          message: 'Nghá»‹ch lÃ½ Ä‘áº£o chiá»u Ä‘Ã£ Ä‘Æ°á»£c hÃ³a giáº£i hoÃ n toÃ n! ToÃ n bá»™ 9 Ã´ cÃ´ng táº¯c Ä‘Ã£ Ä‘á»“ng bá»™ phÃ¡t sÃ¡ng.',
+          details: []
+        };
+      }
+
+      const details = offIndices.map(function (idx) {
+        const row = Math.floor(idx / 3) + 1;
+        const col = (idx % 3) + 1;
+        return `CÃ´ng táº¯c Ã´ #${idx} (hÃ ng ${row}, cá»™t ${col}) váº«n Ä‘ang táº¯t (0).`;
+      });
+
+      return {
+        solved: false,
+        message: `Ma tráº­n chÆ°a Ä‘á»“ng bá»™. CÃ²n ${offIndices.length} cÃ´ng táº¯c Ä‘ang á»Ÿ tráº¡ng thÃ¡i táº¯t.`,
+        details: details
+      };
+    }
+
+    // --- MÃ€N 2: NGHá»ŠCH LÃ Káºº NÃ“I Dá»I (KNIGHTS & KNAVES) ---
+    if (currentPuzzle.id === 2 || currentPuzzle.type === 'KNIGHTS_KNAVES') {
+      const assignments = currentState.assignments;
+      const unassigned = ['A', 'B', 'C', 'D'].filter(function (c) {
+        return assignments[c] !== 'KNIGHT' && assignments[c] !== 'KNAVE';
+      });
+
+      if (unassigned.length > 0) {
+        return {
+          solved: false,
+          message: 'ChÆ°a hoÃ n táº¥t gÃ¡n nhÃ£n cho táº¥t cáº£ nhÃ¢n váº­t.',
+          details: unassigned.map(function (c) { return `NhÃ¢n váº­t ${c} chÆ°a Ä‘Æ°á»£c phÃ¢n Ä‘á»‹nh vai trÃ² (Hiá»‡p sÄ© hoáº·c Káº» giáº£ máº¡o).`; })
+        };
+      }
+
+      const details = [];
+
+      // PhÃ¡t biá»ƒu cá»§a A: "B lÃ  káº» giáº£ máº¡o (Knave)" <=> (A === KNIGHT <=> B === KNAVE)
+      const aSaysTrue = assignments.B === 'KNAVE';
+      const aIsKnight = assignments.A === 'KNIGHT';
+      if (aIsKnight !== aSaysTrue) {
+        if (aIsKnight) {
+          details.push('MÃ¢u thuáº«n vá»›i A: A lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng tuyÃªn bá»‘ "B lÃ  KNAVE", trong khi báº¡n gÃ¡n B lÃ  KNIGHT.');
+        } else {
+          details.push('MÃ¢u thuáº«n vá»›i A: A lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng tuyÃªn bá»‘ "B lÃ  KNAVE", trong khi thá»±c táº¿ B Ä‘Ãºng lÃ  KNAVE.');
+        }
+      }
+
+      // PhÃ¡t biá»ƒu cá»§a B: "C lÃ  káº» giáº£ máº¡o (Knave)" <=> (B === KNIGHT <=> C === KNAVE)
+      const bSaysTrue = assignments.C === 'KNAVE';
+      const bIsKnight = assignments.B === 'KNIGHT';
+      if (bIsKnight !== bSaysTrue) {
+        if (bIsKnight) {
+          details.push('MÃ¢u thuáº«n vá»›i B: B lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng tuyÃªn bá»‘ "C lÃ  KNAVE", trong khi báº¡n gÃ¡n C lÃ  KNIGHT.');
+        } else {
+          details.push('MÃ¢u thuáº«n vá»›i B: B lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng tuyÃªn bá»‘ "C lÃ  KNAVE", trong khi thá»±c táº¿ C Ä‘Ãºng lÃ  KNAVE.');
+        }
+      }
+
+      // PhÃ¡t biá»ƒu cá»§a C: "D lÃ  káº» giáº£ máº¡o (Knave)" <=> (C === KNIGHT <=> D === KNAVE)
+      const cSaysTrue = assignments.D === 'KNAVE';
+      const cIsKnight = assignments.C === 'KNIGHT';
+      if (cIsKnight !== cSaysTrue) {
+        if (cIsKnight) {
+          details.push('MÃ¢u thuáº«n vá»›i C: C lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng tuyÃªn bá»‘ "D lÃ  KNAVE", trong khi báº¡n gÃ¡n D lÃ  KNIGHT.');
+        } else {
+          details.push('MÃ¢u thuáº«n vá»›i C: C lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng tuyÃªn bá»‘ "D lÃ  KNAVE", trong khi thá»±c táº¿ D Ä‘Ãºng lÃ  KNAVE.');
+        }
+      }
+
+      // PhÃ¡t biá»ƒu cá»§a D: "ChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o"
+      const knavesCount = ['A', 'B', 'C', 'D'].filter(function (c) { return assignments[c] === 'KNAVE'; }).length;
+      const dSaysTrue = knavesCount === 2;
+      const dIsKnight = assignments.D === 'KNIGHT';
+      if (dIsKnight !== dSaysTrue) {
+        if (dIsKnight) {
+          details.push(`MÃ¢u thuáº«n vá»›i D: D lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng cÃ³ ${knavesCount} KNAVE (D tuyÃªn bá»‘ cÃ³ chÃ­nh xÃ¡c 2 KNAVE).`);
+        } else {
+          details.push(`MÃ¢u thuáº«n vá»›i D: D lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng thá»±c táº¿ cÃ³ chÃ­nh xÃ¡c 2 KNAVE (lá»i D nÃ³i láº¡i thÃ nh sá»± tháº­t).`);
+        }
+      }
+
+      if (details.length === 0) {
+        return {
+          solved: true,
+          message: 'ChÃ­nh xÃ¡c tuyá»‡t Ä‘á»‘i! Há»‡ thá»‘ng logic nháº¥t quÃ¡n: A=KNAVE, B=KNIGHT, C=KNAVE, D=KNIGHT.',
+          details: []
+        };
+      }
+
+      return {
+        solved: false,
+        message: 'PhÃ¡t hiá»‡n mÃ¢u thuáº«n logic trong há»‡ thá»‘ng lá»i khai!',
+        details: details
+      };
+    }
+
+    // --- MÃ€N 3: NGHá»ŠCH LÃ Tá»° THAM CHIáº¾U (GÃ–DEL'S AUTOBIOGRAPHICAL LOCK) ---
+    if (currentPuzzle.id === 3 || currentPuzzle.type === 'AUTOBIOGRAPHICAL_LOCK') {
+      const digits = currentState.digits;
+      const details = [];
+
+      // 1. TiÃªn Ä‘á» Báº£o toÃ n Táº§n suáº¥t: S0 + S1 + S2 + S3 = 4
+      const sum = digits.reduce(function (acc, val) { return acc + val; }, 0);
+      if (sum !== 4) {
+        details.push(`Vi pháº¡m TiÃªn Ä‘á» Báº£o toÃ n Táº§n suáº¥t: Tá»•ng 4 chá»¯ sá»‘ lÃ  ${sum} (yÃªu cáº§u tá»•ng = 4).`);
+      }
+
+      // 2. TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: S0 vÃ  S2 pháº£i cháºµn (0 hoáº·c 2)
+      if (digits[0] % 2 !== 0) {
+        details.push(`Vi pháº¡m TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: Ã” S0 mang giÃ¡ trá»‹ ${digits[0]} (yÃªu cáº§u pháº£i lÃ  sá»‘ cháºµn: 0 hoáº·c 2).`);
+      }
+      if (digits[2] % 2 !== 0) {
+        details.push(`Vi pháº¡m TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: Ã” S2 mang giÃ¡ trá»‹ ${digits[2]} (yÃªu cáº§u pháº£i lÃ  sá»‘ cháºµn: 0 hoáº·c 2).`);
+      }
+
+      // 3. Quy luáº­t Tá»± tham chiáº¿u: Ã” Si pháº£i báº±ng sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong 4 Ã´
+      for (let i = 0; i < 4; i++) {
+        const actualCount = digits.filter(function (d) { return d === i; }).length;
+        if (digits[i] !== actualCount) {
+          details.push(`MÃ¢u thuáº«n táº¡i Ã´ S${i}: Äang Ä‘áº·t giÃ¡ trá»‹ ${digits[i]}, nhÆ°ng chá»¯ sá»‘ ${i} xuáº¥t hiá»‡n ${actualCount} láº§n.`);
+        }
+      }
+
+      if (details.length === 0) {
+        return {
+          solved: true,
+          message: 'KhÃ³a GÃ¶del má»Ÿ thÃ nh cÃ´ng! DÃ£y sá»‘ tá»± tham chiáº¿u hoÃ n háº£o [2, 0, 2, 0].',
+          details: []
+        };
+      }
+
+      return {
+        solved: false,
+        message: 'á»” khÃ³a GÃ¶del chÆ°a má»Ÿ: Tá»“n táº¡i mÃ¢u thuáº«n tá»± tham chiáº¿u hoáº·c vi pháº¡m tiÃªn Ä‘á»!',
+        details: details
+      };
+    }
+
+    return {
+      solved: false,
+      message: 'MÃ n chÆ¡i khÃ´ng xÃ¡c Ä‘á»‹nh.',
+      details: []
+    };
+  }
+
+  return {
+    init: init,
+    getCurrentPuzzle: getCurrentPuzzle,
+    getState: getState,
+    interact: interact,
+    reset: reset,
+    useHint: useHint,
+    checkSolution: checkSolution
+  };
+})();
+
+// Export cho cáº£ trÃ¬nh duyá»‡t (window) láº«n Node.js (module.exports)
+if (typeof window !== 'undefined') {
+  window.PuzzleEngine = PuzzleEngine;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { PuzzleEngine };
+  module.exports.PuzzleEngine = PuzzleEngine;
+  module.exports.default = PuzzleEngine;
+}
+
+
+// --- gameState.js ---
+// js/gameState.js
+// Game State & Storage cho Nghá»‹ch LÃ½ TrÃ­ Tuá»‡ (Mind Paradox)
+
+/**
+ * Module GameState
+ * Quáº£n lÃ½ XP, Ranks, Tiáº¿n trÃ¬nh giáº£i Ä‘á»‘, Nhiá»‡m vá»¥ (Quest Log) vÃ  LocalStorage
+ */
+const GameState = (function () {
+  const STORAGE_KEY = 'NghichLyTriTue_SaveData';
+
+  // Äá»‹nh nghÄ©a danh hiá»‡u (Ranks) theo báº£ng Ä‘iá»ƒm XP
+  const RANKS = [
+    { name: 'Táº­p sá»± Suy Luáº­n', minXP: 0, nextXP: 300 },
+    { name: 'Há»c giáº£ PhÃ¢n tÃ­ch', minXP: 300, nextXP: 700 },
+    { name: 'Báº­c tháº§y Logic', minXP: 700, nextXP: 1200 },
+    { name: 'Äáº¡i sÆ° Nghá»‹ch LÃ½', minXP: 1200, nextXP: 1200 }
+  ];
+
+  // Danh má»¥c nhiá»‡m vá»¥ há»‡ thá»‘ng
+  const QUEST_DEFINITIONS = [
+    {
+      id: 'quest_first_blood',
+      title: 'Khai Má»Ÿ TrÃ­ Tuá»‡',
+      desc: 'HoÃ n thÃ nh mÃ n Ä‘áº§u tiÃªn báº¥t ká»³',
+      rewardXP: 100
+    },
+    {
+      id: 'quest_pure_mind',
+      title: 'TÃ¢m TrÃ­ Thuáº§n Khiáº¿t',
+      desc: 'HoÃ n thÃ nh má»™t mÃ n báº¥t ká»³ khÃ´ng dÃ¹ng Hint',
+      rewardXP: 150
+    },
+    {
+      id: 'quest_speed_deduction',
+      title: 'Suy Luáº­n Tháº§n Tá»‘c',
+      desc: 'HoÃ n thÃ nh MÃ n 1 trong Ä‘Ãºng 4 nÆ°á»›c Ä‘i tá»‘i Æ°u',
+      rewardXP: 150
+    },
+    {
+      id: 'quest_truth_seeker',
+      title: 'NgÆ°á»i Kiáº¿m TÃ¬m ChÃ¢n LÃ½',
+      desc: 'Váº¡ch tráº§n Ä‘Ãºng toÃ n bá»™ 4 Hiá»‡p sÄ©/Káº» giáº£ máº¡o á»Ÿ MÃ n 2 trong láº§n ná»™p Ä‘Ã¡p Ã¡n Ä‘áº§u tiÃªn',
+      rewardXP: 150
+    },
+    {
+      id: 'quest_godel_conqueror',
+      title: 'Chinh Phá»¥c GÃ¶del',
+      desc: 'Khai má»Ÿ á»” khÃ³a GÃ¶del á»Ÿ MÃ n 3',
+      rewardXP: 200
+    },
+    {
+      id: 'quest_master_rank',
+      title: 'Báº­c Tháº§y Logic',
+      desc: 'Äáº¡t danh hiá»‡u Báº­c tháº§y Logic (700+ XP)',
+      rewardXP: 250
+    }
+  ];
+
+  // Bá»™ nhá»› Ä‘á»‡m in-memory (fallback khi khÃ´ng cÃ³ window.localStorage trong mÃ´i trÆ°á»ng Node.js)
+  let memoryStorage = {};
+
+  function storageGet(key) {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return window.localStorage.getItem(key);
+      }
+    } catch (e) {}
+    return Object.prototype.hasOwnProperty.call(memoryStorage, key) ? memoryStorage[key] : null;
+  }
+
+  function storageSet(key, value) {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem(key, value);
+      }
+    } catch (e) {}
+    memoryStorage[key] = String(value);
+  }
+
+  function storageRemove(key) {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem(key);
+      }
+    } catch (e) {}
+    delete memoryStorage[key];
+  }
+
+  // Schema máº·c Ä‘á»‹nh theo Ä‘áº·c táº£ má»¥c 4.4 cá»§a GAME_SPEC.md
+  function getDefaultData() {
+    return {
+      version: 1,
+      xp: 0,
+      rankIndex: 0,
+      unlockedPuzzles: [1],
+      completedPuzzles: [],
+      puzzleStats: {
+        "1": { bestMoves: null, noHintCompleted: false },
+        "2": { bestMoves: null, noHintCompleted: false },
+        "3": { bestMoves: null, noHintCompleted: false }
+      },
+      quests: {
+        quest_first_blood: { completed: false, claimed: false },
+        quest_pure_mind: { completed: false, claimed: false },
+        quest_speed_deduction: { completed: false, claimed: false },
+        quest_truth_seeker: { completed: false, claimed: false },
+        quest_godel_conqueror: { completed: false, claimed: false },
+        quest_master_rank: { completed: false, claimed: false }
+      },
+      soundEnabled: true
+    };
+  }
+
+  let data = getDefaultData();
+
+  /**
+   * TÃ­nh toÃ¡n thÃ´ng tin Rank dá»±a trÃªn tá»•ng XP
+   * @param {number} xp
+   */
+  function calculateRank(xp) {
+    let rankIndex = 0;
+    if (xp >= 1200) {
+      rankIndex = 3;
+    } else if (xp >= 700) {
+      rankIndex = 2;
+    } else if (xp >= 300) {
+      rankIndex = 1;
+    } else {
+      rankIndex = 0;
+    }
+
+    const rank = RANKS[rankIndex];
+    let progressPercent = 100;
+
+    if (rankIndex < 3) {
+      const range = rank.nextXP - rank.minXP;
+      const current = xp - rank.minXP;
+      progressPercent = Math.min(100, Math.max(0, Math.round((current / range) * 100)));
+    }
+
+    return {
+      rankIndex: rankIndex,
+      rankName: rank.name,
+      nextRankXP: rank.nextXP,
+      progressPercent: progressPercent
+    };
+  }
+
+  /**
+   * Khá»Ÿi táº¡o: táº£i dá»¯ liá»‡u tá»« localStorage hoáº·c táº¡o má»›i schema máº·c Ä‘á»‹nh
+   */
+  function init() {
+    const raw = storageGet(STORAGE_KEY);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed.xp === 'number') {
+          data = Object.assign(getDefaultData(), parsed);
+          // Äáº£m báº£o quests vÃ  puzzleStats cÃ³ Ä‘á»§ cáº¥u trÃºc
+          data.quests = Object.assign(getDefaultData().quests, parsed.quests || {});
+          data.puzzleStats = Object.assign(getDefaultData().puzzleStats, parsed.puzzleStats || {});
+          if (!Array.isArray(data.unlockedPuzzles) || data.unlockedPuzzles.length === 0) {
+            data.unlockedPuzzles = [1];
+          }
+          if (!Array.isArray(data.completedPuzzles)) {
+            data.completedPuzzles = [];
+          }
+        } else {
+          data = getDefaultData();
+        }
+      } catch (e) {
+        data = getDefaultData();
+      }
+    } else {
+      data = getDefaultData();
+    }
+
+    // Cáº­p nháº­t rankIndex Ä‘Ãºng theo XP
+    const rankInfo = calculateRank(data.xp);
+    data.rankIndex = rankInfo.rankIndex;
+
+    // Kiá»ƒm tra náº¿u XP Ä‘Ã£ Ä‘áº¡t Báº­c tháº§y Logic
+    if (data.xp >= 700 && data.quests.quest_master_rank) {
+      data.quests.quest_master_rank.completed = true;
+    }
+
+    save();
+  }
+
+  /**
+   * Tráº£ vá» thÃ´ng tin há»“ sÆ¡ ngÆ°á»i chÆ¡i
+   * @returns {{ xp: number, rankName: string, rankIndex: number, nextRankXP: number, progressPercent: number }}
+   */
+  function getProfile() {
+    const rankInfo = calculateRank(data.xp);
+    return {
+      xp: data.xp,
+      rankName: rankInfo.rankName,
+      rankIndex: rankInfo.rankIndex,
+      nextRankXP: rankInfo.nextRankXP,
+      progressPercent: rankInfo.progressPercent
+    };
+  }
+
+  /**
+   * Cá»™ng XP vÃ  kiá»ƒm tra thÄƒng cáº¥p
+   * @param {number} amount
+   * @param {string} reason
+   * @returns {{ newXP: number, leveledUp: boolean, oldRank: string, newRank: string }}
+   */
+  function addXP(amount, reason) {
+    const num = Number(amount);
+    if (isNaN(num) || num <= 0) {
+      const currentRank = calculateRank(data.xp);
+      return {
+        newXP: data.xp,
+        leveledUp: false,
+        oldRank: currentRank.rankName,
+        newRank: currentRank.rankName
+      };
+    }
+
+    const oldXP = data.xp;
+    const oldRankInfo = calculateRank(oldXP);
+
+    data.xp += num;
+
+    const newRankInfo = calculateRank(data.xp);
+    data.rankIndex = newRankInfo.rankIndex;
+
+    const leveledUp = newRankInfo.rankIndex > oldRankInfo.rankIndex;
+
+    // Tá»± Ä‘á»™ng kiá»ƒm tra quest_master_rank khi XP Ä‘áº¡t 700
+    if (data.xp >= 700 && data.quests.quest_master_rank && !data.quests.quest_master_rank.completed) {
+      data.quests.quest_master_rank.completed = true;
+    }
+
+    save();
+
+    return {
+      newXP: data.xp,
+      leveledUp: leveledUp,
+      oldRank: oldRankInfo.rankName,
+      newRank: newRankInfo.rankName
+    };
+  }
+
+  /**
+   * HoÃ n thÃ nh mÃ n chÆ¡i: tÃ­nh base XP, bonus XP, cáº­p nháº­t tiáº¿n trÃ¬nh vÃ  má»Ÿ khÃ³a mÃ n tiáº¿p theo
+   * @param {number} puzzleId
+   * @param {number} moves
+   * @param {number} hintsUsed
+   * @returns {{ baseXP: number, bonusXP: number, totalXP: number, newQuestsCompleted: Array<string> }}
+   */
+  function completePuzzle(puzzleId, moves, hintsUsed) {
+    const pId = Number(puzzleId);
+    const m = Number(moves) || 0;
+    const h = Number(hintsUsed) || 0;
+
+    // 1. Base XP
+    let baseXP = 150;
+    if (pId === 2) baseXP = 200;
+    else if (pId === 3) baseXP = 250;
+
+    // 2. Bonus XP
+    let bonusXP = 0;
+    // Bonus No-Hint (+100 XP)
+    if (h === 0) {
+      bonusXP += 100;
+    }
+    // Bonus Move-Efficiency (+50 XP)
+    if (pId === 1 && m <= 4) {
+      bonusXP += 50;
+    } else if (pId === 2 && m <= 4) {
+      bonusXP += 50;
+    } else if (pId === 3 && m <= 6) {
+      bonusXP += 50;
+    }
+
+    const totalXP = baseXP + bonusXP;
+
+    // Cáº­p nháº­t completedPuzzles
+    if (!data.completedPuzzles.includes(pId)) {
+      data.completedPuzzles.push(pId);
+    }
+
+    // Tá»± Ä‘á»™ng unlock mÃ n káº¿ tiáº¿p khi hoÃ n thÃ nh mÃ n trÆ°á»›c
+    const nextPuzzleId = pId + 1;
+    if (nextPuzzleId <= 3 && !data.unlockedPuzzles.includes(nextPuzzleId)) {
+      data.unlockedPuzzles.push(nextPuzzleId);
+    }
+
+    // Cáº­p nháº­t thá»‘ng kÃª mÃ n chÆ¡i
+    if (!data.puzzleStats[pId]) {
+      data.puzzleStats[pId] = { bestMoves: null, noHintCompleted: false };
+    }
+    const stat = data.puzzleStats[pId];
+    if (stat.bestMoves === null || m < stat.bestMoves) {
+      stat.bestMoves = m;
+    }
+    if (h === 0) {
+      stat.noHintCompleted = true;
+    }
+
+    // Kiá»ƒm tra cÃ¡c nhiá»‡m vá»¥ Ä‘áº¡t Ä‘Æ°á»£c
+    const newQuestsCompleted = [];
+
+    function markQuest(qId) {
+      if (data.quests[qId] && !data.quests[qId].completed) {
+        data.quests[qId].completed = true;
+        newQuestsCompleted.push(qId);
+      }
+    }
+
+    // quest_first_blood: HoÃ n thÃ nh mÃ n Ä‘áº§u tiÃªn báº¥t ká»³
+    if (data.completedPuzzles.length > 0) {
+      markQuest('quest_first_blood');
+    }
+
+    // quest_pure_mind: HoÃ n thÃ nh má»™t mÃ n báº¥t ká»³ khÃ´ng dÃ¹ng Hint
+    if (h === 0) {
+      markQuest('quest_pure_mind');
+    }
+
+    // quest_speed_deduction: HoÃ n thÃ nh MÃ n 1 trong Ä‘Ãºng 4 nÆ°á»›c Ä‘i tá»‘i Æ°u
+    if (pId === 1 && m <= 4) {
+      markQuest('quest_speed_deduction');
+    }
+
+    // quest_truth_seeker: Váº¡ch tráº§n Ä‘Ãºng toÃ n bá»™ 4 Hiá»‡p sÄ©/Káº» giáº£ máº¡o á»Ÿ MÃ n 2 trong láº§n ná»™p Ä‘Ã¡p Ã¡n Ä‘áº§u tiÃªn
+    if (pId === 2 && m <= 4) {
+      markQuest('quest_truth_seeker');
+    }
+
+    // quest_godel_conqueror: Khai má»Ÿ á»” khÃ³a GÃ¶del á»Ÿ MÃ n 3
+    if (pId === 3) {
+      markQuest('quest_godel_conqueror');
+    }
+
+    // Cá»™ng XP cho ngÆ°á»i chÆ¡i
+    addXP(totalXP, `HoÃ n thÃ nh MÃ n ${pId}`);
+
+    // quest_master_rank: Äáº¡t danh hiá»‡u Báº­c tháº§y Logic (700+ XP)
+    if (data.xp >= 700) {
+      markQuest('quest_master_rank');
+    }
+
+    save();
+
+    return {
+      baseXP: baseXP,
+      bonusXP: bonusXP,
+      totalXP: totalXP,
+      newQuestsCompleted: newQuestsCompleted
+    };
+  }
+
+  /**
+   * Láº¥y danh sÃ¡ch nhiá»‡m vá»¥ kÃ¨m tráº¡ng thÃ¡i hiá»‡n táº¡i
+   * @returns {Array<{ id: string, title: string, desc: string, rewardXP: number, completed: boolean, claimed: boolean }>}
+   */
+  function getQuests() {
+    return QUEST_DEFINITIONS.map(function (q) {
+      const state = data.quests[q.id] || { completed: false, claimed: false };
+      return {
+        id: q.id,
+        title: q.title,
+        desc: q.desc,
+        rewardXP: q.rewardXP,
+        completed: Boolean(state.completed),
+        claimed: Boolean(state.claimed)
+      };
+    });
+  }
+
+  /**
+   * Nháº­n thÆ°á»Ÿng nhiá»‡m vá»¥ Ä‘Ã£ hoÃ n thÃ nh
+   * @param {string} questId
+   * @returns {{ success: boolean, rewardXP: number }}
+   */
+  function claimQuest(questId) {
+    const questMeta = QUEST_DEFINITIONS.find(function (q) { return q.id === questId; });
+    if (!questMeta) {
+      return { success: false, rewardXP: 0 };
+    }
+
+    const questState = data.quests[questId];
+    if (!questState || !questState.completed || questState.claimed) {
+      return { success: false, rewardXP: 0 };
+    }
+
+    questState.claimed = true;
+    addXP(questMeta.rewardXP, `Nháº­n thÆ°á»Ÿng nhiá»‡m vá»¥: ${questMeta.title}`);
+    save();
+
+    return {
+      success: true,
+      rewardXP: questMeta.rewardXP
+    };
+  }
+
+  /**
+   * Kiá»ƒm tra mÃ n chÆ¡i Ä‘Ã£ Ä‘Æ°á»£c má»Ÿ khÃ³a chÆ°a
+   * @param {number} puzzleId
+   * @returns {boolean}
+   */
+  function isPuzzleUnlocked(puzzleId) {
+    const pId = Number(puzzleId);
+    if (pId === 1) return true;
+    return data.unlockedPuzzles.includes(pId);
+  }
+
+  /**
+   * LÆ°u dá»¯ liá»‡u vÃ o storage
+   */
+  function save() {
+    storageSet(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  /**
+   * XÃ³a dá»¯ liá»‡u Ä‘Ã£ lÆ°u vÃ  khÃ´i phá»¥c máº·c Ä‘á»‹nh
+   */
+  function resetSave() {
+    storageRemove(STORAGE_KEY);
+    data = getDefaultData();
+    save();
+  }
+
+  /**
+   * Tráº£ vá» báº£n sao dá»¯ liá»‡u hiá»‡n táº¡i (cho má»¥c Ä‘Ã­ch test/debug)
+   */
+  function getData() {
+    return JSON.parse(JSON.stringify(data));
+  }
+
+  return {
+    init: init,
+    getProfile: getProfile,
+    addXP: addXP,
+    completePuzzle: completePuzzle,
+    getQuests: getQuests,
+    claimQuest: claimQuest,
+    isPuzzleUnlocked: isPuzzleUnlocked,
+    save: save,
+    resetSave: resetSave,
+    getData: getData
+  };
+})();
+
+// Tá»± Ä‘á»™ng khá»Ÿi táº¡o GameState khi náº¡p module
+GameState.init();
+
+// Export cho cáº£ trÃ¬nh duyá»‡t (window) láº«n Node.js (module.exports)
+if (typeof window !== 'undefined') {
+  window.GameState = GameState;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { GameState };
+  module.exports.GameState = GameState;
+  module.exports.default = GameState;
+}
+
+
+// --- renderer.js ---
+/**
+ * js/renderer.js
+ * Canvas 2D Renderer for "Nghá»‹ch LÃ½ TrÃ­ Tuá»‡" (Mind Paradox)
+ * Conforms to GAME_SPEC.md Section 6.3:
+ * - Retina HD high-DPI scaling via devicePixelRatio
+ * - Stage 1: 3x3 Parity Matrix with rounded glowing switches
+ * - Stage 2: 4 Knights & Knaves character cards with toggle badges
+ * - Stage 3: GÃ¶del Autobiographical lock dials with +/- buttons and live validation
+ * - Particle fireworks celebration system
+ * - Error shake effect
+ */
+
+const UIRenderer = (function () {
+  let canvas = null;
+  let ctx = null;
+  let dpr = 1;
+
+  // Stored state for re-rendering during particle animation
+  let currentType = null;
+  let currentState = null;
+  let currentHovered = null;
+
+  // Particle System
+  let particles = [];
+  let isCelebrationActive = false;
+  let celebrationEndTime = 0;
+
+  // Shake / Error pulse state
+  let isErrorShaking = false;
+  let errorEndTime = 0;
+
+  // Layout geometries cache for fast hit-testing
+  const layout = {
+    stage1: {
+      startX: 158,
+      startY: 83,
+      cellSize: 84,
+      gap: 16
+    },
+    stage2: {
+      cards: [
+        { char: 'A', name: 'Alice (A)', quote: 'â€œB lÃ  káº» giáº£ máº¡o (Knave).â€', x: 20, y: 65, w: 270, h: 160 },
+        { char: 'B', name: 'Bob (B)', quote: 'â€œC lÃ  káº» giáº£ máº¡o (Knave).â€', x: 310, y: 65, w: 270, h: 160 },
+        { char: 'C', name: 'Chloe (C)', quote: 'â€œD lÃ  káº» giáº£ máº¡o (Knave).â€', x: 20, y: 245, w: 270, h: 160 },
+        { char: 'D', name: 'Daniel (D)', quote: 'â€œChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o.â€', x: 310, y: 245, w: 270, h: 160 }
+      ]
+    },
+    stage3: {
+      startX: 45,
+      startY: 80,
+      dialW: 105,
+      gap: 30,
+      labels: ['Ã” Sâ‚€', 'Ã” Sâ‚', 'Ã” Sâ‚‚', 'Ã” Sâ‚ƒ'],
+      subtexts: ['Äáº¿m sá»‘ chá»¯ sá»‘ 0', 'Äáº¿m sá»‘ chá»¯ sá»‘ 1', 'Äáº¿m sá»‘ chá»¯ sá»‘ 2', 'Äáº¿m sá»‘ chá»¯ sá»‘ 3']
+    }
+  };
+
+  /**
+   * Helper: Draw rounded rectangle
+   */
+  function roundRect(context, x, y, width, height, radius) {
+    if (typeof radius === 'number') {
+      radius = { tl: radius, tr: radius, br: radius, bl: radius };
+    }
+    context.beginPath();
+    context.moveTo(x + radius.tl, y);
+    context.lineTo(x + width - radius.tr, y);
+    context.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+    context.lineTo(x + width, y + height - radius.br);
+    context.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+    context.lineTo(x + radius.bl, y + height);
+    context.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+    context.lineTo(x, y + radius.tl);
+    context.quadraticCurveTo(x, y, x + radius.tl, y);
+    context.closePath();
+  }
+
+  /**
+   * Determine stage category from puzzleType or puzzleState
+   */
+  function detectStage(puzzleType, puzzleState) {
+    if (puzzleType === 1 || puzzleType === '1' || puzzleType === 'PARITY_MATRIX' || (puzzleState && puzzleState.values)) {
+      return 1;
+    }
+    if (puzzleType === 2 || puzzleType === '2' || puzzleType === 'KNIGHTS_KNAVES' || (puzzleState && puzzleState.assignments)) {
+      return 2;
+    }
+    if (puzzleType === 3 || puzzleType === '3' || puzzleType === 'GODEL_LOCK' || puzzleType === 'AUTOBIOGRAPHICAL_LOCK' || (puzzleState && puzzleState.digits)) {
+      return 3;
+    }
+    return 1;
+  }
+
+  /**
+   * 1. Initialize Canvas & Retina Scaling
+   */
+  function init(canvasElement) {
+    if (!canvasElement) return;
+    canvas = canvasElement;
+    ctx = canvas.getContext('2d');
+    dpr = window.devicePixelRatio || 1;
+
+    // Retina HD 600x450
+    canvas.width = 600 * dpr;
+    canvas.height = 450 * dpr;
+    canvas.style.width = '600px';
+    canvas.style.height = '450px';
+
+    ctx.scale(dpr, dpr);
+  }
+
+  /**
+   * 2. Main Render Method
+   */
+  function render(puzzleType, puzzleState, hoveredElement) {
+    if (!ctx) return;
+    currentType = puzzleType;
+    currentState = puzzleState;
+    currentHovered = hoveredElement;
+
+    // Clear background
+    ctx.clearRect(0, 0, 600, 450);
+
+    // Deep Canvas backdrop
+    ctx.fillStyle = '#090e1a';
+    ctx.fillRect(0, 0, 600, 450);
+
+    // Draw subtle grid pattern
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+    ctx.lineWidth = 1;
+    for (let x = 30; x < 600; x += 30) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 450);
+      ctx.stroke();
+    }
+    for (let y = 30; y < 450; y += 30) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(600, y);
+      ctx.stroke();
+    }
+
+    const stageNum = detectStage(puzzleType, puzzleState);
+
+    if (stageNum === 1) {
+      renderStage1(puzzleState, hoveredElement);
+    } else if (stageNum === 2) {
+      renderStage2(puzzleState, hoveredElement);
+    } else if (stageNum === 3) {
+      renderStage3(puzzleState, hoveredElement);
+    }
+
+    // Render transient error flash vignette if active
+    if (isErrorShaking && Date.now() < errorEndTime) {
+      ctx.save();
+      ctx.strokeStyle = 'rgba(244, 63, 94, 0.6)';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(3, 3, 594, 444);
+      ctx.restore();
+    }
+
+    // Render active particles
+    if (particles.length > 0) {
+      renderParticles();
+    }
+  }
+
+  /**
+   * =========================================================================
+   * STAGE 1: Parity Matrix (3x3 switches)
+   * =========================================================================
+   */
+  function renderStage1(state, hovered) {
+    const values = (state && state.values) ? state.values : [1, 0, 1, 0, 1, 0, 1, 0, 1];
+    const { startX, startY, cellSize, gap } = layout.stage1;
+
+    // Top Header Banner
+    ctx.save();
+    ctx.font = 'bold 13px "Outfit", sans-serif';
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('MA TRáº¬N Äáº¢O CHIá»€U MODULO 2 (PARITY MATRIX)', 300, 34);
+
+    ctx.font = '12px "Outfit", sans-serif';
+    ctx.fillStyle = '#64748b';
+    ctx.fillText('Quy luáº­t: Gáº¡t 1 cÃ´ng táº¯c sáº½ Ä‘áº£o tráº¡ng thÃ¡i cá»§a chÃ­nh nÃ³ vÃ  4 Ã´ ká» cáº¡nh (HÃ¬nh dáº¥u +)', 300, 56);
+    ctx.restore();
+
+    // Check hovered cell to highlight cross neighbors
+    let hoveredIdx = (hovered && hovered.type === 'switch') ? hovered.index : -1;
+    let neighbors = [];
+    if (hoveredIdx >= 0) {
+      const hr = Math.floor(hoveredIdx / 3);
+      const hc = hoveredIdx % 3;
+      neighbors.push(hoveredIdx);
+      if (hr > 0) neighbors.push((hr - 1) * 3 + hc); // Top
+      if (hr < 2) neighbors.push((hr + 1) * 3 + hc); // Bottom
+      if (hc > 0) neighbors.push(hr * 3 + (hc - 1)); // Left
+      if (hc < 2) neighbors.push(hr * 3 + (hc + 1)); // Right
+    }
+
+    // Draw 3x3 switches
+    let activeCount = 0;
+    for (let i = 0; i < 9; i++) {
+      const r = Math.floor(i / 3);
+      const c = i % 3;
+      const x = startX + c * (cellSize + gap);
+      const y = startY + r * (cellSize + gap);
+      const val = values[i] || 0;
+      if (val === 1) activeCount++;
+
+      const isHovered = (hoveredIdx === i);
+      const isNeighbor = neighbors.includes(i) && !isHovered;
+
+      ctx.save();
+      // Cell Shadow / Glow
+      if (val === 1) {
+        ctx.shadowColor = 'rgba(6, 182, 212, 0.75)';
+        ctx.shadowBlur = isHovered ? 24 : 16;
+      } else {
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 8;
+      }
+
+      // Base Background
+      roundRect(ctx, x, y, cellSize, cellSize, 14);
+      if (val === 1) {
+        const grad = ctx.createLinearGradient(x, y, x + cellSize, y + cellSize);
+        grad.addColorStop(0, '#06b6d4');
+        grad.addColorStop(1, '#0e7490');
+        ctx.fillStyle = grad;
+      } else {
+        ctx.fillStyle = isHovered ? '#1e293b' : '#131b2e';
+      }
+      ctx.fill();
+
+      // Border
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = isHovered ? 2.5 : 1.5;
+      if (val === 1) {
+        ctx.strokeStyle = '#67e8f9';
+      } else if (isHovered) {
+        ctx.strokeStyle = '#38bdf8';
+      } else if (isNeighbor) {
+        ctx.strokeStyle = 'rgba(6, 182, 212, 0.6)';
+        ctx.setLineDash([4, 4]);
+      } else {
+        ctx.strokeStyle = '#25334e';
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Inner Symbol / Number
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const cx = x + cellSize / 2;
+      const cy = y + cellSize / 2;
+
+      if (val === 1) {
+        // Glowing Center Core
+        ctx.beginPath();
+        ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#a5f3fc';
+        ctx.shadowBlur = 10;
+        ctx.fill();
+
+        // Label "1" or Icon
+        ctx.font = 'bold 18px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#0891b2';
+        ctx.shadowBlur = 0;
+        ctx.fillText('1', cx, cy + 1);
+      } else {
+        // Inactive Ring
+        ctx.beginPath();
+        ctx.arc(cx, cy, 14, 0, Math.PI * 2);
+        ctx.strokeStyle = isHovered ? '#64748b' : '#334155';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.font = 'bold 16px "JetBrains Mono", monospace';
+        ctx.fillStyle = isHovered ? '#94a3b8' : '#475569';
+        ctx.fillText('0', cx, cy + 1);
+      }
+
+      // Small cell index tag in corner
+      ctx.font = '9px "JetBrains Mono", monospace';
+      ctx.fillStyle = val === 1 ? 'rgba(255, 255, 255, 0.7)' : 'rgba(148, 163, 184, 0.4)';
+      ctx.fillText(`[${i}]`, x + 16, y + 14);
+
+      ctx.restore();
+    }
+
+    // Bottom Status Bar
+    ctx.save();
+    ctx.font = '600 13px "Outfit", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = activeCount === 9 ? '#34d399' : '#cbd5e1';
+    ctx.fillText(`LÃµi KÃ­ch Hoáº¡t: ${activeCount} / 9 ${activeCount === 9 ? '(ÄÃƒ Äáº T NGHIá»†M Tá»I Æ¯U!)' : ''}`, 300, 396);
+
+    // Indicator Dots
+    for (let d = 0; d < 9; d++) {
+      const dotX = 300 - (4 * 16) + (d * 16);
+      ctx.beginPath();
+      ctx.arc(dotX, 416, 4, 0, Math.PI * 2);
+      ctx.fillStyle = values[d] === 1 ? '#06b6d4' : '#1e293b';
+      ctx.fill();
+      if (values[d] === 1) {
+        ctx.strokeStyle = '#67e8f9';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  /**
+   * =========================================================================
+   * STAGE 2: Knights & Knaves (4 Characters)
+   * =========================================================================
+   */
+  function renderStage2(state, hovered) {
+    const assignments = (state && state.assignments) ? state.assignments : { A: null, B: null, C: null, D: null };
+    const { cards } = layout.stage2;
+
+    // Header Banner
+    ctx.save();
+    ctx.font = 'bold 13px "Outfit", sans-serif';
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('4 Cá»”NG CHÃ‚N TRá»Š: HIá»†P SÄ¨ & Káºº GIáº¢ Máº O', 300, 30);
+
+    ctx.font = '12px "Outfit", sans-serif';
+    ctx.fillStyle = '#64748b';
+    ctx.fillText('Báº¥m vÃ o Tháº» nhÃ¢n váº­t hoáº·c NÃºt Ä‘á»ƒ chuyá»ƒn vai trÃ²: [HIá»†P SÄ¨] â†” [Káºº GIáº¢ Máº O]', 300, 48);
+    ctx.restore();
+
+    cards.forEach((card) => {
+      const role = assignments[card.char] || null;
+      const isHovered = (hovered && hovered.type === 'character' && hovered.character === card.char);
+
+      ctx.save();
+
+      // Card Background
+      roundRect(ctx, card.x, card.y, card.w, card.h, 12);
+      ctx.fillStyle = isHovered ? '#1a243d' : '#131b2e';
+      ctx.fill();
+
+      // Card Border & Glow
+      ctx.lineWidth = isHovered ? 2 : 1;
+      if (role === 'KNIGHT') {
+        ctx.strokeStyle = isHovered ? '#34d399' : 'rgba(16, 185, 129, 0.4)';
+        if (isHovered) {
+          ctx.shadowColor = 'rgba(16, 185, 129, 0.3)';
+          ctx.shadowBlur = 12;
+        }
+      } else if (role === 'KNAVE') {
+        ctx.strokeStyle = isHovered ? '#fb7185' : 'rgba(244, 63, 94, 0.4)';
+        if (isHovered) {
+          ctx.shadowColor = 'rgba(244, 63, 94, 0.3)';
+          ctx.shadowBlur = 12;
+        }
+      } else {
+        ctx.strokeStyle = isHovered ? '#6366f1' : '#1e293b';
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Avatar Icon Circle
+      ctx.save();
+      const avatarX = card.x + 28;
+      const avatarY = card.y + 28;
+      ctx.beginPath();
+      ctx.arc(avatarX, avatarY, 16, 0, Math.PI * 2);
+      if (role === 'KNIGHT') {
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.2)';
+        ctx.strokeStyle = '#10b981';
+      } else if (role === 'KNAVE') {
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.2)';
+        ctx.strokeStyle = '#f43f5e';
+      } else {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.strokeStyle = '#334155';
+      }
+      ctx.lineWidth = 1.5;
+      ctx.fill();
+      ctx.stroke();
+
+      // Avatar Emoji/Symbol
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      const icon = role === 'KNIGHT' ? 'ðŸ›¡ï¸' : (role === 'KNAVE' ? 'ðŸŽ­' : 'ðŸ‘¤');
+      ctx.fillText(icon, avatarX, avatarY + 1);
+
+      // Character Name
+      ctx.font = 'bold 14px "Outfit", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillText(card.name, card.x + 54, card.y + 28);
+      ctx.restore();
+
+      // Statement Speech Box
+      ctx.save();
+      const quoteX = card.x + 14;
+      const quoteY = card.y + 54;
+      const quoteW = card.w - 28;
+      const quoteH = 46;
+
+      roundRect(ctx, quoteX, quoteY, quoteW, quoteH, 8);
+      ctx.fillStyle = 'rgba(9, 14, 26, 0.6)';
+      ctx.fill();
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.font = 'italic 11.5px "Outfit", sans-serif';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+
+      // Multi-line quote formatting
+      if (card.char === 'D') {
+        ctx.fillText('â€œChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i', quoteX + 8, quoteY + 8);
+        ctx.fillText('lÃ  káº» giáº£ máº¡o.â€', quoteX + 8, quoteY + 24);
+      } else {
+        ctx.fillText(card.quote, quoteX + 8, quoteY + 14);
+      }
+      ctx.restore();
+
+      // Role Selection Badge Button
+      ctx.save();
+      const btnX = card.x + 14;
+      const btnY = card.y + 110;
+      const btnW = card.w - 28;
+      const btnH = 36;
+
+      roundRect(ctx, btnX, btnY, btnW, btnH, 8);
+      if (role === 'KNIGHT') {
+        ctx.fillStyle = '#064e3b';
+        ctx.strokeStyle = '#10b981';
+      } else if (role === 'KNAVE') {
+        ctx.fillStyle = '#4c0519';
+        ctx.strokeStyle = '#f43f5e';
+      } else {
+        ctx.fillStyle = '#1e293b';
+        ctx.strokeStyle = '#334155';
+      }
+      ctx.lineWidth = 1.5;
+      ctx.fill();
+      ctx.stroke();
+
+      // Badge Text
+      ctx.font = 'bold 12px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      if (role === 'KNIGHT') {
+        ctx.fillStyle = '#6ee7b7';
+        ctx.fillText('ðŸ›¡ï¸ VAI TRÃ’: HIá»†P SÄ¨ (KNIGHT)', btnX + btnW / 2, btnY + btnH / 2);
+      } else if (role === 'KNAVE') {
+        ctx.fillStyle = '#fda4af';
+        ctx.fillText('ðŸŽ­ VAI TRÃ’: Káºº GIáº¢ Máº O (KNAVE)', btnX + btnW / 2, btnY + btnH / 2);
+      } else {
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('â“ CHÆ¯A CHá»ŒN (Nháº¥n Ä‘á»ƒ gÃ¡n vai trÃ²)', btnX + btnW / 2, btnY + btnH / 2);
+      }
+      ctx.restore();
+    });
+
+    // Bottom Hint / Summary
+    ctx.save();
+    let assignedCount = Object.values(assignments).filter(Boolean).length;
+    ctx.font = '600 12px "Outfit", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = assignedCount === 4 ? '#38bdf8' : '#64748b';
+    ctx.fillText(`ÄÃ£ xÃ¡c Ä‘á»‹nh: ${assignedCount} / 4 nhÃ¢n váº­t. Nháº¥n "Kiá»ƒm tra ÄÃ¡p Ã¡n" sau khi hoÃ n táº¥t.`, 300, 426);
+    ctx.restore();
+  }
+
+  /**
+   * =========================================================================
+   * STAGE 3: GÃ¶del Autobiographical Lock (4 Dials)
+   * =========================================================================
+   */
+  function renderStage3(state, hovered) {
+    const digits = (state && state.digits) ? state.digits : [0, 0, 0, 0];
+    const { startX, startY, dialW, gap, labels, subtexts } = layout.stage3;
+
+    // Header Banner
+    ctx.save();
+    ctx.font = 'bold 13px "Outfit", sans-serif';
+    ctx.fillStyle = '#94a3b8';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '1px';
+    ctx.fillText('á»” KHÃ“A Tá»° THAM CHIáº¾U GÃ–DEL (AUTOBIOGRAPHICAL LOCK)', 300, 30);
+
+    ctx.font = '12px "Outfit", sans-serif';
+    ctx.fillStyle = '#64748b';
+    ctx.fillText('Má»—i Ã´ Si tuyÃªn bá»‘ sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong toÃ n bá»™ 4 Ã´ [Sâ‚€, Sâ‚, Sâ‚‚, Sâ‚ƒ]', 300, 48);
+    ctx.restore();
+
+    // Calculate real occurrences of 0, 1, 2, 3
+    const counts = [0, 0, 0, 0];
+    let sum = 0;
+    digits.forEach(d => {
+      if (d >= 0 && d <= 3) counts[d]++;
+      sum += d;
+    });
+
+    for (let i = 0; i < 4; i++) {
+      const x = startX + i * (dialW + gap);
+      const y = startY;
+      const val = digits[i];
+      const isConsistent = (counts[i] === val);
+
+      // Dial Container Card
+      ctx.save();
+      roundRect(ctx, x, y, dialW, 230, 12);
+      ctx.fillStyle = '#131b2e';
+      ctx.fill();
+      ctx.strokeStyle = isConsistent ? 'rgba(16, 185, 129, 0.4)' : '#1e293b';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.restore();
+
+      // Top Label
+      ctx.save();
+      ctx.font = 'bold 14px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#22d3ee';
+      ctx.fillText(labels[i], x + dialW / 2, y + 26);
+      ctx.restore();
+
+      // Button: Increment (+)
+      const isPlusHovered = (hovered && hovered.type === 'digit_btn' && hovered.index === i && hovered.delta === 1);
+      const btnPlusY = y + 42;
+      ctx.save();
+      roundRect(ctx, x + 16, btnPlusY, dialW - 32, 30, 6);
+      ctx.fillStyle = isPlusHovered ? '#1e293b' : '#0e1525';
+      ctx.fill();
+      ctx.strokeStyle = isPlusHovered ? '#38bdf8' : '#25334e';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.font = 'bold 18px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = isPlusHovered ? '#38bdf8' : '#94a3b8';
+      ctx.fillText('+', x + dialW / 2, btnPlusY + 15);
+      ctx.restore();
+
+      // Central Display Box
+      const boxY = y + 80;
+      ctx.save();
+      roundRect(ctx, x + 16, boxY, dialW - 32, 56, 8);
+      ctx.fillStyle = '#090e1a';
+      ctx.fill();
+      ctx.strokeStyle = isConsistent ? '#10b981' : '#06b6d4';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = isConsistent ? 'rgba(16, 185, 129, 0.4)' : 'rgba(6, 182, 212, 0.3)';
+      ctx.shadowBlur = 10;
+      ctx.stroke();
+
+      // Value text
+      ctx.shadowBlur = 0;
+      ctx.font = 'bold 32px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(val.toString(), x + dialW / 2, boxY + 28);
+      ctx.restore();
+
+      // Button: Decrement (-)
+      const isMinusHovered = (hovered && hovered.type === 'digit_btn' && hovered.index === i && hovered.delta === -1);
+      const btnMinusY = y + 144;
+      ctx.save();
+      roundRect(ctx, x + 16, btnMinusY, dialW - 32, 30, 6);
+      ctx.fillStyle = isMinusHovered ? '#1e293b' : '#0e1525';
+      ctx.fill();
+      ctx.strokeStyle = isMinusHovered ? '#38bdf8' : '#25334e';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.font = 'bold 18px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = isMinusHovered ? '#38bdf8' : '#94a3b8';
+      ctx.fillText('âˆ’', x + dialW / 2, btnMinusY + 15);
+      ctx.restore();
+
+      // Subtext Meaning
+      ctx.save();
+      ctx.font = '11px "Outfit", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(subtexts[i], x + dialW / 2, y + 195);
+
+      // Real vs Claimed indicator
+      ctx.font = 'bold 11px "JetBrains Mono", monospace';
+      if (isConsistent) {
+        ctx.fillStyle = '#34d399';
+        ctx.fillText(`âœ“ Thá»±c táº¿: ${counts[i]}`, x + dialW / 2, y + 214);
+      } else {
+        ctx.fillStyle = '#f43f5e';
+        ctx.fillText(`âœ— Thá»±c táº¿: ${counts[i]}`, x + dialW / 2, y + 214);
+      }
+      ctx.restore();
+    }
+
+    // Bottom Validation Status Bar
+    ctx.save();
+    const statusY = 330;
+    roundRect(ctx, 45, statusY, 510, 95, 10);
+    ctx.fillStyle = '#131b2e';
+    ctx.fill();
+    ctx.strokeStyle = '#1e293b';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Summary checks
+    ctx.font = 'bold 12px "Outfit", sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#cbd5e1';
+    ctx.fillText('KIá»‚M TRA TIÃŠN Äá»€ GÃ–DEL THá»œI GIAN THá»°C:', 65, statusY + 24);
+
+    // 1. Sum Check
+    ctx.font = '12px "JetBrains Mono", monospace';
+    const isSumValid = (sum === 4);
+    ctx.fillStyle = isSumValid ? '#34d399' : '#f59e0b';
+    ctx.fillText(`1. Tá»•ng táº§n suáº¥t (Sâ‚€+Sâ‚+Sâ‚‚+Sâ‚ƒ): ${sum} / 4 ${isSumValid ? 'âœ“ [Äáº T]' : 'âœ— [CHÆ¯A Äáº T]'}`, 65, statusY + 46);
+
+    // 2. Parity Check
+    const isS0Even = (digits[0] % 2 === 0);
+    const isS2Even = (digits[2] % 2 === 0);
+    const isParityValid = isS0Even && isS2Even;
+    ctx.fillStyle = isParityValid ? '#34d399' : '#f59e0b';
+    ctx.fillText(`2. TiÃªn Ä‘á» cháºµn láº»: Sâ‚€=${digits[0]} (${isS0Even ? 'Cháºµn' : 'Láº»'}), Sâ‚‚=${digits[2]} (${isS2Even ? 'Cháºµn' : 'Láº»'}) ${isParityValid ? 'âœ“ [Äáº T]' : 'âœ— [CHÆ¯A Äáº T]'}`, 65, statusY + 68);
+
+    // 3. Self-Consistency Check
+    const allConsistent = counts.every((c, idx) => c === digits[idx]);
+    if (allConsistent && isSumValid && isParityValid) {
+      ctx.fillStyle = '#34d399';
+      ctx.fillText('â˜… á»” KHÃ“A HOÃ€N TOÃ€N Tá»° NHáº¤T QUÃN! NHáº¤N KIá»‚M TRA ÄÃP ÃN.', 65, statusY + 86);
+    }
+    ctx.restore();
+  }
+
+  /**
+   * =========================================================================
+   * 3. Coordinate Hit-Testing
+   * =========================================================================
+   */
+  function getClickedElement(mouseX, mouseY, puzzleType) {
+    const stageNum = detectStage(puzzleType, currentState);
+
+    // Stage 1: Switches
+    if (stageNum === 1) {
+      const { startX, startY, cellSize, gap } = layout.stage1;
+      for (let i = 0; i < 9; i++) {
+        const r = Math.floor(i / 3);
+        const c = i % 3;
+        const x = startX + c * (cellSize + gap);
+        const y = startY + r * (cellSize + gap);
+        if (mouseX >= x && mouseX <= x + cellSize && mouseY >= y && mouseY <= y + cellSize) {
+          return { type: 'switch', index: i };
+        }
+      }
+      return null;
+    }
+
+    // Stage 2: Character Cards
+    if (stageNum === 2) {
+      const { cards } = layout.stage2;
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        if (mouseX >= card.x && mouseX <= card.x + card.w && mouseY >= card.y && mouseY <= card.y + card.h) {
+          return { type: 'character', character: card.char };
+        }
+      }
+      return null;
+    }
+
+    // Stage 3: GÃ¶del Dial Buttons
+    if (stageNum === 3) {
+      const { startX, startY, dialW, gap } = layout.stage3;
+      for (let i = 0; i < 4; i++) {
+        const x = startX + i * (dialW + gap);
+        const y = startY;
+
+        // Button +
+        const btnPlusY = y + 42;
+        if (mouseX >= x + 16 && mouseX <= x + dialW - 16 && mouseY >= btnPlusY && mouseY <= btnPlusY + 30) {
+          return { type: 'digit_btn', index: i, delta: 1 };
+        }
+
+        // Button -
+        const btnMinusY = y + 144;
+        if (mouseX >= x + 16 && mouseX <= x + dialW - 16 && mouseY >= btnMinusY && mouseY <= btnMinusY + 30) {
+          return { type: 'digit_btn', index: i, delta: -1 };
+        }
+      }
+      return null;
+    }
+
+    return null;
+  }
+
+  /**
+   * =========================================================================
+   * 4. Particle Celebration System
+   * =========================================================================
+   */
+  function triggerCelebration() {
+    isCelebrationActive = true;
+    celebrationEndTime = Date.now() + 2500;
+    particles = [];
+
+    const colors = ['#06b6d4', '#22d3ee', '#10b981', '#34d399', '#f59e0b', '#fbbf24', '#6366f1', '#a855f7', '#ffffff'];
+    const launchPoints = [
+      { x: 150, y: 400 },
+      { x: 300, y: 380 },
+      { x: 450, y: 400 }
+    ];
+
+    launchPoints.forEach(pt => {
+      for (let i = 0; i < 45; i++) {
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.5;
+        const speed = 4 + Math.random() * 8;
+        particles.push({
+          x: pt.x,
+          y: pt.y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: 3 + Math.random() * 5,
+          alpha: 1.0,
+          decay: 0.012 + Math.random() * 0.015,
+          gravity: 0.14,
+          shape: Math.random() > 0.5 ? 'circle' : 'square',
+          rotation: Math.random() * Math.PI * 2,
+          vRot: (Math.random() - 0.5) * 0.2
+        });
+      }
+    });
+
+    requestAnimationFrame(animateCelebration);
+  }
+
+  function animateCelebration() {
+    if (!isCelebrationActive) return;
+
+    // Re-render base scene
+    render(currentType, currentState, currentHovered);
+
+    if (Date.now() > celebrationEndTime || particles.length === 0) {
+      isCelebrationActive = false;
+      particles = [];
+      render(currentType, currentState, currentHovered);
+      return;
+    }
+
+    requestAnimationFrame(animateCelebration);
+  }
+
+  function renderParticles() {
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += p.gravity;
+      p.vx *= 0.98;
+      p.alpha -= p.decay;
+      p.rotation += p.vRot;
+
+      if (p.alpha <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+      ctx.fillStyle = p.color;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      }
+      ctx.restore();
+    }
+  }
+
+  /**
+   * =========================================================================
+   * 5. Error Shake Effect
+   * =========================================================================
+   */
+  function triggerErrorShake() {
+    isErrorShaking = true;
+    errorEndTime = Date.now() + 450;
+
+    const wrapper = document.getElementById('canvas-wrapper');
+    if (wrapper) {
+      wrapper.classList.remove('shake-error');
+      // Reflow
+      void wrapper.offsetWidth;
+      wrapper.classList.add('shake-error');
+      setTimeout(() => {
+        wrapper.classList.remove('shake-error');
+        isErrorShaking = false;
+        render(currentType, currentState, currentHovered);
+      }, 450);
+    }
+
+    render(currentType, currentState, currentHovered);
+  }
+
+  return {
+    init,
+    render,
+    getClickedElement,
+    triggerCelebration,
+    triggerErrorShake
+  };
+})();
+
+
+// --- ui.js ---
+/**
+ * js/ui.js
+ * UI Controller for "Nghá»‹ch LÃ½ TrÃ­ Tuá»‡" (Mind Paradox)
+ * Conforms to GAME_SPEC.md Section 6.4:
+ * - DOM binding, HUD updates, Stage selector states
+ * - Clue Board / Deductive Notebook rendering
+ * - Modals: Victory Modal, Level Up Modal, Quest Log Modal
+ * - Toast notification system
+ * - Zero-asset Web Audio synthesizer for crisp sound effects
+ */
+
+const UIController = (function () {
+  // Sound Synthesizer State
+  let soundEnabled = true;
+  let audioCtx = null;
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) {
+        audioCtx = new AudioContext();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  function playTone(freq, type, duration, gainVal = 0.1) {
+    if (!soundEnabled) return;
+    try {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      gain.gain.setValueAtTime(gainVal, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (e) {
+      // Audio context might fail on restricted environments
+    }
+  }
+
+  function playSound(name) {
+    if (!soundEnabled) return;
+    switch (name) {
+      case 'click':
+        playTone(600, 'sine', 0.08, 0.08);
+        break;
+      case 'toggle':
+        playTone(440, 'triangle', 0.12, 0.09);
+        break;
+      case 'hint':
+        playTone(784, 'sine', 0.2, 0.08);
+        setTimeout(() => playTone(987.77, 'sine', 0.3, 0.08), 120);
+        break;
+      case 'error':
+        playTone(180, 'sawtooth', 0.25, 0.12);
+        break;
+      case 'victory':
+        playTone(523.25, 'sine', 0.18, 0.1);
+        setTimeout(() => playTone(659.25, 'sine', 0.18, 0.1), 150);
+        setTimeout(() => playTone(783.99, 'sine', 0.22, 0.1), 300);
+        setTimeout(() => playTone(1046.50, 'sine', 0.4, 0.12), 480);
+        break;
+      case 'levelup':
+        playTone(440, 'triangle', 0.2, 0.1);
+        setTimeout(() => playTone(554.37, 'triangle', 0.2, 0.1), 160);
+        setTimeout(() => playTone(659.25, 'triangle', 0.2, 0.1), 320);
+        setTimeout(() => playTone(880, 'sine', 0.5, 0.15), 480);
+        break;
+      case 'claim':
+        playTone(880, 'sine', 0.12, 0.1);
+        setTimeout(() => playTone(1174.66, 'sine', 0.25, 0.1), 120);
+        break;
+    }
+  }
+
+  /**
+   * 1. Initialize DOM & Listeners
+   */
+  function init() {
+    // Sound Toggle
+    const btnSound = document.getElementById('btn-sound-toggle');
+    if (btnSound) {
+      btnSound.addEventListener('click', () => {
+        soundEnabled = !soundEnabled;
+        const soundIcon = document.getElementById('sound-icon');
+        if (soundIcon) {
+          soundIcon.textContent = soundEnabled ? 'ðŸ”Š' : 'ðŸ”‡';
+        }
+        showToast(soundEnabled ? 'ÄÃ£ báº­t Ã¢m thanh' : 'ÄÃ£ táº¯t Ã¢m thanh', 'info');
+      });
+    }
+
+    // Quest Modal open/close
+    const btnOpenQuests = document.getElementById('btn-open-quests');
+    if (btnOpenQuests) {
+      btnOpenQuests.addEventListener('click', () => {
+        playSound('click');
+        openQuestModal();
+      });
+    }
+
+    const btnCloseQuest = document.getElementById('btn-close-quest-modal');
+    if (btnCloseQuest) {
+      btnCloseQuest.addEventListener('click', () => {
+        playSound('click');
+        closeQuestModal();
+      });
+    }
+
+    const btnQuestClose = document.getElementById('btn-quest-close');
+    if (btnQuestClose) {
+      btnQuestClose.addEventListener('click', () => {
+        playSound('click');
+        closeQuestModal();
+      });
+    }
+
+    // Level up acknowledge
+    const btnLevelUpAck = document.getElementById('btn-levelup-ack');
+    if (btnLevelUpAck) {
+      btnLevelUpAck.addEventListener('click', () => {
+        playSound('click');
+        const modal = document.getElementById('levelup-modal');
+        if (modal) modal.classList.add('hidden');
+      });
+    }
+
+    // Modal background click to close
+    const questModal = document.getElementById('quest-modal');
+    if (questModal) {
+      questModal.addEventListener('click', (e) => {
+        if (e.target === questModal) closeQuestModal();
+      });
+    }
+
+    const victoryModal = document.getElementById('victory-modal');
+    if (victoryModal) {
+      victoryModal.addEventListener('click', (e) => {
+        if (e.target === victoryModal) victoryModal.classList.add('hidden');
+      });
+    }
+
+    // Initial update
+    updateHUD();
+  }
+
+  /**
+   * 2. Update HUD & Top Navigation
+   */
+  function updateHUD() {
+    if (typeof GameState === 'undefined') return;
+
+    const profile = GameState.getProfile();
+    if (!profile) return;
+
+    // Rank Badge
+    const rankNameEl = document.getElementById('hud-rank-name');
+    const rankIconEl = document.getElementById('hud-rank-icon');
+    const rankBadgeEl = document.getElementById('hud-rank-badge');
+    if (rankNameEl) rankNameEl.textContent = profile.rankName;
+
+    const rankIcons = ['ðŸ›¡ï¸', 'ðŸ“œ', 'ðŸ”®', 'ðŸ‘‘'];
+    if (rankIconEl) {
+      rankIconEl.textContent = rankIcons[profile.rankIndex] || 'ðŸ›¡ï¸';
+    }
+
+    // XP Text & Fill
+    const xpTextEl = document.getElementById('hud-xp-text');
+    const xpFillEl = document.getElementById('hud-xp-fill');
+    if (xpTextEl) {
+      if (profile.nextRankXP === null || profile.nextRankXP === undefined) {
+        xpTextEl.textContent = `${profile.xp} XP (MAX)`;
+      } else {
+        xpTextEl.textContent = `${profile.xp} / ${profile.nextRankXP} XP`;
+      }
+    }
+    if (xpFillEl) {
+      xpFillEl.style.width = `${Math.min(100, Math.max(0, profile.progressPercent))}%`;
+    }
+
+    // Quest badge notification
+    const quests = GameState.getQuests ? GameState.getQuests() : [];
+    const claimableCount = quests.filter(q => q.completed && !q.claimed).length;
+    const badgeEl = document.getElementById('quest-badge-count');
+    if (badgeEl) {
+      if (claimableCount > 0) {
+        badgeEl.textContent = claimableCount;
+        badgeEl.classList.remove('hidden');
+      } else {
+        badgeEl.classList.add('hidden');
+      }
+    }
+
+    // Moves and hints in Arena header
+    if (typeof PuzzleEngine !== 'undefined') {
+      const state = PuzzleEngine.getState ? PuzzleEngine.getState() : null;
+      const puzzle = PuzzleEngine.getCurrentPuzzle ? PuzzleEngine.getCurrentPuzzle() : null;
+
+      const movesEl = document.getElementById('arena-moves-val');
+      if (movesEl && state) {
+        movesEl.textContent = state.moves || 0;
+      }
+
+      const optimalEl = document.getElementById('arena-optimal-val');
+      if (optimalEl && puzzle) {
+        optimalEl.textContent = `â‰¤ ${puzzle.optimalMoves || 4}`;
+      }
+
+      // Hints indicator
+      const hintCountEl = document.getElementById('hint-count-indicator');
+      if (hintCountEl && puzzle) {
+        const totalHints = (puzzle.hints && puzzle.hints.length) ? puzzle.hints.length : 3;
+        const used = state ? (state.hintsUsed || 0) : 0;
+        const remaining = Math.max(0, totalHints - used);
+        hintCountEl.textContent = `${remaining}/${totalHints}`;
+      }
+    }
+
+    // Stage Selector Tabs statuses
+    [1, 2, 3].forEach(stageId => {
+      const tabEl = document.getElementById(`tab-stage-${stageId}`);
+      const statusEl = document.getElementById(`tab-status-${stageId}`);
+      if (!tabEl || !statusEl) return;
+
+      const isUnlocked = GameState.isPuzzleUnlocked ? GameState.isPuzzleUnlocked(stageId) : (stageId === 1);
+      
+      let isCompleted = false;
+      if (GameState.getData && GameState.getData().completedPuzzles) {
+        isCompleted = GameState.getData().completedPuzzles.includes(stageId);
+      } else if (GameState.getCompletedPuzzles) {
+        isCompleted = GameState.getCompletedPuzzles().includes(stageId);
+      }
+
+      if (isCompleted) {
+        statusEl.innerHTML = '<span class="status-indicator solved">âœ“</span>';
+        tabEl.classList.remove('locked');
+      } else if (isUnlocked) {
+        statusEl.innerHTML = '<span class="status-indicator"></span>';
+        tabEl.classList.remove('locked');
+      } else {
+        statusEl.innerHTML = '<span class="status-indicator">ðŸ”’</span>';
+        tabEl.classList.add('locked');
+      }
+    });
+  }
+
+  /**
+   * 3. Render Clues & Deductive Notebook
+   */
+  function renderClues(clues, unlockedHints = []) {
+    // 1. Axioms
+    const container = document.getElementById('axioms-list-container');
+    if (container) {
+      container.innerHTML = '';
+      if (!clues || clues.length === 0) {
+        container.innerHTML = '<li class="axiom-item">KhÃ´ng cÃ³ tiÃªn Ä‘á» cho mÃ n nÃ y.</li>';
+      } else {
+        clues.forEach((axiomText, idx) => {
+          const li = document.createElement('li');
+          li.className = 'axiom-item';
+          li.innerHTML = axiomText;
+          container.appendChild(li);
+        });
+      }
+    }
+
+    // 2. Unlocked Hints
+    const hintsContainer = document.getElementById('unlocked-hints-container');
+    if (hintsContainer) {
+      hintsContainer.innerHTML = '';
+      if (!unlockedHints || unlockedHints.length === 0) {
+        hintsContainer.innerHTML = '<div class="empty-hints-notice">ChÆ°a cÃ³ manh má»‘i nÃ o Ä‘Æ°á»£c má»Ÿ khÃ³a. HÃ£y suy luáº­n dá»±a trÃªn tiÃªn Ä‘á» hoáº·c nháº¥n nÃºt Gá»£i Ã.</div>';
+      } else {
+        unlockedHints.forEach(hintText => {
+          const div = document.createElement('div');
+          div.className = 'hint-item';
+          div.innerHTML = `ðŸ’¡ <strong>Manh Má»‘i:</strong> ${hintText}`;
+          hintsContainer.appendChild(div);
+        });
+      }
+    }
+
+    // 3. Clear Contradiction log initially
+    const contraBox = document.getElementById('contradiction-details-container');
+    if (contraBox) {
+      contraBox.innerHTML = '<span class="placeholder-text">ChÆ°a phÃ¡t hiá»‡n mÃ¢u thuáº«n. Há»‡ thá»‘ng sáºµn sÃ ng cho láº§n kiá»ƒm tra tiáº¿p theo.</span>';
+    }
+  }
+
+  /**
+   * Render Contradiction details in Clue Board
+   */
+  function renderContradictions(details = []) {
+    const contraBox = document.getElementById('contradiction-details-container');
+    if (!contraBox) return;
+
+    if (!details || details.length === 0) {
+      contraBox.innerHTML = '<span class="placeholder-text">PhÃ¡t hiá»‡n mÃ¢u thuáº«n logic chÆ°a xÃ¡c Ä‘á»‹nh. HÃ£y rÃ  soÃ¡t láº¡i cÃ¡c tiÃªn Ä‘á».</span>';
+      return;
+    }
+
+    let html = '<strong>Chi tiáº¿t mÃ¢u thuáº«n Ä‘Æ°á»£c phÃ¡t hiá»‡n:</strong><ul>';
+    details.forEach(item => {
+      html += `<li>âš ï¸ ${item}</li>`;
+    });
+    html += '</ul>';
+    contraBox.innerHTML = html;
+  }
+
+  /**
+   * 4. Toast Notifications
+   */
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    const icons = {
+      success: 'âœ“',
+      error: 'âœ•',
+      info: 'â„¹',
+      warning: 'âš ï¸'
+    };
+
+    toast.innerHTML = `<span style="font-weight: bold; font-size: 1.1em;">${icons[type] || 'â„¹'}</span> <span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        if (toast.parentNode === container) {
+          container.removeChild(toast);
+        }
+      }, 300);
+    }, 3500);
+  }
+
+  /**
+   * 5. Victory Modal
+   */
+  function showVictoryModal(result) {
+    playSound('victory');
+    const modal = document.getElementById('victory-modal');
+    if (!modal) return;
+
+    const stageHeading = document.getElementById('current-stage-title');
+    const vicStageName = document.getElementById('victory-stage-name');
+    if (vicStageName && stageHeading) {
+      vicStageName.textContent = `Báº¡n Ä‘Ã£ tÃ¬m ra nghiá»‡m duy nháº¥t cá»§a ${stageHeading.textContent}`;
+    }
+
+    // Breakdown values
+    const baseXP = result.baseXP || 0;
+    const bonusNoHint = result.hintsUsed === 0 ? 100 : 0;
+    const bonusMoves = (result.bonusXP !== undefined && (result.bonusXP - bonusNoHint) > 0) ? (result.bonusXP - bonusNoHint) : 0;
+    const totalXP = result.totalXP || (baseXP + bonusNoHint + bonusMoves);
+
+    const baseEl = document.getElementById('vic-base-xp');
+    const noHintEl = document.getElementById('vic-bonus-nohint');
+    const movesEl = document.getElementById('vic-bonus-moves');
+    const totalEl = document.getElementById('vic-total-xp');
+
+    if (baseEl) baseEl.textContent = `+${baseXP} XP`;
+    if (noHintEl) noHintEl.textContent = bonusNoHint > 0 ? `+${bonusNoHint} XP` : '0 XP';
+    if (movesEl) movesEl.textContent = bonusMoves > 0 ? `+${bonusMoves} XP` : '0 XP';
+    if (totalEl) totalEl.textContent = `+${totalXP} XP`;
+
+    const summaryEl = document.getElementById('vic-moves-summary');
+    if (summaryEl && result.moves !== undefined) {
+      summaryEl.innerHTML = `ÄÃ£ hoÃ n thÃ nh sau <strong>${result.moves} nÆ°á»›c Ä‘i</strong>`;
+    }
+
+    modal.classList.remove('hidden');
+  }
+
+  /**
+   * 6. Level Up Modal
+   */
+  function showLevelUpModal(rankName) {
+    playSound('levelup');
+    const modal = document.getElementById('levelup-modal');
+    if (!modal) return;
+
+    const rankEl = document.getElementById('levelup-rank-name');
+    if (rankEl) rankEl.textContent = rankName.toUpperCase();
+
+    const descEl = document.getElementById('levelup-rank-desc');
+    const descriptions = {
+      'Táº­p sá»± Suy Luáº­n': 'Báº¯t Ä‘áº§u hÃ nh trÃ¬nh giáº£i mÃ£ nhá»¯ng bÃ­ áº©n logic.',
+      'Há»c giáº£ PhÃ¢n tÃ­ch': 'Báº¡n Ä‘Ã£ chá»©ng minh kháº£ nÄƒng giáº£i mÃ£ cÃ¡c cáº¥u trÃºc logic phá»©c táº¡p!',
+      'Báº­c tháº§y Logic': 'TÆ° duy cá»§a báº¡n sáº¯c bÃ©n vÆ°á»£t qua cÃ¡c nghá»‹ch lÃ½ Ä‘a chiá»u!',
+      'Äáº¡i sÆ° Nghá»‹ch LÃ½': 'Äá»‰nh cao trÃ­ tuá»‡ tá»‘i thÆ°á»£ng! KhÃ´ng nghá»‹ch lÃ½ nÃ o lÃ m khÃ³ Ä‘Æ°á»£c báº¡n!'
+    };
+    if (descEl) {
+      descEl.textContent = descriptions[rankName] || 'TrÃ­ tuá»‡ logic cá»§a báº¡n Ä‘Ã£ Ä‘áº¡t Ä‘áº¿n táº§m cao má»›i!';
+    }
+
+    modal.classList.remove('hidden');
+  }
+
+  /**
+   * 7. Quest Modal
+   */
+  function openQuestModal() {
+    renderQuestList();
+    const modal = document.getElementById('quest-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeQuestModal() {
+    const modal = document.getElementById('quest-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function renderQuestList() {
+    const container = document.getElementById('quest-list-container');
+    if (!container || typeof GameState === 'undefined') return;
+
+    const quests = GameState.getQuests ? GameState.getQuests() : [];
+    container.innerHTML = '';
+
+    let completedCount = 0;
+
+    quests.forEach(q => {
+      if (q.completed) completedCount++;
+
+      const item = document.createElement('div');
+      item.className = `quest-item ${q.completed ? 'completed' : ''} ${q.claimed ? 'claimed' : ''}`;
+
+      let actionHtml = '';
+      if (q.claimed) {
+        actionHtml = '<span class="quest-status-badge claimed">âœ“ ÄÃƒ NHáº¬N</span>';
+      } else if (q.completed) {
+        actionHtml = `<button class="btn-claim" data-quest-id="${q.id}">Nháº­n +${q.rewardXP} XP</button>`;
+      } else {
+        actionHtml = '<span class="quest-status-badge locked">ChÆ°a Ä‘áº¡t</span>';
+      }
+
+      item.innerHTML = `
+        <div class="quest-info">
+          <div class="quest-header-line">
+            <span class="quest-title">${q.title}</span>
+            <span class="quest-reward-pill">+${q.rewardXP} XP</span>
+          </div>
+          <p class="quest-desc">${q.desc}</p>
+        </div>
+        <div class="quest-action">
+          ${actionHtml}
+        </div>
+      `;
+
+      container.appendChild(item);
+    });
+
+    // Bind Claim Buttons
+    container.querySelectorAll('.btn-claim').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const questId = e.currentTarget.getAttribute('data-quest-id');
+        if (!questId) return;
+
+        const res = GameState.claimQuest(questId);
+        if (res && res.success) {
+          playSound('claim');
+          showToast(`Nháº­n thÃ nh cÃ´ng +${res.rewardXP} XP!`, 'success');
+          updateHUD();
+          renderQuestList();
+        }
+      });
+    });
+
+    // Summary count
+    const summaryEl = document.getElementById('quest-completion-summary');
+    if (summaryEl) {
+      summaryEl.textContent = `ÄÃ£ hoÃ n thÃ nh: ${completedCount} / ${quests.length}`;
+    }
+  }
+
+  return {
+    init,
+    updateHUD,
+    renderClues,
+    renderContradictions,
+    showToast,
+    showVictoryModal,
+    showLevelUpModal,
+    openQuestModal,
+    closeQuestModal,
+    renderQuestList,
+    playSound
+  };
+})();
+
+
+// --- main.js ---
+/**
+ * js/main.js
+ * Bootstrap & Coordination for "Nghá»‹ch LÃ½ TrÃ­ Tuá»‡" (Mind Paradox)
+ * Connects PuzzleEngine, GameState, UIRenderer, and UIController
+ */
+
+(function () {
+  let currentStageId = 1;
+  let unlockedHintsByStage = { 1: [], 2: [], 3: [] };
+
+  const stageTitles = {
+    1: { tag: 'MÃ€N 1', title: 'Nghá»‹ch LÃ½ Äáº£o Chiá»u' },
+    2: { tag: 'MÃ€N 2', title: 'Nghá»‹ch LÃ½ Káº» NÃ³i Dá»‘i' },
+    3: { tag: 'MÃ€N 3', title: 'Nghá»‹ch LÃ½ Tá»± Tham Chiáº¿u' }
+  };
+
+  /**
+   * Safe helper to get puzzle info
+   */
+  function getPuzzleMeta() {
+    if (typeof PuzzleEngine !== 'undefined' && PuzzleEngine.getCurrentPuzzle) {
+      return PuzzleEngine.getCurrentPuzzle();
+    }
+    return { id: currentStageId, type: currentStageId, optimalMoves: 4, clues: [], hints: [] };
+  }
+
+  /**
+   * Safe helper to get puzzle state
+   */
+  function getPuzzleState() {
+    if (typeof PuzzleEngine !== 'undefined' && PuzzleEngine.getState) {
+      return PuzzleEngine.getState();
+    }
+    return {};
+  }
+
+  /**
+   * Load and initialize a stage
+   */
+  function loadStage(stageId) {
+    currentStageId = stageId;
+
+    if (typeof PuzzleEngine !== 'undefined' && PuzzleEngine.init) {
+      PuzzleEngine.init(stageId);
+    }
+
+    // Update Stage Header
+    const tagEl = document.getElementById('current-stage-tag');
+    const titleEl = document.getElementById('current-stage-title');
+    if (tagEl && stageTitles[stageId]) tagEl.textContent = stageTitles[stageId].tag;
+    if (titleEl && stageTitles[stageId]) titleEl.textContent = stageTitles[stageId].title;
+
+    // Update Stage Nav Tabs active state
+    [1, 2, 3].forEach(id => {
+      const tab = document.getElementById(`tab-stage-${id}`);
+      if (tab) {
+        if (id === stageId) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      }
+    });
+
+    const puzzle = getPuzzleMeta();
+    const puzzleType = puzzle.type || stageId;
+
+    // Update Clue Board
+    UIController.renderClues(puzzle.clues, unlockedHintsByStage[stageId] || []);
+
+    // Update HUD stats
+    UIController.updateHUD();
+
+    // Render Canvas
+    UIRenderer.render(puzzleType, getPuzzleState(), null);
+  }
+
+  /**
+   * DOM Ready entrypoint
+   */
+  window.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize GameState
+    if (typeof GameState !== 'undefined' && GameState.init) {
+      GameState.init();
+    }
+
+    // 2. Initialize Canvas & Renderer
+    const canvas = document.getElementById('game-canvas');
+    if (canvas && typeof UIRenderer !== 'undefined') {
+      UIRenderer.init(canvas);
+    }
+
+    // 3. Initialize UI Controller
+    if (typeof UIController !== 'undefined') {
+      UIController.init();
+    }
+
+    // 4. Load initial Stage
+    loadStage(1);
+
+    // =========================================================================
+    // CANVAS INTERACTION EVENTS
+    // =========================================================================
+    if (canvas) {
+      function getCanvasCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = 600 / rect.width;
+        const scaleY = 450 / rect.height;
+        return {
+          x: (e.clientX - rect.left) * scaleX,
+          y: (e.clientY - rect.top) * scaleY
+        };
+      }
+
+      // Mouse Move (Hover effects)
+      canvas.addEventListener('mousemove', (e) => {
+        const { x, y } = getCanvasCoords(e);
+        const puzzle = getPuzzleMeta();
+        const puzzleType = puzzle.type || currentStageId;
+        const hovered = UIRenderer.getClickedElement(x, y, puzzleType);
+
+        canvas.style.cursor = hovered ? 'pointer' : 'default';
+        UIRenderer.render(puzzleType, getPuzzleState(), hovered);
+      });
+
+      // Mouse Leave
+      canvas.addEventListener('mouseleave', () => {
+        const puzzle = getPuzzleMeta();
+        const puzzleType = puzzle.type || currentStageId;
+        canvas.style.cursor = 'default';
+        UIRenderer.render(puzzleType, getPuzzleState(), null);
+      });
+
+      // Canvas Click
+      canvas.addEventListener('click', (e) => {
+        const { x, y } = getCanvasCoords(e);
+        const puzzle = getPuzzleMeta();
+        const puzzleType = puzzle.type || currentStageId;
+        const clicked = UIRenderer.getClickedElement(x, y, puzzleType);
+
+        if (!clicked || typeof PuzzleEngine === 'undefined') return;
+
+        let handled = false;
+
+        // Stage 1: Toggle Switch
+        if (clicked.type === 'switch') {
+          handled = PuzzleEngine.interact({
+            type: 'TOGGLE_SWITCH',
+            payload: { index: clicked.index }
+          });
+          UIController.playSound('toggle');
+        }
+        // Stage 2: Cycle Character Role
+        else if (clicked.type === 'character') {
+          const state = getPuzzleState();
+          const curRole = state.assignments ? state.assignments[clicked.character] : null;
+          let nextRole = 'KNIGHT';
+          if (curRole === 'KNIGHT') nextRole = 'KNAVE';
+          else if (curRole === 'KNAVE') nextRole = 'KNIGHT';
+
+          handled = PuzzleEngine.interact({
+            type: 'SET_ROLE',
+            payload: { character: clicked.character, role: nextRole }
+          });
+          UIController.playSound('toggle');
+        }
+        // Stage 3: GÃ¶del Dial Delta (+ / -)
+        else if (clicked.type === 'digit_btn') {
+          handled = PuzzleEngine.interact({
+            type: 'CHANGE_DIGIT',
+            payload: { index: clicked.index, delta: clicked.delta }
+          });
+          UIController.playSound('click');
+        }
+
+        // Re-render and update HUD
+        if (handled !== false) {
+          UIController.updateHUD();
+          UIRenderer.render(puzzleType, getPuzzleState(), clicked);
+        }
+      });
+    }
+
+    // =========================================================================
+    // STAGE SELECTOR TABS
+    // =========================================================================
+    [1, 2, 3].forEach(stageId => {
+      const tab = document.getElementById(`tab-stage-${stageId}`);
+      if (tab) {
+        tab.addEventListener('click', () => {
+          UIController.playSound('click');
+          const isUnlocked = typeof GameState !== 'undefined' && GameState.isPuzzleUnlocked ?
+            GameState.isPuzzleUnlocked(stageId) : (stageId === 1);
+
+          if (isUnlocked) {
+            loadStage(stageId);
+          } else {
+            UIController.playSound('error');
+            UIController.showToast(`MÃ n ${stageId} chÆ°a Ä‘Æ°á»£c má»Ÿ khÃ³a! Vui lÃ²ng hoÃ n thÃ nh mÃ n trÆ°á»›c.`, 'warning');
+          }
+        });
+      }
+    });
+
+    // =========================================================================
+    // CONTROL BUTTONS
+    // =========================================================================
+
+    // 1. Verify Solution Button
+    const btnVerify = document.getElementById('btn-verify');
+    if (btnVerify) {
+      btnVerify.addEventListener('click', () => {
+        if (typeof PuzzleEngine === 'undefined') return;
+
+        const result = PuzzleEngine.checkSolution ? PuzzleEngine.checkSolution() : { solved: false, message: 'Lá»—i kiá»ƒm tra.' };
+        const puzzle = getPuzzleMeta();
+        const state = getPuzzleState();
+
+        if (result.solved) {
+          // Solved successfully!
+          let completionResult = { baseXP: 150, bonusXP: 0, totalXP: 150, newQuestsCompleted: [] };
+          if (typeof GameState !== 'undefined' && GameState.completePuzzle) {
+            completionResult = GameState.completePuzzle(currentStageId, state.moves, state.hintsUsed);
+          }
+
+          // Trigger particle celebration
+          UIRenderer.triggerCelebration();
+
+          // Prepare victory data
+          completionResult.moves = state.moves || 0;
+          completionResult.hintsUsed = state.hintsUsed || 0;
+
+          // Check for level up
+          const oldRank = GameState.getProfile ? GameState.getProfile().rankName : '';
+          
+          UIController.showToast(result.message || 'Chá»©ng minh hoÃ n táº¥t! Nghiá»‡m duy nháº¥t Ä‘Ã£ Ä‘Æ°á»£c xÃ¡c thá»±c.', 'success');
+          UIController.showVictoryModal(completionResult);
+          UIController.updateHUD();
+
+          // Check level up modal trigger if rank changed
+          const newProfile = GameState.getProfile ? GameState.getProfile() : null;
+          if (newProfile && oldRank && newProfile.rankName !== oldRank) {
+            setTimeout(() => {
+              UIController.showLevelUpModal(newProfile.rankName);
+            }, 1200);
+          }
+        } else {
+          // Logic Contradiction detected
+          UIRenderer.triggerErrorShake();
+          UIController.playSound('error');
+          UIController.showToast(result.message || 'MÃ¢u thuáº«n logic phÃ¡t hiá»‡n! Nghiá»‡m chÆ°a chÃ­nh xÃ¡c.', 'error');
+          UIController.renderContradictions(result.details || []);
+        }
+      });
+    }
+
+    // 2. Hint Button
+    const btnHint = document.getElementById('btn-hint');
+    if (btnHint) {
+      btnHint.addEventListener('click', () => {
+        if (typeof PuzzleEngine === 'undefined' || !PuzzleEngine.useHint) return;
+
+        const hintRes = PuzzleEngine.useHint();
+        if (hintRes.success) {
+          UIController.playSound('hint');
+          UIController.showToast(`Gá»£i Ã Má»›i: ${hintRes.hintText}`, 'info');
+
+          if (!unlockedHintsByStage[currentStageId]) {
+            unlockedHintsByStage[currentStageId] = [];
+          }
+          unlockedHintsByStage[currentStageId].push(hintRes.hintText);
+
+          const puzzle = getPuzzleMeta();
+          UIController.renderClues(puzzle.clues, unlockedHintsByStage[currentStageId]);
+          UIController.updateHUD();
+        } else {
+          UIController.playSound('error');
+          UIController.showToast(hintRes.hintText || 'ÄÃ£ háº¿t gá»£i Ã½ cho mÃ n chÆ¡i nÃ y!', 'warning');
+        }
+      });
+    }
+
+    // 3. Reset Button
+    const btnReset = document.getElementById('btn-reset');
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        if (typeof PuzzleEngine !== 'undefined' && PuzzleEngine.reset) {
+          PuzzleEngine.reset();
+        }
+        UIController.playSound('click');
+        UIController.showToast('ÄÃ£ khÃ´i phá»¥c cÃ¢u Ä‘á»‘ vá» tráº¡ng thÃ¡i khá»Ÿi Ä‘iá»ƒm.', 'info');
+
+        const puzzle = getPuzzleMeta();
+        UIController.updateHUD();
+        UIRenderer.render(puzzle.type || currentStageId, getPuzzleState(), null);
+
+        // Reset contradiction box
+        UIController.renderClues(puzzle.clues, unlockedHintsByStage[currentStageId] || []);
+      });
+    }
+
+    // 4. Modal Victory Actions
+    const btnNextStage = document.getElementById('btn-next-stage');
+    if (btnNextStage) {
+      btnNextStage.addEventListener('click', () => {
+        UIController.playSound('click');
+        const modal = document.getElementById('victory-modal');
+        if (modal) modal.classList.add('hidden');
+
+        if (currentStageId < 3) {
+          loadStage(currentStageId + 1);
+        } else {
+          UIController.showToast('ChÃºc má»«ng báº¡n Ä‘Ã£ chinh phá»¥c toÃ n bá»™ 3 mÃ n Nghá»‹ch LÃ½ TrÃ­ Tuá»‡!', 'success');
+          loadStage(1);
+        }
+      });
+    }
+
+    const btnReplay = document.getElementById('btn-replay-stage');
+    if (btnReplay) {
+      btnReplay.addEventListener('click', () => {
+        UIController.playSound('click');
+        const modal = document.getElementById('victory-modal');
+        if (modal) modal.classList.add('hidden');
+        loadStage(currentStageId);
+      });
+    }
+  });
+})();
+
+</script>
 </body>
 </html>
+
