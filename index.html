@@ -1,16 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nghá»‹ch LÃ½ TrÃ­ Tuá»‡ | Mind Paradox - Pure Logic Deduction</title>
-  <meta name="description" content="TrÃ² chÆ¡i suy luáº­n logic thuáº§n tÃºy dá»±a trÃªn Ä‘áº¡i sá»‘ tuyáº¿n tÃ­nh modulo 2, báº£ng chÃ¢n trá»‹ vÃ  nghá»‹ch lÃ½ tá»± tham chiáº¿u GÃ¶del.">
+  <title>Nghịch Lý Trí Tuệ | Mind Paradox - Pure Logic Deduction</title>
+  <meta name="description" content="Trò chơi suy luận logic thuần túy dựa trên đại số tuyến tính modulo 2, bảng chân trị và nghịch lý tự tham chiếu Gödel.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
 /* ==========================================================================
-   css/style.css - NGHá»ŠCH LÃ TRÃ TUá»† (MIND PARADOX)
+   css/style.css - NGHỊCH LÝ TRÍ TUỆ (MIND PARADOX)
    Theme: Cyber Minimalist Slate (Dark Mode Premium)
    Palette: Slate #090d16, Panel #131b2e, Cyan #06b6d4, Indigo #6366f1,
             Emerald #10b981, Amber #f59e0b, Rose #f43f5e
@@ -1300,22 +1300,22 @@ body::before {
           </svg>
         </div>
         <div class="brand-text">
-          <h1 class="game-title">NGHá»ŠCH LÃ TRÃ TUá»†</h1>
-          <span class="game-subtitle">Há»† THá»NG SUY LUáº¬N LOGIC THUáº¦N TÃšY</span>
+          <h1 class="game-title">NGHỊCH LÝ TRÍ TUỆ</h1>
+          <span class="game-subtitle">HỆ THỐNG SUY LUẬN LOGIC THUẦN TÚY</span>
         </div>
       </div>
 
       <div class="header-status">
         <!-- Player Rank Badge -->
-        <div class="rank-badge" id="hud-rank-badge" title="Cáº¥p báº­c danh hiá»‡u hiá»‡n táº¡i">
-          <span class="rank-icon" id="hud-rank-icon">ðŸ›¡ï¸</span>
-          <span class="rank-name" id="hud-rank-name">Táº­p sá»± Suy Luáº­n</span>
+        <div class="rank-badge" id="hud-rank-badge" title="Cấp bậc danh hiệu hiện tại">
+          <span class="rank-icon" id="hud-rank-icon">🛡️</span>
+          <span class="rank-name" id="hud-rank-name">Tập sự Suy Luận</span>
         </div>
 
         <!-- XP Progress Bar -->
-        <div class="xp-container" title="Tiáº¿n trÃ¬nh kinh nghiá»‡m tÃ­ch lÅ©y">
+        <div class="xp-container" title="Tiến trình kinh nghiệm tích lũy">
           <div class="xp-info">
-            <span class="xp-label">XP TÃCH LÅ¨Y</span>
+            <span class="xp-label">XP TÍCH LŨY</span>
             <span class="xp-values" id="hud-xp-text">0 / 300 XP</span>
           </div>
           <div class="xp-bar-bg">
@@ -1325,11 +1325,11 @@ body::before {
 
         <!-- Actions -->
         <div class="header-actions">
-          <button id="btn-sound-toggle" class="btn-icon" title="Báº­t/Táº¯t hiá»‡u á»©ng Ã¢m thanh">
-            <span id="sound-icon">ðŸ”Š</span>
+          <button id="btn-sound-toggle" class="btn-icon" title="Bật/Tắt hiệu ứng âm thanh">
+            <span id="sound-icon">🔊</span>
           </button>
           
-          <button id="btn-open-quests" class="btn-secondary btn-quests" title="Má»Ÿ danh sÃ¡ch nhiá»‡m vá»¥ vÃ  pháº§n thÆ°á»Ÿng">
+          <button id="btn-open-quests" class="btn-secondary btn-quests" title="Mở danh sách nhiệm vụ và phần thưởng">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
@@ -1337,7 +1337,7 @@ body::before {
               <line x1="16" y1="17" x2="8" y2="17"></line>
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
-            <span>Nhiá»‡m Vá»¥</span>
+            <span>Nhiệm Vụ</span>
             <span id="quest-badge-count" class="badge-count hidden">0</span>
           </button>
         </div>
@@ -1350,8 +1350,8 @@ body::before {
         <button class="stage-tab active" data-stage="1" id="tab-stage-1">
           <div class="tab-index">01</div>
           <div class="tab-content">
-            <span class="tab-title">Nghá»‹ch LÃ½ Äáº£o Chiá»u</span>
-            <span class="tab-subtitle">Ma tráº­n Modulo 2</span>
+            <span class="tab-title">Nghịch Lý Đảo Chiều</span>
+            <span class="tab-subtitle">Ma trận Modulo 2</span>
           </div>
           <div class="tab-status" id="tab-status-1">
             <span class="status-indicator"></span>
@@ -1361,22 +1361,22 @@ body::before {
         <button class="stage-tab" data-stage="2" id="tab-stage-2">
           <div class="tab-index">02</div>
           <div class="tab-content">
-            <span class="tab-title">Nghá»‹ch LÃ½ Káº» NÃ³i Dá»‘i</span>
-            <span class="tab-subtitle">Cá»•ng ChÃ¢n Trá»‹ 4 Chiá»u</span>
+            <span class="tab-title">Nghịch Lý Kẻ Nói Dối</span>
+            <span class="tab-subtitle">Cổng Chân Trị 4 Chiều</span>
           </div>
           <div class="tab-status" id="tab-status-2">
-            <span class="status-indicator">ðŸ”’</span>
+            <span class="status-indicator">🔒</span>
           </div>
         </button>
 
         <button class="stage-tab" data-stage="3" id="tab-stage-3">
           <div class="tab-index">03</div>
           <div class="tab-content">
-            <span class="tab-title">Nghá»‹ch LÃ½ Tá»± Tham Chiáº¿u</span>
-            <span class="tab-subtitle">KhÃ³a Sá»‘ Tá»± MiÃªu Táº£ GÃ¶del</span>
+            <span class="tab-title">Nghịch Lý Tự Tham Chiếu</span>
+            <span class="tab-subtitle">Khóa Số Tự Miêu Tả Gödel</span>
           </div>
           <div class="tab-status" id="tab-status-3">
-            <span class="status-indicator">ðŸ”’</span>
+            <span class="status-indicator">🔒</span>
           </div>
         </button>
       </div>
@@ -1390,17 +1390,17 @@ body::before {
           <!-- Stage Meta Bar -->
           <div class="arena-header">
             <div class="stage-title-wrap">
-              <span class="stage-badge" id="current-stage-tag">MÃ€N 1</span>
-              <h2 class="stage-heading" id="current-stage-title">Nghá»‹ch LÃ½ Äáº£o Chiá»u</h2>
+              <span class="stage-badge" id="current-stage-tag">MÀN 1</span>
+              <h2 class="stage-heading" id="current-stage-title">Nghịch Lý Đảo Chiều</h2>
             </div>
             <div class="stage-stats-preview">
               <div class="stat-pill">
-                <span class="stat-label">NÆ°á»›c Ä‘i:</span>
+                <span class="stat-label">Nước đi:</span>
                 <span class="stat-val highlight" id="arena-moves-val">0</span>
               </div>
               <div class="stat-pill">
-                <span class="stat-label">Tá»‘i Æ°u:</span>
-                <span class="stat-val" id="arena-optimal-val">â‰¤ 4</span>
+                <span class="stat-label">Tối ưu:</span>
+                <span class="stat-val" id="arena-optimal-val">≤ 4</span>
               </div>
             </div>
           </div>
@@ -1414,34 +1414,34 @@ body::before {
           <!-- Arena Action Bar -->
           <div class="arena-controls">
             <div class="controls-left">
-              <button id="btn-hint" class="btn-tool" title="Má»Ÿ khÃ³a má»™t manh má»‘i gá»£i Ã½ (-100 XP ThÆ°á»Ÿng No-Hint)">
+              <button id="btn-hint" class="btn-tool" title="Mở khóa một manh mối gợi ý (-100 XP Thưởng No-Hint)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M9 18h6"></path>
                   <path d="M10 22h4"></path>
                   <path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"></path>
                 </svg>
-                <span>Gá»£i Ã</span>
+                <span>Gợi Ý</span>
                 <span class="hint-count-badge" id="hint-count-indicator">3/3</span>
               </button>
 
-              <button id="btn-reset" class="btn-tool btn-reset" title="Äáº·t láº¡i tráº¡ng thÃ¡i ban Ä‘áº§u cá»§a cÃ¢u Ä‘á»‘">
+              <button id="btn-reset" class="btn-tool btn-reset" title="Đặt lại trạng thái ban đầu của câu đố">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M3 2v6h6"></path>
                   <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
                   <path d="M21 22v-6h-6"></path>
                   <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
                 </svg>
-                <span>Äáº·t Láº¡i</span>
+                <span>Đặt Lại</span>
               </button>
             </div>
 
             <div class="controls-right">
-              <button id="btn-verify" class="btn-primary btn-verify" title="Kiá»ƒm tra há»‡ thá»‘ng suy luáº­n hiá»‡n táº¡i">
+              <button id="btn-verify" class="btn-primary btn-verify" title="Kiểm tra hệ thống suy luận hiện tại">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                   <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                   <polyline points="22 4 12 14.01 9 11.01"></polyline>
                 </svg>
-                <span>KIá»‚M TRA ÄÃP ÃN</span>
+                <span>KIỂM TRA ĐÁP ÁN</span>
               </button>
             </div>
           </div>
@@ -1459,9 +1459,9 @@ body::before {
                 <line x1="9" y1="7" x2="15" y2="7"></line>
                 <line x1="9" y1="11" x2="15" y2="11"></line>
               </svg>
-              <h3 class="clue-board-title">Báº¢NG SUY LUáº¬N & MANH Má»I</h3>
+              <h3 class="clue-board-title">BẢNG SUY LUẬN & MANH MỐI</h3>
             </div>
-            <span class="board-badge">Sá»• Tay Logic</span>
+            <span class="board-badge">Sổ Tay Logic</span>
           </div>
 
           <div class="clue-board-content">
@@ -1469,7 +1469,7 @@ body::before {
             <div class="notebook-block">
               <div class="block-label">
                 <span class="label-dot cyan"></span>
-                <span>Há»† TIÃŠN Äá»€ LOGIC (AXIOMS)</span>
+                <span>HỆ TIÊN ĐỀ LOGIC (AXIOMS)</span>
               </div>
               <ul class="axioms-list" id="axioms-list-container">
                 <!-- Injected via UIController.renderClues -->
@@ -1480,10 +1480,10 @@ body::before {
             <div class="notebook-block">
               <div class="block-label">
                 <span class="label-dot amber"></span>
-                <span>MANH Má»I ÄÃƒ Má»ž KHÃ“A</span>
+                <span>MANH MỐI ĐÃ MỞ KHÓA</span>
               </div>
               <div class="unlocked-hints-wrap" id="unlocked-hints-container">
-                <div class="empty-hints-notice">ChÆ°a cÃ³ manh má»‘i nÃ o Ä‘Æ°á»£c má»Ÿ khÃ³a. HÃ£y suy luáº­n dá»±a trÃªn tiÃªn Ä‘á» hoáº·c nháº¥n nÃºt Gá»£i Ã.</div>
+                <div class="empty-hints-notice">Chưa có manh mối nào được mở khóa. Hãy suy luận dựa trên tiên đề hoặc nhấn nút Gợi Ý.</div>
               </div>
             </div>
 
@@ -1491,10 +1491,10 @@ body::before {
             <div class="notebook-block" id="feedback-block">
               <div class="block-label">
                 <span class="label-dot rose"></span>
-                <span>PHÃ‚N TÃCH MÃ‚U THUáºªN (CONTRADICTION LOG)</span>
+                <span>PHÂN TÍCH MÂU THUẪN (CONTRADICTION LOG)</span>
               </div>
               <div class="contradiction-box" id="contradiction-details-container">
-                <span class="placeholder-text">ChÆ°a phÃ¡t hiá»‡n mÃ¢u thuáº«n. Há»‡ thá»‘ng sáºµn sÃ ng cho láº§n kiá»ƒm tra tiáº¿p theo.</span>
+                <span class="placeholder-text">Chưa phát hiện mâu thuẫn. Hệ thống sẵn sàng cho lần kiểm tra tiếp theo.</span>
               </div>
             </div>
           </div>
@@ -1517,36 +1517,36 @@ body::before {
             <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
           </svg>
         </div>
-        <h2 class="modal-title">CHá»¨NG MINH THÃ€NH CÃ”NG!</h2>
-        <p class="modal-subtitle" id="victory-stage-name">Báº¡n Ä‘Ã£ tÃ¬m ra nghiá»‡m duy nháº¥t cá»§a Nghá»‹ch LÃ½ Äáº£o Chiá»u</p>
+        <h2 class="modal-title">CHỨNG MINH THÀNH CÔNG!</h2>
+        <p class="modal-subtitle" id="victory-stage-name">Bạn đã tìm ra nghiệm duy nhất của Nghịch Lý Đảo Chiều</p>
       </div>
 
       <div class="victory-stats-table">
         <div class="stat-row">
-          <span class="row-label">Äiá»ƒm Base hoÃ n thÃ nh</span>
+          <span class="row-label">Điểm Base hoàn thành</span>
           <span class="row-val" id="vic-base-xp">+150 XP</span>
         </div>
         <div class="stat-row">
-          <span class="row-label">ThÆ°á»Ÿng Thuáº§n Khiáº¿t (KhÃ´ng Hint)</span>
+          <span class="row-label">Thưởng Thuần Khiết (Không Hint)</span>
           <span class="row-val highlight-amber" id="vic-bonus-nohint">+100 XP</span>
         </div>
         <div class="stat-row">
-          <span class="row-label">ThÆ°á»Ÿng NÆ°á»›c Äi Tá»‘i Æ¯u</span>
+          <span class="row-label">Thưởng Nước Đi Tối Ưu</span>
           <span class="row-val highlight-cyan" id="vic-bonus-moves">+50 XP</span>
         </div>
         <div class="stat-row total-row">
-          <span class="row-label">Tá»”NG XP Äáº T ÄÆ¯á»¢C</span>
+          <span class="row-label">TỔNG XP ĐẠT ĐƯỢC</span>
           <span class="row-val total-xp" id="vic-total-xp">+300 XP</span>
         </div>
       </div>
 
       <div class="victory-moves-summary" id="vic-moves-summary">
-        ÄÃ£ hoÃ n thÃ nh sau <strong>4 nÆ°á»›c Ä‘i</strong> (Sá»‘ bÆ°á»›c tá»‘i Æ°u: 4)
+        Đã hoàn thành sau <strong>4 nước đi</strong> (Số bước tối ưu: 4)
       </div>
 
       <div class="modal-actions">
-        <button id="btn-replay-stage" class="btn-secondary">ChÆ¡i Láº¡i</button>
-        <button id="btn-next-stage" class="btn-primary">Sang MÃ n Káº¿ Tiáº¿p â†’</button>
+        <button id="btn-replay-stage" class="btn-secondary">Chơi Lại</button>
+        <button id="btn-next-stage" class="btn-primary">Sang Màn Kế Tiếp →</button>
       </div>
     </div>
   </div>
@@ -1556,19 +1556,19 @@ body::before {
     <div class="modal-card levelup-card">
       <div class="modal-header-center">
         <div class="levelup-badge-anim">
-          <span class="levelup-icon" id="levelup-icon">ðŸ‘‘</span>
+          <span class="levelup-icon" id="levelup-icon">👑</span>
         </div>
-        <h2 class="modal-title highlight-amber">THÄ‚NG Cáº¤P DANH HIá»†U!</h2>
-        <p class="modal-subtitle">TrÃ­ tuá»‡ logic cá»§a báº¡n Ä‘Ã£ Ä‘áº¡t Ä‘áº¿n táº§m cao má»›i</p>
+        <h2 class="modal-title highlight-amber">THĂNG CẤP DANH HIỆU!</h2>
+        <p class="modal-subtitle">Trí tuệ logic của bạn đã đạt đến tầm cao mới</p>
       </div>
 
       <div class="levelup-display">
-        <div class="new-rank-name" id="levelup-rank-name">Há»ŒC GIáº¢ PHÃ‚N TÃCH</div>
-        <div class="new-rank-desc" id="levelup-rank-desc">Báº¡n Ä‘Ã£ chá»©ng minh kháº£ nÄƒng giáº£i mÃ£ cÃ¡c cáº¥u trÃºc logic phá»©c táº¡p!</div>
+        <div class="new-rank-name" id="levelup-rank-name">HỌC GIẢ PHÂN TÍCH</div>
+        <div class="new-rank-desc" id="levelup-rank-desc">Bạn đã chứng minh khả năng giải mã các cấu trúc logic phức tạp!</div>
       </div>
 
       <div class="modal-actions single">
-        <button id="btn-levelup-ack" class="btn-primary">Tiáº¿p Tá»¥c Cuá»™c HÃ nh TrÃ¬nh</button>
+        <button id="btn-levelup-ack" class="btn-primary">Tiếp Tục Cuộc Hành Trình</button>
       </div>
     </div>
   </div>
@@ -1578,10 +1578,10 @@ body::before {
     <div class="modal-card quest-card">
       <div class="modal-header-split">
         <div class="modal-title-wrap">
-          <h2 class="modal-title">Báº¢NG NHIá»†M Vá»¤ & DANH HIá»†U</h2>
-          <p class="modal-subtitle">HoÃ n thÃ nh cÃ¡c cá»™t má»‘c tÆ° duy Ä‘á»ƒ nháº­n thÃªm Ä‘iá»ƒm thÆ°á»Ÿng kinh nghiá»‡m</p>
+          <h2 class="modal-title">BẢNG NHIỆM VỤ & DANH HIỆU</h2>
+          <p class="modal-subtitle">Hoàn thành các cột mốc tư duy để nhận thêm điểm thưởng kinh nghiệm</p>
         </div>
-        <button id="btn-close-quest-modal" class="btn-close" aria-label="ÄÃ³ng">&times;</button>
+        <button id="btn-close-quest-modal" class="btn-close" aria-label="Đóng">&times;</button>
       </div>
 
       <div class="quest-list" id="quest-list-container">
@@ -1589,8 +1589,8 @@ body::before {
       </div>
 
       <div class="modal-footer-bar">
-        <span class="quest-summary-text" id="quest-completion-summary">ÄÃ£ hoÃ n thÃ nh: 0 / 6</span>
-        <button id="btn-quest-close" class="btn-secondary">ÄÃ³ng</button>
+        <span class="quest-summary-text" id="quest-completion-summary">Đã hoàn thành: 0 / 6</span>
+        <button id="btn-quest-close" class="btn-secondary">Đóng</button>
       </div>
     </div>
   </div>
@@ -1602,47 +1602,47 @@ body::before {
 <script>
 // --- puzzles.js ---
 // js/puzzles.js
-// Dá»¯ liá»‡u cÃ¡c mÃ n chÆ¡i nghá»‹ch lÃ½ logic thuáº§n tÃºy
+// Dữ liệu các màn chơi nghịch lý logic thuần túy
 
 const PUZZLES_DATA = [
   {
     id: 1,
-    title: 'Nghá»‹ch LÃ½ Äáº£o Chiá»u',
+    title: 'Nghịch Lý Đảo Chiều',
     subtitle: 'Parity Matrix / Inversion Switches',
     type: 'PARITY_MATRIX',
-    difficulty: 'CÆ¡ báº£n',
+    difficulty: 'Cơ bản',
     baseXP: 150,
     optimalMoves: 4,
-    description: 'Má»™t ma tráº­n cÃ´ng táº¯c 3x3 Ä‘á»‘i xá»©ng. KÃ­ch hoáº¡t má»™t Ã´ sáº½ Ä‘áº£o ngÆ°á»£c tráº¡ng thÃ¡i cá»§a chÃ­nh nÃ³ vÃ  cÃ¡c Ã´ ká» cáº¡nh (trÃªn, dÆ°á»›i, trÃ¡i, pháº£i). HÃ£y Ä‘Æ°a toÃ n bá»™ 9 Ã´ vá» tráº¡ng thÃ¡i kÃ­ch hoáº¡t (1).',
+    description: 'Một ma trận công tắc 3x3 đối xứng. Kích hoạt một ô sẽ đảo ngược trạng thái của chính nó và các ô kề cạnh (trên, dưới, trái, phải). Hãy đưa toàn bộ 9 ô về trạng thái kích hoạt (1).',
     initialState: [1, 0, 1, 0, 1, 0, 1, 0, 1],
     targetState: [1, 1, 1, 1, 1, 1, 1, 1, 1],
     solution: [1, 1, 1, 1, 1, 1, 1, 1, 1],
     optimalActions: [1, 3, 5, 7],
     clues: [
-      'TiÃªn Ä‘á» 1: LÅ©y Ä‘áº³ng Modulo 2 - Gáº¡t má»™t cÃ´ng táº¯c 2 láº§n tÆ°Æ¡ng Ä‘Æ°Æ¡ng khÃ´ng gáº¡t (x âŠ• x = 0).',
-      'TiÃªn Ä‘á» 2: Ã” trung tÃ¢m nháº­n 5 tÃ¡c Ä‘á»™ng (chÃ­nh nÃ³ + 4 cáº¡nh). Do hiá»‡n táº¡i Ä‘Ã£ báº­t (1), tá»•ng sá»‘ láº§n kÃ­ch hoáº¡t 4 cáº¡nh + tÃ¢m pháº£i lÃ  sá»‘ cháºµn.',
-      'TiÃªn Ä‘á» 3: XÃ©t 4 gÃ³c: Má»—i gÃ³c chá»‰ nháº­n tÃ¡c Ä‘á»™ng tá»« chÃ­nh nÃ³ vÃ  2 Ã´ cáº¡nh ká».'
+      'Tiên đề 1: Lũy đẳng Modulo 2 - Gạt một công tắc 2 lần tương đương không gạt (x ⊕ x = 0).',
+      'Tiên đề 2: Ô trung tâm nhận 5 tác động (chính nó + 4 cạnh). Do hiện tại đã bật (1), tổng số lần kích hoạt 4 cạnh + tâm phải là số chẵn.',
+      'Tiên đề 3: Xét 4 góc: Mỗi góc chỉ nhận tác động từ chính nó và 2 ô cạnh kề.'
     ],
     hints: [
-      'ChÃº Ã½ tÃ­nh Ä‘á»‘i xá»©ng cá»§a bÃ n cá» vÃ  4 Ã´ gÃ³c ban Ä‘áº§u Ä‘á»u Ä‘Ã£ báº­t (1).',
-      'Ã” trung tÃ¢m (Ã´ sá»‘ 4) hiá»‡n táº¡i Ä‘ang báº­t. Thá»­ khÃ´ng gáº¡t Ã´ trung tÃ¢m mÃ  chá»‰ tÃ¡c Ä‘á»™ng vÃ o cÃ¡c Ã´ lÃ¢n cáº­n.',
-      'Nghiá»‡m tá»‘i Æ°u: Gáº¡t chÃ­nh xÃ¡c 4 Ã´ hÃ¬nh chá»¯ tháº­p: TrÃªn (Ã´ 1), TrÃ¡i (Ã´ 3), Pháº£i (Ã´ 5), DÆ°á»›i (Ã´ 7).'
+      'Chú ý tính đối xứng của bàn cờ và 4 ô góc ban đầu đều đã bật (1).',
+      'Ô trung tâm (ô số 4) hiện tại đang bật. Thử không gạt ô trung tâm mà chỉ tác động vào các ô lân cận.',
+      'Nghiệm tối ưu: Gạt chính xác 4 ô hình chữ thập: Trên (ô 1), Trái (ô 3), Phải (ô 5), Dưới (ô 7).'
     ]
   },
   {
     id: 2,
-    title: 'Nghá»‹ch LÃ½ Káº» NÃ³i Dá»‘i',
+    title: 'Nghịch Lý Kẻ Nói Dối',
     subtitle: 'Knights & Knaves Deduction',
     type: 'KNIGHTS_KNAVES',
-    difficulty: 'Trung cáº¥p',
+    difficulty: 'Trung cấp',
     baseXP: 200,
     optimalMoves: 4,
-    description: '4 nhÃ¢n váº­t A, B, C, D canh giá»¯ 4 Cá»•ng Logic. Hiá»‡p sÄ© (KNIGHT) luÃ´n nÃ³i tháº­t, Káº» giáº£ máº¡o (KNAVE) luÃ´n nÃ³i dá»‘i. HÃ£y xÃ¡c Ä‘á»‹nh chÃ­nh xÃ¡c danh tÃ­nh cá»§a tá»«ng ngÆ°á»i.',
+    description: '4 nhân vật A, B, C, D canh giữ 4 Cổng Logic. Hiệp sĩ (KNIGHT) luôn nói thật, Kẻ giả mạo (KNAVE) luôn nói dối. Hãy xác định chính xác danh tính của từng người.',
     characters: [
-      { id: 'A', name: 'Alice', statement: 'B lÃ  káº» giáº£ máº¡o (Knave).' },
-      { id: 'B', name: 'Bob', statement: 'C lÃ  káº» giáº£ máº¡o (Knave).' },
-      { id: 'C', name: 'Chloe', statement: 'D lÃ  káº» giáº£ máº¡o (Knave).' },
-      { id: 'D', name: 'Daniel', statement: 'ChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o.' }
+      { id: 'A', name: 'Alice', statement: 'B là kẻ giả mạo (Knave).' },
+      { id: 'B', name: 'Bob', statement: 'C là kẻ giả mạo (Knave).' },
+      { id: 'C', name: 'Chloe', statement: 'D là kẻ giả mạo (Knave).' },
+      { id: 'D', name: 'Daniel', statement: 'Chính xác 2 trong 4 chúng tôi là kẻ giả mạo.' }
     ],
     initialState: {
       A: null,
@@ -1657,38 +1657,38 @@ const PUZZLES_DATA = [
       D: 'KNIGHT'
     },
     clues: [
-      'A tuyÃªn bá»‘: "B lÃ  káº» giáº£ máº¡o (Knave)" (A âŸº Â¬B).',
-      'B tuyÃªn bá»‘: "C lÃ  káº» giáº£ máº¡o (Knave)" (B âŸº Â¬C).',
-      'C tuyÃªn bá»‘: "D lÃ  káº» giáº£ máº¡o (Knave)" (C âŸº Â¬D).',
-      'D tuyÃªn bá»‘: "ChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o" (D âŸº count(Knaves) == 2).'
+      'A tuyên bố: "B là kẻ giả mạo (Knave)" (A ⟺ ¬B).',
+      'B tuyên bố: "C là kẻ giả mạo (Knave)" (B ⟺ ¬C).',
+      'C tuyên bố: "D là kẻ giả mạo (Knave)" (C ⟺ ¬D).',
+      'D tuyên bố: "Chính xác 2 trong 4 chúng tôi là kẻ giả mạo" (D ⟺ count(Knaves) == 2).'
     ],
     hints: [
-      'Náº¿u X nÃ³i Y lÃ  Knave, thÃ¬ X vÃ  Y cÃ³ báº£n cháº¥t trÃ¡i ngÆ°á»£c nhau (má»™t ngÆ°á»i lÃ  Knight, ngÆ°á»i kia lÃ  Knave).',
-      'VÃ¬ chuá»—i A âŸº Â¬B, B âŸº Â¬C, C âŸº Â¬D: A vÃ  C cÃ¹ng phe, B vÃ  D cÃ¹ng phe. LuÃ´n cÃ³ Ä‘Ãºng 2 Knave vÃ  2 Knight!',
-      'VÃ¬ luÃ´n cÃ³ Ä‘Ãºng 2 Knave, lá»i D nÃ³i luÃ´n lÃ  Sá»± Tháº­t. Váº­y D cháº¯c cháº¯n lÃ  KNIGHT! Tá»« Ä‘Ã³ suy ra B lÃ  KNIGHT, cÃ²n A vÃ  C lÃ  KNAVE.'
+      'Nếu X nói Y là Knave, thì X và Y có bản chất trái ngược nhau (một người là Knight, người kia là Knave).',
+      'Vì chuỗi A ⟺ ¬B, B ⟺ ¬C, C ⟺ ¬D: A và C cùng phe, B và D cùng phe. Luôn có đúng 2 Knave và 2 Knight!',
+      'Vì luôn có đúng 2 Knave, lời D nói luôn là Sự Thật. Vậy D chắc chắn là KNIGHT! Từ đó suy ra B là KNIGHT, còn A và C là KNAVE.'
     ]
   },
   {
     id: 3,
-    title: 'Nghá»‹ch LÃ½ Tá»± Tham Chiáº¿u',
-    subtitle: "GÃ¶del's Autobiographical Lock",
+    title: 'Nghịch Lý Tự Tham Chiếu',
+    subtitle: "Gödel's Autobiographical Lock",
     type: 'AUTOBIOGRAPHICAL_LOCK',
-    difficulty: 'Cao cáº¥p',
+    difficulty: 'Cao cấp',
     baseXP: 250,
     optimalMoves: 6,
-    description: 'á»” khÃ³a sá»‘ gá»“m 4 Ã´ [S0, S1, S2, S3]. Má»—i Ã´ Si tuyÃªn bá»‘ sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong toÃ n bá»™ 4 Ã´ sá»‘. HÃ£y tÃ¬m tá»• há»£p thá»a mÃ£n nghá»‹ch lÃ½ tá»± tham chiáº¿u.',
+    description: 'Ổ khóa số gồm 4 ô [S0, S1, S2, S3]. Mỗi ô Si tuyên bố số lần chữ số i xuất hiện trong toàn bộ 4 ô số. Hãy tìm tổ hợp thỏa mãn nghịch lý tự tham chiếu.',
     initialState: [0, 0, 0, 0],
     solution: [2, 0, 2, 0],
     targetState: [2, 0, 2, 0],
     clues: [
-      'TiÃªn Ä‘á» Báº£o toÃ n Táº§n suáº¥t: Tá»•ng giÃ¡ trá»‹ S0 + S1 + S2 + S3 = 4.',
-      'TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: Ã” S0 vÃ  S2 pháº£i cÃ³ giÃ¡ trá»‹ cháºµn (S0, S2 âˆˆ {0, 2}).',
-      'Quy luáº­t Tá»± tham chiáº¿u: GiÃ¡ trá»‹ táº¡i Ã´ thá»© i (0-3) pháº£i báº±ng chÃ­nh xÃ¡c sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong 4 Ã´.'
+      'Tiên đề Bảo toàn Tần suất: Tổng giá trị S0 + S1 + S2 + S3 = 4.',
+      'Tiên đề Chẵn Lẻ Gödel: Ô S0 và S2 phải có giá trị chẵn (S0, S2 ∈ {0, 2}).',
+      'Quy luật Tự tham chiếu: Giá trị tại ô thứ i (0-3) phải bằng chính xác số lần chữ số i xuất hiện trong 4 ô.'
     ],
     hints: [
-      'Tá»•ng 4 chá»¯ sá»‘ pháº£i luÃ´n báº±ng 4 vÃ¬ cÃ³ Ä‘Ãºng 4 vá»‹ trÃ­ trong dÃ£y sá»‘.',
-      'S0 khÃ´ng thá»ƒ báº±ng 0 (vÃ¬ náº¿u báº±ng 0 thÃ¬ khÃ´ng cÃ³ sá»‘ 0 nÃ o, dáº«n Ä‘áº¿n mÃ¢u thuáº«n). Do S0 cháºµn nÃªn S0 = 2.',
-      'Khi S0 = 2, cÃ³ hai sá»‘ 0 á»Ÿ cÃ¡c vá»‹ trÃ­ khÃ¡c (S1=0, S3=0). Chá»¯ sá»‘ 2 xuáº¥t hiá»‡n á»Ÿ S0 vÃ  chÃ­nh S2. Nghiá»‡m chuáº©n xÃ¡c lÃ  [2, 0, 2, 0].'
+      'Tổng 4 chữ số phải luôn bằng 4 vì có đúng 4 vị trí trong dãy số.',
+      'S0 không thể bằng 0 (vì nếu bằng 0 thì không có số 0 nào, dẫn đến mâu thuẫn). Do S0 chẵn nên S0 = 2.',
+      'Khi S0 = 2, có hai số 0 ở các vị trí khác (S1=0, S3=0). Chữ số 2 xuất hiện ở S0 và chính S2. Nghiệm chuẩn xác là [2, 0, 2, 0].'
     ]
   }
 ];
@@ -1698,7 +1698,7 @@ PUZZLES_DATA.getById = function (id) {
   return PUZZLES_DATA.find(function (p) { return p.id === id; }) || null;
 };
 
-// Export cho cáº£ trÃ¬nh duyá»‡t (window) láº«n Node.js (module.exports)
+// Export cho cả trình duyệt (window) lẫn Node.js (module.exports)
 if (typeof window !== 'undefined') {
   window.PUZZLES_DATA = PUZZLES_DATA;
 }
@@ -1711,14 +1711,14 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // --- logic.js ---
 // js/logic.js
-// Core Logic Engine cho Nghá»‹ch LÃ½ TrÃ­ Tuá»‡ (Mind Paradox)
+// Core Logic Engine cho Nghịch Lý Trí Tuệ (Mind Paradox)
 
 /**
  * Module PuzzleEngine
- * Quáº£n lÃ½ tráº¡ng thÃ¡i logic vÃ  kiá»ƒm tra nghiá»‡m chá»©ng minh cho tá»«ng mÃ n chÆ¡i
+ * Quản lý trạng thái logic và kiểm tra nghiệm chứng minh cho từng màn chơi
  */
 const PuzzleEngine = (function () {
-  // Láº¥y nguá»“n dá»¯ liá»‡u PUZZLES_DATA tá»« scope hiá»‡n táº¡i hoáº·c mÃ´i trÆ°á»ng Node/Browser
+  // Lấy nguồn dữ liệu PUZZLES_DATA từ scope hiện tại hoặc môi trường Node/Browser
   function getPuzzlesSource() {
     if (typeof PUZZLES_DATA !== 'undefined') {
       return PUZZLES_DATA;
@@ -1738,7 +1738,7 @@ const PuzzleEngine = (function () {
   let currentState = null;
 
   /**
-   * Khá»Ÿi táº¡o mÃ n chÆ¡i (1, 2, hoáº·c 3), reset lÆ°á»£t Ä‘i, cá» hint
+   * Khởi tạo màn chơi (1, 2, hoặc 3), reset lượt đi, cờ hint
    * @param {number} puzzleId 
    */
   function init(puzzleId) {
@@ -1756,7 +1756,7 @@ const PuzzleEngine = (function () {
 
     currentPuzzle = puzzle;
 
-    // Khá»Ÿi táº¡o state tÆ°Æ¡ng á»©ng tá»«ng loáº¡i mÃ n
+    // Khởi tạo state tương ứng từng loại màn
     if (puzzle.id === 1 || puzzle.type === 'PARITY_MATRIX') {
       currentState = {
         values: Array.isArray(puzzle.initialState) ? puzzle.initialState.slice() : [1, 0, 1, 0, 1, 0, 1, 0, 1],
@@ -1784,7 +1784,7 @@ const PuzzleEngine = (function () {
   }
 
   /**
-   * Tráº£ vá» thÃ´ng tin meta cá»§a mÃ n (id, title, type, optimalMoves, clues, hints)
+   * Trả về thông tin meta của màn (id, title, type, optimalMoves, clues, hints)
    * @returns {Object|null}
    */
   function getCurrentPuzzle() {
@@ -1804,10 +1804,10 @@ const PuzzleEngine = (function () {
   }
 
   /**
-   * Tráº£ vá» state tÆ°Æ¡ng tÃ¡c hiá»‡n táº¡i
-   * MÃ n 1: { values: Array<number>(9), moves: number, hintsUsed: number }
-   * MÃ n 2: { assignments: { A, B, C, D }, moves: number, hintsUsed: number }
-   * MÃ n 3: { digits: Array<number>(4), moves: number, hintsUsed: number }
+   * Trả về state tương tác hiện tại
+   * Màn 1: { values: Array<number>(9), moves: number, hintsUsed: number }
+   * Màn 2: { assignments: { A, B, C, D }, moves: number, hintsUsed: number }
+   * Màn 3: { digits: Array<number>(4), moves: number, hintsUsed: number }
    * @returns {Object}
    */
   function getState() {
@@ -1841,11 +1841,11 @@ const PuzzleEngine = (function () {
   }
 
   /**
-   * Thá»±c hiá»‡n hÃ nh Ä‘á»™ng tÆ°Æ¡ng tÃ¡c:
-   * - MÃ n 1: action = { type: 'TOGGLE_SWITCH', payload: { index: number } } (0..8)
-   * - MÃ n 2: action = { type: 'SET_ROLE', payload: { character: 'A'|'B'|'C'|'D', role: 'KNIGHT'|'KNAVE' } }
-   * - MÃ n 3: action = { type: 'CHANGE_DIGIT', payload: { index: number, delta: number } } (delta = +1 hoáº·c -1)
-   * Tá»± Ä‘á»™ng tÄƒng biáº¿n moves. Tráº£ vá» true náº¿u há»£p lá»‡.
+   * Thực hiện hành động tương tác:
+   * - Màn 1: action = { type: 'TOGGLE_SWITCH', payload: { index: number } } (0..8)
+   * - Màn 2: action = { type: 'SET_ROLE', payload: { character: 'A'|'B'|'C'|'D', role: 'KNIGHT'|'KNAVE' } }
+   * - Màn 3: action = { type: 'CHANGE_DIGIT', payload: { index: number, delta: number } } (delta = +1 hoặc -1)
+   * Tự động tăng biến moves. Trả về true nếu hợp lệ.
    * @param {{ type: string, payload: any }} action
    * @returns {boolean}
    */
@@ -1867,12 +1867,12 @@ const PuzzleEngine = (function () {
         const row = Math.floor(idx / 3);
         const col = idx % 3;
 
-        // Ma tráº­n 3x3: Äáº£o tráº¡ng thÃ¡i Ã´ hiá»‡n táº¡i vÃ  cÃ¡c Ã´ ká» cáº¡nh (trÃªn, dÆ°á»›i, trÃ¡i, pháº£i)
+        // Ma trận 3x3: Đảo trạng thái ô hiện tại và các ô kề cạnh (trên, dưới, trái, phải)
         const targets = [idx];
-        if (row > 0) targets.push(idx - 3); // TrÃªn
-        if (row < 2) targets.push(idx + 3); // DÆ°á»›i
-        if (col > 0) targets.push(idx - 1); // TrÃ¡i
-        if (col < 2) targets.push(idx + 1); // Pháº£i
+        if (row > 0) targets.push(idx - 3); // Trên
+        if (row < 2) targets.push(idx + 3); // Dưới
+        if (col > 0) targets.push(idx - 1); // Trái
+        if (col < 2) targets.push(idx + 1); // Phải
 
         for (let i = 0; i < targets.length; i++) {
           const t = targets[i];
@@ -1929,7 +1929,7 @@ const PuzzleEngine = (function () {
   }
 
   /**
-   * KhÃ´i phá»¥c cÃ¢u Ä‘á»‘ vá» tráº¡ng thÃ¡i khá»Ÿi Ä‘iá»ƒm ban Ä‘áº§u
+   * Khôi phục câu đố về trạng thái khởi điểm ban đầu
    */
   function reset() {
     if (!currentPuzzle) return;
@@ -1937,12 +1937,12 @@ const PuzzleEngine = (function () {
   }
 
   /**
-   * Má»Ÿ khÃ³a gá»£i Ã½ tiáº¿p theo, tÄƒng hintsUsed
+   * Mở khóa gợi ý tiếp theo, tăng hintsUsed
    * @returns {{ success: boolean, hintText: string, hintsRemaining: number }}
    */
   function useHint() {
     if (!currentPuzzle || !currentState) {
-      return { success: false, hintText: 'ChÆ°a khá»Ÿi táº¡o mÃ n chÆ¡i.', hintsRemaining: 0 };
+      return { success: false, hintText: 'Chưa khởi tạo màn chơi.', hintsRemaining: 0 };
     }
 
     const hints = currentPuzzle.hints || [];
@@ -1959,22 +1959,22 @@ const PuzzleEngine = (function () {
 
     return {
       success: false,
-      hintText: hints.length > 0 ? hints[hints.length - 1] : 'KhÃ´ng cÃ²n gá»£i Ã½ nÃ o khÃ¡c.',
+      hintText: hints.length > 0 ? hints[hints.length - 1] : 'Không còn gợi ý nào khác.',
       hintsRemaining: 0
     };
   }
 
   /**
-   * Kiá»ƒm tra tráº¡ng thÃ¡i hiá»‡n táº¡i so vá»›i nghiá»‡m chá»©ng minh logic.
-   * Tráº£ vá» solved: true náº¿u Ä‘Ãºng 100%; solved: false kÃ¨m danh sÃ¡ch mÃ¢u thuáº«n (details)
+   * Kiểm tra trạng thái hiện tại so với nghiệm chứng minh logic.
+   * Trả về solved: true nếu đúng 100%; solved: false kèm danh sách mâu thuẫn (details)
    * @returns {{ solved: boolean, message: string, details: Array<string> }}
    */
   function checkSolution() {
     if (!currentPuzzle || !currentState) {
-      return { solved: false, message: 'ChÆ°a khá»Ÿi táº¡o mÃ n chÆ¡i.', details: ['KhÃ´ng cÃ³ dá»¯ liá»‡u mÃ n chÆ¡i.'] };
+      return { solved: false, message: 'Chưa khởi tạo màn chơi.', details: ['Không có dữ liệu màn chơi.'] };
     }
 
-    // --- MÃ€N 1: NGHá»ŠCH LÃ Äáº¢O CHIá»€U (PARITY MATRIX) ---
+    // --- MÀN 1: NGHỊCH LÝ ĐẢO CHIỀU (PARITY MATRIX) ---
     if (currentPuzzle.id === 1 || currentPuzzle.type === 'PARITY_MATRIX') {
       const values = currentState.values;
       const offIndices = [];
@@ -1988,7 +1988,7 @@ const PuzzleEngine = (function () {
       if (offIndices.length === 0) {
         return {
           solved: true,
-          message: 'Nghá»‹ch lÃ½ Ä‘áº£o chiá»u Ä‘Ã£ Ä‘Æ°á»£c hÃ³a giáº£i hoÃ n toÃ n! ToÃ n bá»™ 9 Ã´ cÃ´ng táº¯c Ä‘Ã£ Ä‘á»“ng bá»™ phÃ¡t sÃ¡ng.',
+          message: 'Nghịch lý đảo chiều đã được hóa giải hoàn toàn! Toàn bộ 9 ô công tắc đã đồng bộ phát sáng.',
           details: []
         };
       }
@@ -1996,17 +1996,17 @@ const PuzzleEngine = (function () {
       const details = offIndices.map(function (idx) {
         const row = Math.floor(idx / 3) + 1;
         const col = (idx % 3) + 1;
-        return `CÃ´ng táº¯c Ã´ #${idx} (hÃ ng ${row}, cá»™t ${col}) váº«n Ä‘ang táº¯t (0).`;
+        return `Công tắc ô #${idx} (hàng ${row}, cột ${col}) vẫn đang tắt (0).`;
       });
 
       return {
         solved: false,
-        message: `Ma tráº­n chÆ°a Ä‘á»“ng bá»™. CÃ²n ${offIndices.length} cÃ´ng táº¯c Ä‘ang á»Ÿ tráº¡ng thÃ¡i táº¯t.`,
+        message: `Ma trận chưa đồng bộ. Còn ${offIndices.length} công tắc đang ở trạng thái tắt.`,
         details: details
       };
     }
 
-    // --- MÃ€N 2: NGHá»ŠCH LÃ Káºº NÃ“I Dá»I (KNIGHTS & KNAVES) ---
+    // --- MÀN 2: NGHỊCH LÝ KẺ NÓI DỐI (KNIGHTS & KNAVES) ---
     if (currentPuzzle.id === 2 || currentPuzzle.type === 'KNIGHTS_KNAVES') {
       const assignments = currentState.assignments;
       const unassigned = ['A', 'B', 'C', 'D'].filter(function (c) {
@@ -2016,118 +2016,118 @@ const PuzzleEngine = (function () {
       if (unassigned.length > 0) {
         return {
           solved: false,
-          message: 'ChÆ°a hoÃ n táº¥t gÃ¡n nhÃ£n cho táº¥t cáº£ nhÃ¢n váº­t.',
-          details: unassigned.map(function (c) { return `NhÃ¢n váº­t ${c} chÆ°a Ä‘Æ°á»£c phÃ¢n Ä‘á»‹nh vai trÃ² (Hiá»‡p sÄ© hoáº·c Káº» giáº£ máº¡o).`; })
+          message: 'Chưa hoàn tất gán nhãn cho tất cả nhân vật.',
+          details: unassigned.map(function (c) { return `Nhân vật ${c} chưa được phân định vai trò (Hiệp sĩ hoặc Kẻ giả mạo).`; })
         };
       }
 
       const details = [];
 
-      // PhÃ¡t biá»ƒu cá»§a A: "B lÃ  káº» giáº£ máº¡o (Knave)" <=> (A === KNIGHT <=> B === KNAVE)
+      // Phát biểu của A: "B là kẻ giả mạo (Knave)" <=> (A === KNIGHT <=> B === KNAVE)
       const aSaysTrue = assignments.B === 'KNAVE';
       const aIsKnight = assignments.A === 'KNIGHT';
       if (aIsKnight !== aSaysTrue) {
         if (aIsKnight) {
-          details.push('MÃ¢u thuáº«n vá»›i A: A lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng tuyÃªn bá»‘ "B lÃ  KNAVE", trong khi báº¡n gÃ¡n B lÃ  KNIGHT.');
+          details.push('Mâu thuẫn với A: A là Hiệp sĩ (nói thật) nhưng tuyên bố "B là KNAVE", trong khi bạn gán B là KNIGHT.');
         } else {
-          details.push('MÃ¢u thuáº«n vá»›i A: A lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng tuyÃªn bá»‘ "B lÃ  KNAVE", trong khi thá»±c táº¿ B Ä‘Ãºng lÃ  KNAVE.');
+          details.push('Mâu thuẫn với A: A là Kẻ giả mạo (nói dối) nhưng tuyên bố "B là KNAVE", trong khi thực tế B đúng là KNAVE.');
         }
       }
 
-      // PhÃ¡t biá»ƒu cá»§a B: "C lÃ  káº» giáº£ máº¡o (Knave)" <=> (B === KNIGHT <=> C === KNAVE)
+      // Phát biểu của B: "C là kẻ giả mạo (Knave)" <=> (B === KNIGHT <=> C === KNAVE)
       const bSaysTrue = assignments.C === 'KNAVE';
       const bIsKnight = assignments.B === 'KNIGHT';
       if (bIsKnight !== bSaysTrue) {
         if (bIsKnight) {
-          details.push('MÃ¢u thuáº«n vá»›i B: B lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng tuyÃªn bá»‘ "C lÃ  KNAVE", trong khi báº¡n gÃ¡n C lÃ  KNIGHT.');
+          details.push('Mâu thuẫn với B: B là Hiệp sĩ (nói thật) nhưng tuyên bố "C là KNAVE", trong khi bạn gán C là KNIGHT.');
         } else {
-          details.push('MÃ¢u thuáº«n vá»›i B: B lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng tuyÃªn bá»‘ "C lÃ  KNAVE", trong khi thá»±c táº¿ C Ä‘Ãºng lÃ  KNAVE.');
+          details.push('Mâu thuẫn với B: B là Kẻ giả mạo (nói dối) nhưng tuyên bố "C là KNAVE", trong khi thực tế C đúng là KNAVE.');
         }
       }
 
-      // PhÃ¡t biá»ƒu cá»§a C: "D lÃ  káº» giáº£ máº¡o (Knave)" <=> (C === KNIGHT <=> D === KNAVE)
+      // Phát biểu của C: "D là kẻ giả mạo (Knave)" <=> (C === KNIGHT <=> D === KNAVE)
       const cSaysTrue = assignments.D === 'KNAVE';
       const cIsKnight = assignments.C === 'KNIGHT';
       if (cIsKnight !== cSaysTrue) {
         if (cIsKnight) {
-          details.push('MÃ¢u thuáº«n vá»›i C: C lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng tuyÃªn bá»‘ "D lÃ  KNAVE", trong khi báº¡n gÃ¡n D lÃ  KNIGHT.');
+          details.push('Mâu thuẫn với C: C là Hiệp sĩ (nói thật) nhưng tuyên bố "D là KNAVE", trong khi bạn gán D là KNIGHT.');
         } else {
-          details.push('MÃ¢u thuáº«n vá»›i C: C lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng tuyÃªn bá»‘ "D lÃ  KNAVE", trong khi thá»±c táº¿ D Ä‘Ãºng lÃ  KNAVE.');
+          details.push('Mâu thuẫn với C: C là Kẻ giả mạo (nói dối) nhưng tuyên bố "D là KNAVE", trong khi thực tế D đúng là KNAVE.');
         }
       }
 
-      // PhÃ¡t biá»ƒu cá»§a D: "ChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o"
+      // Phát biểu của D: "Chính xác 2 trong 4 chúng tôi là kẻ giả mạo"
       const knavesCount = ['A', 'B', 'C', 'D'].filter(function (c) { return assignments[c] === 'KNAVE'; }).length;
       const dSaysTrue = knavesCount === 2;
       const dIsKnight = assignments.D === 'KNIGHT';
       if (dIsKnight !== dSaysTrue) {
         if (dIsKnight) {
-          details.push(`MÃ¢u thuáº«n vá»›i D: D lÃ  Hiá»‡p sÄ© (nÃ³i tháº­t) nhÆ°ng cÃ³ ${knavesCount} KNAVE (D tuyÃªn bá»‘ cÃ³ chÃ­nh xÃ¡c 2 KNAVE).`);
+          details.push(`Mâu thuẫn với D: D là Hiệp sĩ (nói thật) nhưng có ${knavesCount} KNAVE (D tuyên bố có chính xác 2 KNAVE).`);
         } else {
-          details.push(`MÃ¢u thuáº«n vá»›i D: D lÃ  Káº» giáº£ máº¡o (nÃ³i dá»‘i) nhÆ°ng thá»±c táº¿ cÃ³ chÃ­nh xÃ¡c 2 KNAVE (lá»i D nÃ³i láº¡i thÃ nh sá»± tháº­t).`);
+          details.push(`Mâu thuẫn với D: D là Kẻ giả mạo (nói dối) nhưng thực tế có chính xác 2 KNAVE (lời D nói lại thành sự thật).`);
         }
       }
 
       if (details.length === 0) {
         return {
           solved: true,
-          message: 'ChÃ­nh xÃ¡c tuyá»‡t Ä‘á»‘i! Há»‡ thá»‘ng logic nháº¥t quÃ¡n: A=KNAVE, B=KNIGHT, C=KNAVE, D=KNIGHT.',
+          message: 'Chính xác tuyệt đối! Hệ thống logic nhất quán: A=KNAVE, B=KNIGHT, C=KNAVE, D=KNIGHT.',
           details: []
         };
       }
 
       return {
         solved: false,
-        message: 'PhÃ¡t hiá»‡n mÃ¢u thuáº«n logic trong há»‡ thá»‘ng lá»i khai!',
+        message: 'Phát hiện mâu thuẫn logic trong hệ thống lời khai!',
         details: details
       };
     }
 
-    // --- MÃ€N 3: NGHá»ŠCH LÃ Tá»° THAM CHIáº¾U (GÃ–DEL'S AUTOBIOGRAPHICAL LOCK) ---
+    // --- MÀN 3: NGHỊCH LÝ TỰ THAM CHIẾU (GÖDEL'S AUTOBIOGRAPHICAL LOCK) ---
     if (currentPuzzle.id === 3 || currentPuzzle.type === 'AUTOBIOGRAPHICAL_LOCK') {
       const digits = currentState.digits;
       const details = [];
 
-      // 1. TiÃªn Ä‘á» Báº£o toÃ n Táº§n suáº¥t: S0 + S1 + S2 + S3 = 4
+      // 1. Tiên đề Bảo toàn Tần suất: S0 + S1 + S2 + S3 = 4
       const sum = digits.reduce(function (acc, val) { return acc + val; }, 0);
       if (sum !== 4) {
-        details.push(`Vi pháº¡m TiÃªn Ä‘á» Báº£o toÃ n Táº§n suáº¥t: Tá»•ng 4 chá»¯ sá»‘ lÃ  ${sum} (yÃªu cáº§u tá»•ng = 4).`);
+        details.push(`Vi phạm Tiên đề Bảo toàn Tần suất: Tổng 4 chữ số là ${sum} (yêu cầu tổng = 4).`);
       }
 
-      // 2. TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: S0 vÃ  S2 pháº£i cháºµn (0 hoáº·c 2)
+      // 2. Tiên đề Chẵn Lẻ Gödel: S0 và S2 phải chẵn (0 hoặc 2)
       if (digits[0] % 2 !== 0) {
-        details.push(`Vi pháº¡m TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: Ã” S0 mang giÃ¡ trá»‹ ${digits[0]} (yÃªu cáº§u pháº£i lÃ  sá»‘ cháºµn: 0 hoáº·c 2).`);
+        details.push(`Vi phạm Tiên đề Chẵn Lẻ Gödel: Ô S0 mang giá trị ${digits[0]} (yêu cầu phải là số chẵn: 0 hoặc 2).`);
       }
       if (digits[2] % 2 !== 0) {
-        details.push(`Vi pháº¡m TiÃªn Ä‘á» Cháºµn Láº» GÃ¶del: Ã” S2 mang giÃ¡ trá»‹ ${digits[2]} (yÃªu cáº§u pháº£i lÃ  sá»‘ cháºµn: 0 hoáº·c 2).`);
+        details.push(`Vi phạm Tiên đề Chẵn Lẻ Gödel: Ô S2 mang giá trị ${digits[2]} (yêu cầu phải là số chẵn: 0 hoặc 2).`);
       }
 
-      // 3. Quy luáº­t Tá»± tham chiáº¿u: Ã” Si pháº£i báº±ng sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong 4 Ã´
+      // 3. Quy luật Tự tham chiếu: Ô Si phải bằng số lần chữ số i xuất hiện trong 4 ô
       for (let i = 0; i < 4; i++) {
         const actualCount = digits.filter(function (d) { return d === i; }).length;
         if (digits[i] !== actualCount) {
-          details.push(`MÃ¢u thuáº«n táº¡i Ã´ S${i}: Äang Ä‘áº·t giÃ¡ trá»‹ ${digits[i]}, nhÆ°ng chá»¯ sá»‘ ${i} xuáº¥t hiá»‡n ${actualCount} láº§n.`);
+          details.push(`Mâu thuẫn tại ô S${i}: Đang đặt giá trị ${digits[i]}, nhưng chữ số ${i} xuất hiện ${actualCount} lần.`);
         }
       }
 
       if (details.length === 0) {
         return {
           solved: true,
-          message: 'KhÃ³a GÃ¶del má»Ÿ thÃ nh cÃ´ng! DÃ£y sá»‘ tá»± tham chiáº¿u hoÃ n háº£o [2, 0, 2, 0].',
+          message: 'Khóa Gödel mở thành công! Dãy số tự tham chiếu hoàn hảo [2, 0, 2, 0].',
           details: []
         };
       }
 
       return {
         solved: false,
-        message: 'á»” khÃ³a GÃ¶del chÆ°a má»Ÿ: Tá»“n táº¡i mÃ¢u thuáº«n tá»± tham chiáº¿u hoáº·c vi pháº¡m tiÃªn Ä‘á»!',
+        message: 'Ổ khóa Gödel chưa mở: Tồn tại mâu thuẫn tự tham chiếu hoặc vi phạm tiên đề!',
         details: details
       };
     }
 
     return {
       solved: false,
-      message: 'MÃ n chÆ¡i khÃ´ng xÃ¡c Ä‘á»‹nh.',
+      message: 'Màn chơi không xác định.',
       details: []
     };
   }
@@ -2143,7 +2143,7 @@ const PuzzleEngine = (function () {
   };
 })();
 
-// Export cho cáº£ trÃ¬nh duyá»‡t (window) láº«n Node.js (module.exports)
+// Export cho cả trình duyệt (window) lẫn Node.js (module.exports)
 if (typeof window !== 'undefined') {
   window.PuzzleEngine = PuzzleEngine;
 }
@@ -2157,64 +2157,64 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // --- gameState.js ---
 // js/gameState.js
-// Game State & Storage cho Nghá»‹ch LÃ½ TrÃ­ Tuá»‡ (Mind Paradox)
+// Game State & Storage cho Nghịch Lý Trí Tuệ (Mind Paradox)
 
 /**
  * Module GameState
- * Quáº£n lÃ½ XP, Ranks, Tiáº¿n trÃ¬nh giáº£i Ä‘á»‘, Nhiá»‡m vá»¥ (Quest Log) vÃ  LocalStorage
+ * Quản lý XP, Ranks, Tiến trình giải đố, Nhiệm vụ (Quest Log) và LocalStorage
  */
 const GameState = (function () {
   const STORAGE_KEY = 'NghichLyTriTue_SaveData';
 
-  // Äá»‹nh nghÄ©a danh hiá»‡u (Ranks) theo báº£ng Ä‘iá»ƒm XP
+  // Định nghĩa danh hiệu (Ranks) theo bảng điểm XP
   const RANKS = [
-    { name: 'Táº­p sá»± Suy Luáº­n', minXP: 0, nextXP: 300 },
-    { name: 'Há»c giáº£ PhÃ¢n tÃ­ch', minXP: 300, nextXP: 700 },
-    { name: 'Báº­c tháº§y Logic', minXP: 700, nextXP: 1200 },
-    { name: 'Äáº¡i sÆ° Nghá»‹ch LÃ½', minXP: 1200, nextXP: 1200 }
+    { name: 'Tập sự Suy Luận', minXP: 0, nextXP: 300 },
+    { name: 'Học giả Phân tích', minXP: 300, nextXP: 700 },
+    { name: 'Bậc thầy Logic', minXP: 700, nextXP: 1200 },
+    { name: 'Đại sư Nghịch Lý', minXP: 1200, nextXP: 1200 }
   ];
 
-  // Danh má»¥c nhiá»‡m vá»¥ há»‡ thá»‘ng
+  // Danh mục nhiệm vụ hệ thống
   const QUEST_DEFINITIONS = [
     {
       id: 'quest_first_blood',
-      title: 'Khai Má»Ÿ TrÃ­ Tuá»‡',
-      desc: 'HoÃ n thÃ nh mÃ n Ä‘áº§u tiÃªn báº¥t ká»³',
+      title: 'Khai Mở Trí Tuệ',
+      desc: 'Hoàn thành màn đầu tiên bất kỳ',
       rewardXP: 100
     },
     {
       id: 'quest_pure_mind',
-      title: 'TÃ¢m TrÃ­ Thuáº§n Khiáº¿t',
-      desc: 'HoÃ n thÃ nh má»™t mÃ n báº¥t ká»³ khÃ´ng dÃ¹ng Hint',
+      title: 'Tâm Trí Thuần Khiết',
+      desc: 'Hoàn thành một màn bất kỳ không dùng Hint',
       rewardXP: 150
     },
     {
       id: 'quest_speed_deduction',
-      title: 'Suy Luáº­n Tháº§n Tá»‘c',
-      desc: 'HoÃ n thÃ nh MÃ n 1 trong Ä‘Ãºng 4 nÆ°á»›c Ä‘i tá»‘i Æ°u',
+      title: 'Suy Luận Thần Tốc',
+      desc: 'Hoàn thành Màn 1 trong đúng 4 nước đi tối ưu',
       rewardXP: 150
     },
     {
       id: 'quest_truth_seeker',
-      title: 'NgÆ°á»i Kiáº¿m TÃ¬m ChÃ¢n LÃ½',
-      desc: 'Váº¡ch tráº§n Ä‘Ãºng toÃ n bá»™ 4 Hiá»‡p sÄ©/Káº» giáº£ máº¡o á»Ÿ MÃ n 2 trong láº§n ná»™p Ä‘Ã¡p Ã¡n Ä‘áº§u tiÃªn',
+      title: 'Người Kiếm Tìm Chân Lý',
+      desc: 'Vạch trần đúng toàn bộ 4 Hiệp sĩ/Kẻ giả mạo ở Màn 2 trong lần nộp đáp án đầu tiên',
       rewardXP: 150
     },
     {
       id: 'quest_godel_conqueror',
-      title: 'Chinh Phá»¥c GÃ¶del',
-      desc: 'Khai má»Ÿ á»” khÃ³a GÃ¶del á»Ÿ MÃ n 3',
+      title: 'Chinh Phục Gödel',
+      desc: 'Khai mở Ổ khóa Gödel ở Màn 3',
       rewardXP: 200
     },
     {
       id: 'quest_master_rank',
-      title: 'Báº­c Tháº§y Logic',
-      desc: 'Äáº¡t danh hiá»‡u Báº­c tháº§y Logic (700+ XP)',
+      title: 'Bậc Thầy Logic',
+      desc: 'Đạt danh hiệu Bậc thầy Logic (700+ XP)',
       rewardXP: 250
     }
   ];
 
-  // Bá»™ nhá»› Ä‘á»‡m in-memory (fallback khi khÃ´ng cÃ³ window.localStorage trong mÃ´i trÆ°á»ng Node.js)
+  // Bộ nhớ đệm in-memory (fallback khi không có window.localStorage trong môi trường Node.js)
   let memoryStorage = {};
 
   function storageGet(key) {
@@ -2244,7 +2244,7 @@ const GameState = (function () {
     delete memoryStorage[key];
   }
 
-  // Schema máº·c Ä‘á»‹nh theo Ä‘áº·c táº£ má»¥c 4.4 cá»§a GAME_SPEC.md
+  // Schema mặc định theo đặc tả mục 4.4 của GAME_SPEC.md
   function getDefaultData() {
     return {
       version: 1,
@@ -2272,7 +2272,7 @@ const GameState = (function () {
   let data = getDefaultData();
 
   /**
-   * TÃ­nh toÃ¡n thÃ´ng tin Rank dá»±a trÃªn tá»•ng XP
+   * Tính toán thông tin Rank dựa trên tổng XP
    * @param {number} xp
    */
   function calculateRank(xp) {
@@ -2305,7 +2305,7 @@ const GameState = (function () {
   }
 
   /**
-   * Khá»Ÿi táº¡o: táº£i dá»¯ liá»‡u tá»« localStorage hoáº·c táº¡o má»›i schema máº·c Ä‘á»‹nh
+   * Khởi tạo: tải dữ liệu từ localStorage hoặc tạo mới schema mặc định
    */
   function init() {
     const raw = storageGet(STORAGE_KEY);
@@ -2314,7 +2314,7 @@ const GameState = (function () {
         const parsed = JSON.parse(raw);
         if (parsed && typeof parsed.xp === 'number') {
           data = Object.assign(getDefaultData(), parsed);
-          // Äáº£m báº£o quests vÃ  puzzleStats cÃ³ Ä‘á»§ cáº¥u trÃºc
+          // Đảm bảo quests và puzzleStats có đủ cấu trúc
           data.quests = Object.assign(getDefaultData().quests, parsed.quests || {});
           data.puzzleStats = Object.assign(getDefaultData().puzzleStats, parsed.puzzleStats || {});
           if (!Array.isArray(data.unlockedPuzzles) || data.unlockedPuzzles.length === 0) {
@@ -2333,11 +2333,11 @@ const GameState = (function () {
       data = getDefaultData();
     }
 
-    // Cáº­p nháº­t rankIndex Ä‘Ãºng theo XP
+    // Cập nhật rankIndex đúng theo XP
     const rankInfo = calculateRank(data.xp);
     data.rankIndex = rankInfo.rankIndex;
 
-    // Kiá»ƒm tra náº¿u XP Ä‘Ã£ Ä‘áº¡t Báº­c tháº§y Logic
+    // Kiểm tra nếu XP đã đạt Bậc thầy Logic
     if (data.xp >= 700 && data.quests.quest_master_rank) {
       data.quests.quest_master_rank.completed = true;
     }
@@ -2346,7 +2346,7 @@ const GameState = (function () {
   }
 
   /**
-   * Tráº£ vá» thÃ´ng tin há»“ sÆ¡ ngÆ°á»i chÆ¡i
+   * Trả về thông tin hồ sơ người chơi
    * @returns {{ xp: number, rankName: string, rankIndex: number, nextRankXP: number, progressPercent: number }}
    */
   function getProfile() {
@@ -2361,7 +2361,7 @@ const GameState = (function () {
   }
 
   /**
-   * Cá»™ng XP vÃ  kiá»ƒm tra thÄƒng cáº¥p
+   * Cộng XP và kiểm tra thăng cấp
    * @param {number} amount
    * @param {string} reason
    * @returns {{ newXP: number, leveledUp: boolean, oldRank: string, newRank: string }}
@@ -2388,7 +2388,7 @@ const GameState = (function () {
 
     const leveledUp = newRankInfo.rankIndex > oldRankInfo.rankIndex;
 
-    // Tá»± Ä‘á»™ng kiá»ƒm tra quest_master_rank khi XP Ä‘áº¡t 700
+    // Tự động kiểm tra quest_master_rank khi XP đạt 700
     if (data.xp >= 700 && data.quests.quest_master_rank && !data.quests.quest_master_rank.completed) {
       data.quests.quest_master_rank.completed = true;
     }
@@ -2404,7 +2404,7 @@ const GameState = (function () {
   }
 
   /**
-   * HoÃ n thÃ nh mÃ n chÆ¡i: tÃ­nh base XP, bonus XP, cáº­p nháº­t tiáº¿n trÃ¬nh vÃ  má»Ÿ khÃ³a mÃ n tiáº¿p theo
+   * Hoàn thành màn chơi: tính base XP, bonus XP, cập nhật tiến trình và mở khóa màn tiếp theo
    * @param {number} puzzleId
    * @param {number} moves
    * @param {number} hintsUsed
@@ -2437,18 +2437,18 @@ const GameState = (function () {
 
     const totalXP = baseXP + bonusXP;
 
-    // Cáº­p nháº­t completedPuzzles
+    // Cập nhật completedPuzzles
     if (!data.completedPuzzles.includes(pId)) {
       data.completedPuzzles.push(pId);
     }
 
-    // Tá»± Ä‘á»™ng unlock mÃ n káº¿ tiáº¿p khi hoÃ n thÃ nh mÃ n trÆ°á»›c
+    // Tự động unlock màn kế tiếp khi hoàn thành màn trước
     const nextPuzzleId = pId + 1;
     if (nextPuzzleId <= 3 && !data.unlockedPuzzles.includes(nextPuzzleId)) {
       data.unlockedPuzzles.push(nextPuzzleId);
     }
 
-    // Cáº­p nháº­t thá»‘ng kÃª mÃ n chÆ¡i
+    // Cập nhật thống kê màn chơi
     if (!data.puzzleStats[pId]) {
       data.puzzleStats[pId] = { bestMoves: null, noHintCompleted: false };
     }
@@ -2460,7 +2460,7 @@ const GameState = (function () {
       stat.noHintCompleted = true;
     }
 
-    // Kiá»ƒm tra cÃ¡c nhiá»‡m vá»¥ Ä‘áº¡t Ä‘Æ°á»£c
+    // Kiểm tra các nhiệm vụ đạt được
     const newQuestsCompleted = [];
 
     function markQuest(qId) {
@@ -2470,35 +2470,35 @@ const GameState = (function () {
       }
     }
 
-    // quest_first_blood: HoÃ n thÃ nh mÃ n Ä‘áº§u tiÃªn báº¥t ká»³
+    // quest_first_blood: Hoàn thành màn đầu tiên bất kỳ
     if (data.completedPuzzles.length > 0) {
       markQuest('quest_first_blood');
     }
 
-    // quest_pure_mind: HoÃ n thÃ nh má»™t mÃ n báº¥t ká»³ khÃ´ng dÃ¹ng Hint
+    // quest_pure_mind: Hoàn thành một màn bất kỳ không dùng Hint
     if (h === 0) {
       markQuest('quest_pure_mind');
     }
 
-    // quest_speed_deduction: HoÃ n thÃ nh MÃ n 1 trong Ä‘Ãºng 4 nÆ°á»›c Ä‘i tá»‘i Æ°u
+    // quest_speed_deduction: Hoàn thành Màn 1 trong đúng 4 nước đi tối ưu
     if (pId === 1 && m <= 4) {
       markQuest('quest_speed_deduction');
     }
 
-    // quest_truth_seeker: Váº¡ch tráº§n Ä‘Ãºng toÃ n bá»™ 4 Hiá»‡p sÄ©/Káº» giáº£ máº¡o á»Ÿ MÃ n 2 trong láº§n ná»™p Ä‘Ã¡p Ã¡n Ä‘áº§u tiÃªn
+    // quest_truth_seeker: Vạch trần đúng toàn bộ 4 Hiệp sĩ/Kẻ giả mạo ở Màn 2 trong lần nộp đáp án đầu tiên
     if (pId === 2 && m <= 4) {
       markQuest('quest_truth_seeker');
     }
 
-    // quest_godel_conqueror: Khai má»Ÿ á»” khÃ³a GÃ¶del á»Ÿ MÃ n 3
+    // quest_godel_conqueror: Khai mở Ổ khóa Gödel ở Màn 3
     if (pId === 3) {
       markQuest('quest_godel_conqueror');
     }
 
-    // Cá»™ng XP cho ngÆ°á»i chÆ¡i
-    addXP(totalXP, `HoÃ n thÃ nh MÃ n ${pId}`);
+    // Cộng XP cho người chơi
+    addXP(totalXP, `Hoàn thành Màn ${pId}`);
 
-    // quest_master_rank: Äáº¡t danh hiá»‡u Báº­c tháº§y Logic (700+ XP)
+    // quest_master_rank: Đạt danh hiệu Bậc thầy Logic (700+ XP)
     if (data.xp >= 700) {
       markQuest('quest_master_rank');
     }
@@ -2514,7 +2514,7 @@ const GameState = (function () {
   }
 
   /**
-   * Láº¥y danh sÃ¡ch nhiá»‡m vá»¥ kÃ¨m tráº¡ng thÃ¡i hiá»‡n táº¡i
+   * Lấy danh sách nhiệm vụ kèm trạng thái hiện tại
    * @returns {Array<{ id: string, title: string, desc: string, rewardXP: number, completed: boolean, claimed: boolean }>}
    */
   function getQuests() {
@@ -2532,7 +2532,7 @@ const GameState = (function () {
   }
 
   /**
-   * Nháº­n thÆ°á»Ÿng nhiá»‡m vá»¥ Ä‘Ã£ hoÃ n thÃ nh
+   * Nhận thưởng nhiệm vụ đã hoàn thành
    * @param {string} questId
    * @returns {{ success: boolean, rewardXP: number }}
    */
@@ -2548,7 +2548,7 @@ const GameState = (function () {
     }
 
     questState.claimed = true;
-    addXP(questMeta.rewardXP, `Nháº­n thÆ°á»Ÿng nhiá»‡m vá»¥: ${questMeta.title}`);
+    addXP(questMeta.rewardXP, `Nhận thưởng nhiệm vụ: ${questMeta.title}`);
     save();
 
     return {
@@ -2558,7 +2558,7 @@ const GameState = (function () {
   }
 
   /**
-   * Kiá»ƒm tra mÃ n chÆ¡i Ä‘Ã£ Ä‘Æ°á»£c má»Ÿ khÃ³a chÆ°a
+   * Kiểm tra màn chơi đã được mở khóa chưa
    * @param {number} puzzleId
    * @returns {boolean}
    */
@@ -2569,14 +2569,14 @@ const GameState = (function () {
   }
 
   /**
-   * LÆ°u dá»¯ liá»‡u vÃ o storage
+   * Lưu dữ liệu vào storage
    */
   function save() {
     storageSet(STORAGE_KEY, JSON.stringify(data));
   }
 
   /**
-   * XÃ³a dá»¯ liá»‡u Ä‘Ã£ lÆ°u vÃ  khÃ´i phá»¥c máº·c Ä‘á»‹nh
+   * Xóa dữ liệu đã lưu và khôi phục mặc định
    */
   function resetSave() {
     storageRemove(STORAGE_KEY);
@@ -2585,7 +2585,7 @@ const GameState = (function () {
   }
 
   /**
-   * Tráº£ vá» báº£n sao dá»¯ liá»‡u hiá»‡n táº¡i (cho má»¥c Ä‘Ã­ch test/debug)
+   * Trả về bản sao dữ liệu hiện tại (cho mục đích test/debug)
    */
   function getData() {
     return JSON.parse(JSON.stringify(data));
@@ -2605,10 +2605,10 @@ const GameState = (function () {
   };
 })();
 
-// Tá»± Ä‘á»™ng khá»Ÿi táº¡o GameState khi náº¡p module
+// Tự động khởi tạo GameState khi nạp module
 GameState.init();
 
-// Export cho cáº£ trÃ¬nh duyá»‡t (window) láº«n Node.js (module.exports)
+// Export cho cả trình duyệt (window) lẫn Node.js (module.exports)
 if (typeof window !== 'undefined') {
   window.GameState = GameState;
 }
@@ -2623,12 +2623,12 @@ if (typeof module !== 'undefined' && module.exports) {
 // --- renderer.js ---
 /**
  * js/renderer.js
- * Canvas 2D Renderer for "Nghá»‹ch LÃ½ TrÃ­ Tuá»‡" (Mind Paradox)
+ * Canvas 2D Renderer for "Nghịch Lý Trí Tuệ" (Mind Paradox)
  * Conforms to GAME_SPEC.md Section 6.3:
  * - Retina HD high-DPI scaling via devicePixelRatio
  * - Stage 1: 3x3 Parity Matrix with rounded glowing switches
  * - Stage 2: 4 Knights & Knaves character cards with toggle badges
- * - Stage 3: GÃ¶del Autobiographical lock dials with +/- buttons and live validation
+ * - Stage 3: Gödel Autobiographical lock dials with +/- buttons and live validation
  * - Particle fireworks celebration system
  * - Error shake effect
  */
@@ -2662,10 +2662,10 @@ const UIRenderer = (function () {
     },
     stage2: {
       cards: [
-        { char: 'A', name: 'Alice (A)', quote: 'â€œB lÃ  káº» giáº£ máº¡o (Knave).â€', x: 20, y: 65, w: 270, h: 160 },
-        { char: 'B', name: 'Bob (B)', quote: 'â€œC lÃ  káº» giáº£ máº¡o (Knave).â€', x: 310, y: 65, w: 270, h: 160 },
-        { char: 'C', name: 'Chloe (C)', quote: 'â€œD lÃ  káº» giáº£ máº¡o (Knave).â€', x: 20, y: 245, w: 270, h: 160 },
-        { char: 'D', name: 'Daniel (D)', quote: 'â€œChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i lÃ  káº» giáº£ máº¡o.â€', x: 310, y: 245, w: 270, h: 160 }
+        { char: 'A', name: 'Alice (A)', quote: '“B là kẻ giả mạo (Knave).”', x: 20, y: 65, w: 270, h: 160 },
+        { char: 'B', name: 'Bob (B)', quote: '“C là kẻ giả mạo (Knave).”', x: 310, y: 65, w: 270, h: 160 },
+        { char: 'C', name: 'Chloe (C)', quote: '“D là kẻ giả mạo (Knave).”', x: 20, y: 245, w: 270, h: 160 },
+        { char: 'D', name: 'Daniel (D)', quote: '“Chính xác 2 trong 4 chúng tôi là kẻ giả mạo.”', x: 310, y: 245, w: 270, h: 160 }
       ]
     },
     stage3: {
@@ -2673,8 +2673,8 @@ const UIRenderer = (function () {
       startY: 80,
       dialW: 105,
       gap: 30,
-      labels: ['Ã” Sâ‚€', 'Ã” Sâ‚', 'Ã” Sâ‚‚', 'Ã” Sâ‚ƒ'],
-      subtexts: ['Äáº¿m sá»‘ chá»¯ sá»‘ 0', 'Äáº¿m sá»‘ chá»¯ sá»‘ 1', 'Äáº¿m sá»‘ chá»¯ sá»‘ 2', 'Äáº¿m sá»‘ chá»¯ sá»‘ 3']
+      labels: ['Ô S₀', 'Ô S₁', 'Ô S₂', 'Ô S₃'],
+      subtexts: ['Đếm số chữ số 0', 'Đếm số chữ số 1', 'Đếm số chữ số 2', 'Đếm số chữ số 3']
     }
   };
 
@@ -2804,11 +2804,11 @@ const UIRenderer = (function () {
     ctx.fillStyle = '#94a3b8';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '1px';
-    ctx.fillText('MA TRáº¬N Äáº¢O CHIá»€U MODULO 2 (PARITY MATRIX)', 300, 34);
+    ctx.fillText('MA TRẬN ĐẢO CHIỀU MODULO 2 (PARITY MATRIX)', 300, 34);
 
     ctx.font = '12px "Outfit", sans-serif';
     ctx.fillStyle = '#64748b';
-    ctx.fillText('Quy luáº­t: Gáº¡t 1 cÃ´ng táº¯c sáº½ Ä‘áº£o tráº¡ng thÃ¡i cá»§a chÃ­nh nÃ³ vÃ  4 Ã´ ká» cáº¡nh (HÃ¬nh dáº¥u +)', 300, 56);
+    ctx.fillText('Quy luật: Gạt 1 công tắc sẽ đảo trạng thái của chính nó và 4 ô kề cạnh (Hình dấu +)', 300, 56);
     ctx.restore();
 
     // Check hovered cell to highlight cross neighbors
@@ -2922,7 +2922,7 @@ const UIRenderer = (function () {
     ctx.font = '600 13px "Outfit", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillStyle = activeCount === 9 ? '#34d399' : '#cbd5e1';
-    ctx.fillText(`LÃµi KÃ­ch Hoáº¡t: ${activeCount} / 9 ${activeCount === 9 ? '(ÄÃƒ Äáº T NGHIá»†M Tá»I Æ¯U!)' : ''}`, 300, 396);
+    ctx.fillText(`Lõi Kích Hoạt: ${activeCount} / 9 ${activeCount === 9 ? '(ĐÃ ĐẠT NGHIỆM TỐI ƯU!)' : ''}`, 300, 396);
 
     // Indicator Dots
     for (let d = 0; d < 9; d++) {
@@ -2955,11 +2955,11 @@ const UIRenderer = (function () {
     ctx.fillStyle = '#94a3b8';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '1px';
-    ctx.fillText('4 Cá»”NG CHÃ‚N TRá»Š: HIá»†P SÄ¨ & Káºº GIáº¢ Máº O', 300, 30);
+    ctx.fillText('4 CỔNG CHÂN TRỊ: HIỆP SĨ & KẺ GIẢ MẠO', 300, 30);
 
     ctx.font = '12px "Outfit", sans-serif';
     ctx.fillStyle = '#64748b';
-    ctx.fillText('Báº¥m vÃ o Tháº» nhÃ¢n váº­t hoáº·c NÃºt Ä‘á»ƒ chuyá»ƒn vai trÃ²: [HIá»†P SÄ¨] â†” [Káºº GIáº¢ Máº O]', 300, 48);
+    ctx.fillText('Bấm vào Thẻ nhân vật hoặc Nút để chuyển vai trò: [HIỆP SĨ] ↔ [KẺ GIẢ MẠO]', 300, 48);
     ctx.restore();
 
     cards.forEach((card) => {
@@ -3017,7 +3017,7 @@ const UIRenderer = (function () {
       ctx.font = '14px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      const icon = role === 'KNIGHT' ? 'ðŸ›¡ï¸' : (role === 'KNAVE' ? 'ðŸŽ­' : 'ðŸ‘¤');
+      const icon = role === 'KNIGHT' ? '🛡️' : (role === 'KNAVE' ? '🎭' : '👤');
       ctx.fillText(icon, avatarX, avatarY + 1);
 
       // Character Name
@@ -3048,8 +3048,8 @@ const UIRenderer = (function () {
 
       // Multi-line quote formatting
       if (card.char === 'D') {
-        ctx.fillText('â€œChÃ­nh xÃ¡c 2 trong 4 chÃºng tÃ´i', quoteX + 8, quoteY + 8);
-        ctx.fillText('lÃ  káº» giáº£ máº¡o.â€', quoteX + 8, quoteY + 24);
+        ctx.fillText('“Chính xác 2 trong 4 chúng tôi', quoteX + 8, quoteY + 8);
+        ctx.fillText('là kẻ giả mạo.”', quoteX + 8, quoteY + 24);
       } else {
         ctx.fillText(card.quote, quoteX + 8, quoteY + 14);
       }
@@ -3083,13 +3083,13 @@ const UIRenderer = (function () {
       ctx.textBaseline = 'middle';
       if (role === 'KNIGHT') {
         ctx.fillStyle = '#6ee7b7';
-        ctx.fillText('ðŸ›¡ï¸ VAI TRÃ’: HIá»†P SÄ¨ (KNIGHT)', btnX + btnW / 2, btnY + btnH / 2);
+        ctx.fillText('🛡️ VAI TRÒ: HIỆP SĨ (KNIGHT)', btnX + btnW / 2, btnY + btnH / 2);
       } else if (role === 'KNAVE') {
         ctx.fillStyle = '#fda4af';
-        ctx.fillText('ðŸŽ­ VAI TRÃ’: Káºº GIáº¢ Máº O (KNAVE)', btnX + btnW / 2, btnY + btnH / 2);
+        ctx.fillText('🎭 VAI TRÒ: KẺ GIẢ MẠO (KNAVE)', btnX + btnW / 2, btnY + btnH / 2);
       } else {
         ctx.fillStyle = '#94a3b8';
-        ctx.fillText('â“ CHÆ¯A CHá»ŒN (Nháº¥n Ä‘á»ƒ gÃ¡n vai trÃ²)', btnX + btnW / 2, btnY + btnH / 2);
+        ctx.fillText('❓ CHƯA CHỌN (Nhấn để gán vai trò)', btnX + btnW / 2, btnY + btnH / 2);
       }
       ctx.restore();
     });
@@ -3100,13 +3100,13 @@ const UIRenderer = (function () {
     ctx.font = '600 12px "Outfit", sans-serif';
     ctx.textAlign = 'center';
     ctx.fillStyle = assignedCount === 4 ? '#38bdf8' : '#64748b';
-    ctx.fillText(`ÄÃ£ xÃ¡c Ä‘á»‹nh: ${assignedCount} / 4 nhÃ¢n váº­t. Nháº¥n "Kiá»ƒm tra ÄÃ¡p Ã¡n" sau khi hoÃ n táº¥t.`, 300, 426);
+    ctx.fillText(`Đã xác định: ${assignedCount} / 4 nhân vật. Nhấn "Kiểm tra Đáp án" sau khi hoàn tất.`, 300, 426);
     ctx.restore();
   }
 
   /**
    * =========================================================================
-   * STAGE 3: GÃ¶del Autobiographical Lock (4 Dials)
+   * STAGE 3: Gödel Autobiographical Lock (4 Dials)
    * =========================================================================
    */
   function renderStage3(state, hovered) {
@@ -3119,11 +3119,11 @@ const UIRenderer = (function () {
     ctx.fillStyle = '#94a3b8';
     ctx.textAlign = 'center';
     ctx.letterSpacing = '1px';
-    ctx.fillText('á»” KHÃ“A Tá»° THAM CHIáº¾U GÃ–DEL (AUTOBIOGRAPHICAL LOCK)', 300, 30);
+    ctx.fillText('Ổ KHÓA TỰ THAM CHIẾU GÖDEL (AUTOBIOGRAPHICAL LOCK)', 300, 30);
 
     ctx.font = '12px "Outfit", sans-serif';
     ctx.fillStyle = '#64748b';
-    ctx.fillText('Má»—i Ã´ Si tuyÃªn bá»‘ sá»‘ láº§n chá»¯ sá»‘ i xuáº¥t hiá»‡n trong toÃ n bá»™ 4 Ã´ [Sâ‚€, Sâ‚, Sâ‚‚, Sâ‚ƒ]', 300, 48);
+    ctx.fillText('Mỗi ô Si tuyên bố số lần chữ số i xuất hiện trong toàn bộ 4 ô [S₀, S₁, S₂, S₃]', 300, 48);
     ctx.restore();
 
     // Calculate real occurrences of 0, 1, 2, 3
@@ -3212,7 +3212,7 @@ const UIRenderer = (function () {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = isMinusHovered ? '#38bdf8' : '#94a3b8';
-      ctx.fillText('âˆ’', x + dialW / 2, btnMinusY + 15);
+      ctx.fillText('−', x + dialW / 2, btnMinusY + 15);
       ctx.restore();
 
       // Subtext Meaning
@@ -3226,10 +3226,10 @@ const UIRenderer = (function () {
       ctx.font = 'bold 11px "JetBrains Mono", monospace';
       if (isConsistent) {
         ctx.fillStyle = '#34d399';
-        ctx.fillText(`âœ“ Thá»±c táº¿: ${counts[i]}`, x + dialW / 2, y + 214);
+        ctx.fillText(`✓ Thực tế: ${counts[i]}`, x + dialW / 2, y + 214);
       } else {
         ctx.fillStyle = '#f43f5e';
-        ctx.fillText(`âœ— Thá»±c táº¿: ${counts[i]}`, x + dialW / 2, y + 214);
+        ctx.fillText(`✗ Thực tế: ${counts[i]}`, x + dialW / 2, y + 214);
       }
       ctx.restore();
     }
@@ -3248,26 +3248,26 @@ const UIRenderer = (function () {
     ctx.font = 'bold 12px "Outfit", sans-serif';
     ctx.textAlign = 'left';
     ctx.fillStyle = '#cbd5e1';
-    ctx.fillText('KIá»‚M TRA TIÃŠN Äá»€ GÃ–DEL THá»œI GIAN THá»°C:', 65, statusY + 24);
+    ctx.fillText('KIỂM TRA TIÊN ĐỀ GÖDEL THỜI GIAN THỰC:', 65, statusY + 24);
 
     // 1. Sum Check
     ctx.font = '12px "JetBrains Mono", monospace';
     const isSumValid = (sum === 4);
     ctx.fillStyle = isSumValid ? '#34d399' : '#f59e0b';
-    ctx.fillText(`1. Tá»•ng táº§n suáº¥t (Sâ‚€+Sâ‚+Sâ‚‚+Sâ‚ƒ): ${sum} / 4 ${isSumValid ? 'âœ“ [Äáº T]' : 'âœ— [CHÆ¯A Äáº T]'}`, 65, statusY + 46);
+    ctx.fillText(`1. Tổng tần suất (S₀+S₁+S₂+S₃): ${sum} / 4 ${isSumValid ? '✓ [ĐẠT]' : '✗ [CHƯA ĐẠT]'}`, 65, statusY + 46);
 
     // 2. Parity Check
     const isS0Even = (digits[0] % 2 === 0);
     const isS2Even = (digits[2] % 2 === 0);
     const isParityValid = isS0Even && isS2Even;
     ctx.fillStyle = isParityValid ? '#34d399' : '#f59e0b';
-    ctx.fillText(`2. TiÃªn Ä‘á» cháºµn láº»: Sâ‚€=${digits[0]} (${isS0Even ? 'Cháºµn' : 'Láº»'}), Sâ‚‚=${digits[2]} (${isS2Even ? 'Cháºµn' : 'Láº»'}) ${isParityValid ? 'âœ“ [Äáº T]' : 'âœ— [CHÆ¯A Äáº T]'}`, 65, statusY + 68);
+    ctx.fillText(`2. Tiên đề chẵn lẻ: S₀=${digits[0]} (${isS0Even ? 'Chẵn' : 'Lẻ'}), S₂=${digits[2]} (${isS2Even ? 'Chẵn' : 'Lẻ'}) ${isParityValid ? '✓ [ĐẠT]' : '✗ [CHƯA ĐẠT]'}`, 65, statusY + 68);
 
     // 3. Self-Consistency Check
     const allConsistent = counts.every((c, idx) => c === digits[idx]);
     if (allConsistent && isSumValid && isParityValid) {
       ctx.fillStyle = '#34d399';
-      ctx.fillText('â˜… á»” KHÃ“A HOÃ€N TOÃ€N Tá»° NHáº¤T QUÃN! NHáº¤N KIá»‚M TRA ÄÃP ÃN.', 65, statusY + 86);
+      ctx.fillText('★ Ổ KHÓA HOÀN TOÀN TỰ NHẤT QUÁN! NHẤN KIỂM TRA ĐÁP ÁN.', 65, statusY + 86);
     }
     ctx.restore();
   }
@@ -3307,7 +3307,7 @@ const UIRenderer = (function () {
       return null;
     }
 
-    // Stage 3: GÃ¶del Dial Buttons
+    // Stage 3: Gödel Dial Buttons
     if (stageNum === 3) {
       const { startX, startY, dialW, gap } = layout.stage3;
       for (let i = 0; i < 4; i++) {
@@ -3459,7 +3459,7 @@ const UIRenderer = (function () {
 // --- ui.js ---
 /**
  * js/ui.js
- * UI Controller for "Nghá»‹ch LÃ½ TrÃ­ Tuá»‡" (Mind Paradox)
+ * UI Controller for "Nghịch Lý Trí Tuệ" (Mind Paradox)
  * Conforms to GAME_SPEC.md Section 6.4:
  * - DOM binding, HUD updates, Stage selector states
  * - Clue Board / Deductive Notebook rendering
@@ -3552,9 +3552,9 @@ const UIController = (function () {
         soundEnabled = !soundEnabled;
         const soundIcon = document.getElementById('sound-icon');
         if (soundIcon) {
-          soundIcon.textContent = soundEnabled ? 'ðŸ”Š' : 'ðŸ”‡';
+          soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
         }
-        showToast(soundEnabled ? 'ÄÃ£ báº­t Ã¢m thanh' : 'ÄÃ£ táº¯t Ã¢m thanh', 'info');
+        showToast(soundEnabled ? 'Đã bật âm thanh' : 'Đã tắt âm thanh', 'info');
       });
     }
 
@@ -3627,9 +3627,9 @@ const UIController = (function () {
     const rankBadgeEl = document.getElementById('hud-rank-badge');
     if (rankNameEl) rankNameEl.textContent = profile.rankName;
 
-    const rankIcons = ['ðŸ›¡ï¸', 'ðŸ“œ', 'ðŸ”®', 'ðŸ‘‘'];
+    const rankIcons = ['🛡️', '📜', '🔮', '👑'];
     if (rankIconEl) {
-      rankIconEl.textContent = rankIcons[profile.rankIndex] || 'ðŸ›¡ï¸';
+      rankIconEl.textContent = rankIcons[profile.rankIndex] || '🛡️';
     }
 
     // XP Text & Fill
@@ -3671,7 +3671,7 @@ const UIController = (function () {
 
       const optimalEl = document.getElementById('arena-optimal-val');
       if (optimalEl && puzzle) {
-        optimalEl.textContent = `â‰¤ ${puzzle.optimalMoves || 4}`;
+        optimalEl.textContent = `≤ ${puzzle.optimalMoves || 4}`;
       }
 
       // Hints indicator
@@ -3700,13 +3700,13 @@ const UIController = (function () {
       }
 
       if (isCompleted) {
-        statusEl.innerHTML = '<span class="status-indicator solved">âœ“</span>';
+        statusEl.innerHTML = '<span class="status-indicator solved">✓</span>';
         tabEl.classList.remove('locked');
       } else if (isUnlocked) {
         statusEl.innerHTML = '<span class="status-indicator"></span>';
         tabEl.classList.remove('locked');
       } else {
-        statusEl.innerHTML = '<span class="status-indicator">ðŸ”’</span>';
+        statusEl.innerHTML = '<span class="status-indicator">🔒</span>';
         tabEl.classList.add('locked');
       }
     });
@@ -3721,7 +3721,7 @@ const UIController = (function () {
     if (container) {
       container.innerHTML = '';
       if (!clues || clues.length === 0) {
-        container.innerHTML = '<li class="axiom-item">KhÃ´ng cÃ³ tiÃªn Ä‘á» cho mÃ n nÃ y.</li>';
+        container.innerHTML = '<li class="axiom-item">Không có tiên đề cho màn này.</li>';
       } else {
         clues.forEach((axiomText, idx) => {
           const li = document.createElement('li');
@@ -3737,12 +3737,12 @@ const UIController = (function () {
     if (hintsContainer) {
       hintsContainer.innerHTML = '';
       if (!unlockedHints || unlockedHints.length === 0) {
-        hintsContainer.innerHTML = '<div class="empty-hints-notice">ChÆ°a cÃ³ manh má»‘i nÃ o Ä‘Æ°á»£c má»Ÿ khÃ³a. HÃ£y suy luáº­n dá»±a trÃªn tiÃªn Ä‘á» hoáº·c nháº¥n nÃºt Gá»£i Ã.</div>';
+        hintsContainer.innerHTML = '<div class="empty-hints-notice">Chưa có manh mối nào được mở khóa. Hãy suy luận dựa trên tiên đề hoặc nhấn nút Gợi Ý.</div>';
       } else {
         unlockedHints.forEach(hintText => {
           const div = document.createElement('div');
           div.className = 'hint-item';
-          div.innerHTML = `ðŸ’¡ <strong>Manh Má»‘i:</strong> ${hintText}`;
+          div.innerHTML = `💡 <strong>Manh Mối:</strong> ${hintText}`;
           hintsContainer.appendChild(div);
         });
       }
@@ -3751,7 +3751,7 @@ const UIController = (function () {
     // 3. Clear Contradiction log initially
     const contraBox = document.getElementById('contradiction-details-container');
     if (contraBox) {
-      contraBox.innerHTML = '<span class="placeholder-text">ChÆ°a phÃ¡t hiá»‡n mÃ¢u thuáº«n. Há»‡ thá»‘ng sáºµn sÃ ng cho láº§n kiá»ƒm tra tiáº¿p theo.</span>';
+      contraBox.innerHTML = '<span class="placeholder-text">Chưa phát hiện mâu thuẫn. Hệ thống sẵn sàng cho lần kiểm tra tiếp theo.</span>';
     }
   }
 
@@ -3763,13 +3763,13 @@ const UIController = (function () {
     if (!contraBox) return;
 
     if (!details || details.length === 0) {
-      contraBox.innerHTML = '<span class="placeholder-text">PhÃ¡t hiá»‡n mÃ¢u thuáº«n logic chÆ°a xÃ¡c Ä‘á»‹nh. HÃ£y rÃ  soÃ¡t láº¡i cÃ¡c tiÃªn Ä‘á».</span>';
+      contraBox.innerHTML = '<span class="placeholder-text">Phát hiện mâu thuẫn logic chưa xác định. Hãy rà soát lại các tiên đề.</span>';
       return;
     }
 
-    let html = '<strong>Chi tiáº¿t mÃ¢u thuáº«n Ä‘Æ°á»£c phÃ¡t hiá»‡n:</strong><ul>';
+    let html = '<strong>Chi tiết mâu thuẫn được phát hiện:</strong><ul>';
     details.forEach(item => {
-      html += `<li>âš ï¸ ${item}</li>`;
+      html += `<li>⚠️ ${item}</li>`;
     });
     html += '</ul>';
     contraBox.innerHTML = html;
@@ -3786,13 +3786,13 @@ const UIController = (function () {
     toast.className = `toast toast-${type}`;
 
     const icons = {
-      success: 'âœ“',
-      error: 'âœ•',
-      info: 'â„¹',
-      warning: 'âš ï¸'
+      success: '✓',
+      error: '✕',
+      info: 'ℹ',
+      warning: '⚠️'
     };
 
-    toast.innerHTML = `<span style="font-weight: bold; font-size: 1.1em;">${icons[type] || 'â„¹'}</span> <span>${message}</span>`;
+    toast.innerHTML = `<span style="font-weight: bold; font-size: 1.1em;">${icons[type] || 'ℹ'}</span> <span>${message}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {
@@ -3817,7 +3817,7 @@ const UIController = (function () {
     const stageHeading = document.getElementById('current-stage-title');
     const vicStageName = document.getElementById('victory-stage-name');
     if (vicStageName && stageHeading) {
-      vicStageName.textContent = `Báº¡n Ä‘Ã£ tÃ¬m ra nghiá»‡m duy nháº¥t cá»§a ${stageHeading.textContent}`;
+      vicStageName.textContent = `Bạn đã tìm ra nghiệm duy nhất của ${stageHeading.textContent}`;
     }
 
     // Breakdown values
@@ -3838,7 +3838,7 @@ const UIController = (function () {
 
     const summaryEl = document.getElementById('vic-moves-summary');
     if (summaryEl && result.moves !== undefined) {
-      summaryEl.innerHTML = `ÄÃ£ hoÃ n thÃ nh sau <strong>${result.moves} nÆ°á»›c Ä‘i</strong>`;
+      summaryEl.innerHTML = `Đã hoàn thành sau <strong>${result.moves} nước đi</strong>`;
     }
 
     modal.classList.remove('hidden');
@@ -3857,13 +3857,13 @@ const UIController = (function () {
 
     const descEl = document.getElementById('levelup-rank-desc');
     const descriptions = {
-      'Táº­p sá»± Suy Luáº­n': 'Báº¯t Ä‘áº§u hÃ nh trÃ¬nh giáº£i mÃ£ nhá»¯ng bÃ­ áº©n logic.',
-      'Há»c giáº£ PhÃ¢n tÃ­ch': 'Báº¡n Ä‘Ã£ chá»©ng minh kháº£ nÄƒng giáº£i mÃ£ cÃ¡c cáº¥u trÃºc logic phá»©c táº¡p!',
-      'Báº­c tháº§y Logic': 'TÆ° duy cá»§a báº¡n sáº¯c bÃ©n vÆ°á»£t qua cÃ¡c nghá»‹ch lÃ½ Ä‘a chiá»u!',
-      'Äáº¡i sÆ° Nghá»‹ch LÃ½': 'Äá»‰nh cao trÃ­ tuá»‡ tá»‘i thÆ°á»£ng! KhÃ´ng nghá»‹ch lÃ½ nÃ o lÃ m khÃ³ Ä‘Æ°á»£c báº¡n!'
+      'Tập sự Suy Luận': 'Bắt đầu hành trình giải mã những bí ẩn logic.',
+      'Học giả Phân tích': 'Bạn đã chứng minh khả năng giải mã các cấu trúc logic phức tạp!',
+      'Bậc thầy Logic': 'Tư duy của bạn sắc bén vượt qua các nghịch lý đa chiều!',
+      'Đại sư Nghịch Lý': 'Đỉnh cao trí tuệ tối thượng! Không nghịch lý nào làm khó được bạn!'
     };
     if (descEl) {
-      descEl.textContent = descriptions[rankName] || 'TrÃ­ tuá»‡ logic cá»§a báº¡n Ä‘Ã£ Ä‘áº¡t Ä‘áº¿n táº§m cao má»›i!';
+      descEl.textContent = descriptions[rankName] || 'Trí tuệ logic của bạn đã đạt đến tầm cao mới!';
     }
 
     modal.classList.remove('hidden');
@@ -3900,11 +3900,11 @@ const UIController = (function () {
 
       let actionHtml = '';
       if (q.claimed) {
-        actionHtml = '<span class="quest-status-badge claimed">âœ“ ÄÃƒ NHáº¬N</span>';
+        actionHtml = '<span class="quest-status-badge claimed">✓ ĐÃ NHẬN</span>';
       } else if (q.completed) {
-        actionHtml = `<button class="btn-claim" data-quest-id="${q.id}">Nháº­n +${q.rewardXP} XP</button>`;
+        actionHtml = `<button class="btn-claim" data-quest-id="${q.id}">Nhận +${q.rewardXP} XP</button>`;
       } else {
-        actionHtml = '<span class="quest-status-badge locked">ChÆ°a Ä‘áº¡t</span>';
+        actionHtml = '<span class="quest-status-badge locked">Chưa đạt</span>';
       }
 
       item.innerHTML = `
@@ -3932,7 +3932,7 @@ const UIController = (function () {
         const res = GameState.claimQuest(questId);
         if (res && res.success) {
           playSound('claim');
-          showToast(`Nháº­n thÃ nh cÃ´ng +${res.rewardXP} XP!`, 'success');
+          showToast(`Nhận thành công +${res.rewardXP} XP!`, 'success');
           updateHUD();
           renderQuestList();
         }
@@ -3942,7 +3942,7 @@ const UIController = (function () {
     // Summary count
     const summaryEl = document.getElementById('quest-completion-summary');
     if (summaryEl) {
-      summaryEl.textContent = `ÄÃ£ hoÃ n thÃ nh: ${completedCount} / ${quests.length}`;
+      summaryEl.textContent = `Đã hoàn thành: ${completedCount} / ${quests.length}`;
     }
   }
 
@@ -3965,7 +3965,7 @@ const UIController = (function () {
 // --- main.js ---
 /**
  * js/main.js
- * Bootstrap & Coordination for "Nghá»‹ch LÃ½ TrÃ­ Tuá»‡" (Mind Paradox)
+ * Bootstrap & Coordination for "Nghịch Lý Trí Tuệ" (Mind Paradox)
  * Connects PuzzleEngine, GameState, UIRenderer, and UIController
  */
 
@@ -3974,9 +3974,9 @@ const UIController = (function () {
   let unlockedHintsByStage = { 1: [], 2: [], 3: [] };
 
   const stageTitles = {
-    1: { tag: 'MÃ€N 1', title: 'Nghá»‹ch LÃ½ Äáº£o Chiá»u' },
-    2: { tag: 'MÃ€N 2', title: 'Nghá»‹ch LÃ½ Káº» NÃ³i Dá»‘i' },
-    3: { tag: 'MÃ€N 3', title: 'Nghá»‹ch LÃ½ Tá»± Tham Chiáº¿u' }
+    1: { tag: 'MÀN 1', title: 'Nghịch Lý Đảo Chiều' },
+    2: { tag: 'MÀN 2', title: 'Nghịch Lý Kẻ Nói Dối' },
+    3: { tag: 'MÀN 3', title: 'Nghịch Lý Tự Tham Chiếu' }
   };
 
   /**
@@ -4129,7 +4129,7 @@ const UIController = (function () {
           });
           UIController.playSound('toggle');
         }
-        // Stage 3: GÃ¶del Dial Delta (+ / -)
+        // Stage 3: Gödel Dial Delta (+ / -)
         else if (clicked.type === 'digit_btn') {
           handled = PuzzleEngine.interact({
             type: 'CHANGE_DIGIT',
@@ -4161,7 +4161,7 @@ const UIController = (function () {
             loadStage(stageId);
           } else {
             UIController.playSound('error');
-            UIController.showToast(`MÃ n ${stageId} chÆ°a Ä‘Æ°á»£c má»Ÿ khÃ³a! Vui lÃ²ng hoÃ n thÃ nh mÃ n trÆ°á»›c.`, 'warning');
+            UIController.showToast(`Màn ${stageId} chưa được mở khóa! Vui lòng hoàn thành màn trước.`, 'warning');
           }
         });
       }
@@ -4177,7 +4177,7 @@ const UIController = (function () {
       btnVerify.addEventListener('click', () => {
         if (typeof PuzzleEngine === 'undefined') return;
 
-        const result = PuzzleEngine.checkSolution ? PuzzleEngine.checkSolution() : { solved: false, message: 'Lá»—i kiá»ƒm tra.' };
+        const result = PuzzleEngine.checkSolution ? PuzzleEngine.checkSolution() : { solved: false, message: 'Lỗi kiểm tra.' };
         const puzzle = getPuzzleMeta();
         const state = getPuzzleState();
 
@@ -4198,7 +4198,7 @@ const UIController = (function () {
           // Check for level up
           const oldRank = GameState.getProfile ? GameState.getProfile().rankName : '';
           
-          UIController.showToast(result.message || 'Chá»©ng minh hoÃ n táº¥t! Nghiá»‡m duy nháº¥t Ä‘Ã£ Ä‘Æ°á»£c xÃ¡c thá»±c.', 'success');
+          UIController.showToast(result.message || 'Chứng minh hoàn tất! Nghiệm duy nhất đã được xác thực.', 'success');
           UIController.showVictoryModal(completionResult);
           UIController.updateHUD();
 
@@ -4213,7 +4213,7 @@ const UIController = (function () {
           // Logic Contradiction detected
           UIRenderer.triggerErrorShake();
           UIController.playSound('error');
-          UIController.showToast(result.message || 'MÃ¢u thuáº«n logic phÃ¡t hiá»‡n! Nghiá»‡m chÆ°a chÃ­nh xÃ¡c.', 'error');
+          UIController.showToast(result.message || 'Mâu thuẫn logic phát hiện! Nghiệm chưa chính xác.', 'error');
           UIController.renderContradictions(result.details || []);
         }
       });
@@ -4228,7 +4228,7 @@ const UIController = (function () {
         const hintRes = PuzzleEngine.useHint();
         if (hintRes.success) {
           UIController.playSound('hint');
-          UIController.showToast(`Gá»£i Ã Má»›i: ${hintRes.hintText}`, 'info');
+          UIController.showToast(`Gợi Ý Mới: ${hintRes.hintText}`, 'info');
 
           if (!unlockedHintsByStage[currentStageId]) {
             unlockedHintsByStage[currentStageId] = [];
@@ -4240,7 +4240,7 @@ const UIController = (function () {
           UIController.updateHUD();
         } else {
           UIController.playSound('error');
-          UIController.showToast(hintRes.hintText || 'ÄÃ£ háº¿t gá»£i Ã½ cho mÃ n chÆ¡i nÃ y!', 'warning');
+          UIController.showToast(hintRes.hintText || 'Đã hết gợi ý cho màn chơi này!', 'warning');
         }
       });
     }
@@ -4253,7 +4253,7 @@ const UIController = (function () {
           PuzzleEngine.reset();
         }
         UIController.playSound('click');
-        UIController.showToast('ÄÃ£ khÃ´i phá»¥c cÃ¢u Ä‘á»‘ vá» tráº¡ng thÃ¡i khá»Ÿi Ä‘iá»ƒm.', 'info');
+        UIController.showToast('Đã khôi phục câu đố về trạng thái khởi điểm.', 'info');
 
         const puzzle = getPuzzleMeta();
         UIController.updateHUD();
@@ -4275,7 +4275,7 @@ const UIController = (function () {
         if (currentStageId < 3) {
           loadStage(currentStageId + 1);
         } else {
-          UIController.showToast('ChÃºc má»«ng báº¡n Ä‘Ã£ chinh phá»¥c toÃ n bá»™ 3 mÃ n Nghá»‹ch LÃ½ TrÃ­ Tuá»‡!', 'success');
+          UIController.showToast('Chúc mừng bạn đã chinh phục toàn bộ 3 màn Nghịch Lý Trí Tuệ!', 'success');
           loadStage(1);
         }
       });
@@ -4296,4 +4296,3 @@ const UIController = (function () {
 </script>
 </body>
 </html>
-
