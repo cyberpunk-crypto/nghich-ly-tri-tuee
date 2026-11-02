@@ -1242,6 +1242,200 @@ body::before {
 }
 
 /* ==========================================================================
+   8. STAGE RULES & HOW-TO-PLAY STYLES
+   ========================================================================== */
+.btn-tool.btn-rules {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.12);
+  color: #c7d2fe;
+}
+
+.btn-tool.btn-rules:hover {
+  background: rgba(99, 102, 241, 0.22);
+  border-color: var(--accent-indigo-light);
+  color: #fff;
+  box-shadow: 0 0 16px var(--accent-indigo-glow);
+}
+
+.notebook-block.highlight-rules {
+  border: 1px solid rgba(99, 102, 241, 0.35);
+  background: linear-gradient(180deg, rgba(99, 102, 241, 0.08) 0%, rgba(19, 27, 46, 0.6) 100%);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.btn-link-rules {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--accent-indigo-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.btn-link-rules:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: #fff;
+  text-decoration: underline;
+}
+
+.stage-rules-quick {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.rules-quick-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.rules-tag-pill {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  line-height: 1.3;
+}
+
+.rules-tag-pill.goal {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid var(--accent-emerald);
+  color: #6ee7b7;
+}
+
+.rules-tag-pill.control {
+  background: rgba(6, 182, 212, 0.18);
+  border: 1px solid var(--accent-cyan);
+  color: #67e8f9;
+}
+
+.rules-tag-pill.paradox {
+  background: rgba(99, 102, 241, 0.2);
+  border: 1px solid var(--accent-indigo);
+  color: #a5b4fc;
+}
+
+.rules-quick-desc {
+  color: var(--text-body);
+}
+
+/* Rules Modal */
+.rules-card {
+  max-width: 650px;
+}
+
+.rules-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 6px;
+  margin-bottom: 20px;
+}
+
+.rules-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+.rules-modal-body::-webkit-scrollbar-track {
+  background: var(--bg-panel-soft);
+  border-radius: 999px;
+}
+.rules-modal-body::-webkit-scrollbar-thumb {
+  background: var(--border-active);
+  border-radius: 999px;
+}
+
+.rules-block-card {
+  background: var(--bg-panel-soft);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color var(--transition-fast);
+}
+
+.rules-block-card:hover {
+  border-color: var(--border-active);
+}
+
+.rules-block-card.highlight-paradox {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(14, 21, 37, 0.9));
+}
+
+.rules-block-card.highlight-tip {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(14, 21, 37, 0.9));
+}
+
+.rules-block-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rules-icon {
+  font-size: 1.15rem;
+}
+
+.rules-block-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+}
+
+.rules-block-content {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text-body);
+}
+
+.rules-block-content p {
+  margin: 0 0 8px;
+}
+
+.rules-bonus-notes {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.bonus-tag {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: var(--accent-amber);
+}
+
+.rules-tip-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
    7. RESPONSIVE DESIGN
    ========================================================================== */
 @media (max-width: 1100px) {
@@ -1414,6 +1608,14 @@ body::before {
           <!-- Arena Action Bar -->
           <div class="arena-controls">
             <div class="controls-left">
+              <button id="btn-rules" class="btn-tool btn-rules" title="Xem hướng dẫn chi tiết luật chơi và cơ chế của màn này">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <span>Luật Chơi</span>
+              </button>
+
               <button id="btn-hint" class="btn-tool" title="Mở khóa một manh mối gợi ý (-100 XP Thưởng No-Hint)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M9 18h6"></path>
@@ -1465,6 +1667,18 @@ body::before {
           </div>
 
           <div class="clue-board-content">
+            <!-- Stage Rules Quick Block -->
+            <div class="notebook-block highlight-rules">
+              <div class="block-label">
+                <span class="label-dot indigo"></span>
+                <span>QUY TẮC & MỤC TIÊU MÀN CHƠI</span>
+                <button id="btn-quick-rules-detail" class="btn-link-rules" title="Xem chi tiết luật chơi">Chi tiết ➔</button>
+              </div>
+              <div class="stage-rules-quick" id="stage-rules-quick-container">
+                <!-- Dynamically populated via UIController.renderStageRules -->
+              </div>
+            </div>
+
             <!-- Axioms Section -->
             <div class="notebook-block">
               <div class="block-label">
@@ -1595,10 +1809,32 @@ body::before {
     </div>
   </div>
 
+  <!-- 4. Stage Rules & Instructions Modal -->
+  <div class="modal-overlay hidden" id="rules-modal">
+    <div class="modal-card rules-card">
+      <div class="modal-header-split">
+        <div class="modal-title-wrap">
+          <span class="badge-stage" id="rules-stage-tag">MÀN 1</span>
+          <h2 class="modal-title" id="rules-stage-title">Hướng Dẫn & Luật Chơi</h2>
+          <p class="modal-subtitle" id="rules-stage-subtitle">Tìm hiểu cơ chế và mục tiêu suy luận để phá giải nghịch lý</p>
+        </div>
+        <button id="btn-close-rules-modal" class="btn-close" aria-label="Đóng">&times;</button>
+      </div>
+
+      <div class="rules-modal-body" id="rules-modal-body">
+        <!-- Dynamically populated via UIController.renderStageRules -->
+      </div>
+
+      <div class="modal-footer-bar">
+        <span class="rules-tip-text">💡 <strong>Mẹo:</strong> Không dùng Gợi Ý để nhận thêm +100 XP thưởng!</span>
+        <button id="btn-rules-ack" class="btn-primary">Tôi Đã Hiểu - Bắt Đầu Giải</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toast-container"></div>
 
-  <!-- SCRIPT LOADING (STRICT ORDER) -->
 <script>
 // --- puzzles.js ---
 // js/puzzles.js
@@ -1613,11 +1849,17 @@ const PUZZLES_DATA = [
     difficulty: 'Cơ bản',
     baseXP: 150,
     optimalMoves: 4,
-    description: 'Một ma trận công tắc 3x3 đối xứng. Kích hoạt một ô sẽ đảo ngược trạng thái của chính nó và các ô kề cạnh (trên, dưới, trái, phải). Hãy đưa toàn bộ 9 ô về trạng thái kích hoạt (1).',
+    description: 'Một ma trận công tắc 3x3 đối xứng. Kích hoạt một ô sẽ đảo trạng thái chính nó và các ô kề cạnh (trên, dưới, trái, phải). Hãy đưa toàn bộ 9 ô về trạng thái kích hoạt (1).',
     initialState: [1, 0, 1, 0, 1, 0, 1, 0, 1],
     targetState: [1, 1, 1, 1, 1, 1, 1, 1, 1],
     solution: [1, 1, 1, 1, 1, 1, 1, 1, 1],
     optimalActions: [1, 3, 5, 7],
+    rules: {
+      goal: 'Làm phát sáng toàn bộ 9 ô công tắc trên bàn cờ 3×3 (đưa tất cả về trạng thái 1 - màu xanh Neon).',
+      controls: 'Nhấp chuột vào bất kỳ ô công tắc nào. Chính ô đó cùng 4 ô kề cạnh (trên, dưới, trái, phải) sẽ đồng thời đảo trạng thái (0 ↔ 1).',
+      paradox: 'Nghịch Lý Đảo Chiều Modulo 2: Mỗi lần gạt công tắc sẽ lan truyền tác động sang các ô lân cận. Gạt 1 ô hai lần tương đương không gạt (x ⊕ x = 0).',
+      tips: 'Ô trung tâm hiện đã bật và nhận 5 tác động (tâm + 4 cạnh). Bạn có thể giải quyết toàn bộ ma trận chỉ trong đúng 4 nước đi bằng cách gạt 4 ô cạnh (hình chữ thập: Trên, Trái, Phải, Dưới).'
+    },
     clues: [
       'Tiên đề 1: Lũy đẳng Modulo 2 - Gạt một công tắc 2 lần tương đương không gạt (x ⊕ x = 0).',
       'Tiên đề 2: Ô trung tâm nhận 5 tác động (chính nó + 4 cạnh). Do hiện tại đã bật (1), tổng số lần kích hoạt 4 cạnh + tâm phải là số chẵn.',
@@ -1637,35 +1879,35 @@ const PUZZLES_DATA = [
     difficulty: 'Trung cấp',
     baseXP: 200,
     optimalMoves: 4,
-    description: '4 nhân vật A, B, C, D canh giữ 4 Cổng Logic. Hiệp sĩ (KNIGHT) luôn nói thật, Kẻ giả mạo (KNAVE) luôn nói dối. Hãy xác định chính xác danh tính của từng người.',
+    description: '4 nhân vật A, B, C, D canh giữ 4 Cổng Logic. Hiệp sĩ (KNIGHT) luôn nói thật 100%, Kẻ giả mạo (KNAVE) luôn nói dối 100%. Hãy xác định chính xác danh tính của từng người.',
     characters: [
       { id: 'A', name: 'Alice', statement: 'B là kẻ giả mạo (Knave).' },
       { id: 'B', name: 'Bob', statement: 'C là kẻ giả mạo (Knave).' },
       { id: 'C', name: 'Chloe', statement: 'D là kẻ giả mạo (Knave).' },
       { id: 'D', name: 'Daniel', statement: 'Chính xác 2 trong 4 chúng tôi là kẻ giả mạo.' }
     ],
-    initialState: {
-      A: null,
-      B: null,
-      C: null,
-      D: null
-    },
     solution: {
       A: 'KNAVE',
       B: 'KNIGHT',
       C: 'KNAVE',
       D: 'KNIGHT'
     },
+    rules: {
+      goal: 'Phân định chính xác danh tính của cả 4 nhân vật: Ai là Hiệp Sĩ (nói thật) và ai là Kẻ Giả Mạo (nói dối).',
+      controls: 'Nhấp chuột vào thẻ bài của từng nhân vật trên màn hình để chuyển đổi vai trò: [CHƯA CHỌN] ➔ [HIỆP SĨ 🛡️] ➔ [KẺ GIẢ MẠO 🎭].',
+      paradox: 'Nghịch Lý Chân Trị: Hiệp Sĩ luôn nói thật (phát biểu là ĐÚNG). Kẻ Giả Mạo luôn nói dối (phát biểu là SAI). Mọi lời khai phải khớp 100% với vai trò được gán, không được mâu thuẫn.',
+      tips: 'Xét dây chuyền A ↔ ¬B, B ↔ ¬C, C ↔ ¬D. Điều này chứng minh luôn có đúng 2 người nói thật và 2 người nói dối. Từ đó suy ra phát biểu của Daniel chắc chắn ĐÚNG, Daniel phải là Hiệp Sĩ!'
+    },
     clues: [
-      'A tuyên bố: "B là kẻ giả mạo (Knave)" (A ⟺ ¬B).',
-      'B tuyên bố: "C là kẻ giả mạo (Knave)" (B ⟺ ¬C).',
-      'C tuyên bố: "D là kẻ giả mạo (Knave)" (C ⟺ ¬D).',
-      'D tuyên bố: "Chính xác 2 trong 4 chúng tôi là kẻ giả mạo" (D ⟺ count(Knaves) == 2).'
+      'Tiên đề 1: Một người là Hiệp sĩ khi và chỉ khi phát biểu của người đó đúng sự thật.',
+      'Tiên đề 2: Dây chuyền loại trừ: A ⇔ ¬B; B ⇔ ¬C; C ⇔ ¬D. Điều này ngụ ý: A = C và B = D.',
+      'Tiên đề 3: Luôn có đúng 2 người nói thật và 2 người nói dối trong hệ thống này.',
+      'Tiên đề 4: Mệnh đề của Daniel ("Chính xác 2 trong 4 chúng tôi là kẻ giả mạo") chắc chắn là sự thật khách quan, do đó Daniel bắt buộc phải là Hiệp sĩ.'
     ],
     hints: [
-      'Nếu X nói Y là Knave, thì X và Y có bản chất trái ngược nhau (một người là Knight, người kia là Knave).',
-      'Vì chuỗi A ⟺ ¬B, B ⟺ ¬C, C ⟺ ¬D: A và C cùng phe, B và D cùng phe. Luôn có đúng 2 Knave và 2 Knight!',
-      'Vì luôn có đúng 2 Knave, lời D nói luôn là Sự Thật. Vậy D chắc chắn là KNIGHT! Từ đó suy ra B là KNIGHT, còn A và C là KNAVE.'
+      'Hãy xem phát biểu của Daniel (D): "Chính xác 2 trong 4 chúng tôi là kẻ giả mạo".',
+      'Từ các phát biểu A, B, C: Cặp (A, B) có 1 người nói dối, cặp (C, D) có 1 người nói dối. Vậy chắc chắn có đúng 2 kẻ giả mạo!',
+      'Vì phát biểu của Daniel chắc chắn đúng, Daniel PHẢI là Hiệp sĩ (KNIGHT). Từ đó suy ra toàn bộ danh tính còn lại!'
     ]
   },
   {
@@ -1673,39 +1915,46 @@ const PUZZLES_DATA = [
     title: 'Nghịch Lý Tự Tham Chiếu',
     subtitle: "Gödel's Autobiographical Lock",
     type: 'AUTOBIOGRAPHICAL_LOCK',
-    difficulty: 'Cao cấp',
+    difficulty: 'Thượng thừa',
     baseXP: 250,
     optimalMoves: 6,
-    description: 'Ổ khóa số gồm 4 ô [S0, S1, S2, S3]. Mỗi ô Si tuyên bố số lần chữ số i xuất hiện trong toàn bộ 4 ô số. Hãy tìm tổ hợp thỏa mãn nghịch lý tự tham chiếu.',
+    description: 'Ổ khóa 4 ô số [S₀, S₁, S₂, S₃]. Mỗi ô Sₖ tuyên bố chính xác số lần chữ số k xuất hiện trong toàn bộ 4 ô số này.',
+    slotMeanings: [
+      'S₀: Số lần chữ số 0 xuất hiện trong cả 4 ô',
+      'S₁: Số lần chữ số 1 xuất hiện trong cả 4 ô',
+      'S₂: Số lần chữ số 2 xuất hiện trong cả 4 ô',
+      'S₃: Số lần chữ số 3 xuất hiện trong cả 4 ô'
+    ],
     initialState: [0, 0, 0, 0],
     solution: [2, 0, 2, 0],
-    targetState: [2, 0, 2, 0],
+    rules: {
+      goal: 'Thiết lập 4 ổ khóa số [S₀, S₁, S₂, S₃] sao cho giá trị mỗi ô miêu tả chính xác tần suất xuất hiện của chữ số tương ứng trong cả dãy số.',
+      controls: 'Bấm nút (+) hoặc (-) ở mỗi ô để tăng/giảm giá trị chữ số (xoay vòng từ 0 đến 3).',
+      paradox: 'Nghịch Lý Tự Tham Chiếu Gödel: Mỗi ô vừa là dữ liệu, vừa là lời tuyên bố về toàn bộ dãy số. Khi bạn thay đổi 1 ô, bạn đồng thời làm thay đổi số lượng các chữ số trong toàn bộ ổ khóa!',
+      tips: 'Áp dụng Tiên đề Bảo toàn Tần suất (tổng 4 ô phải bằng 4) và Tiên đề Chẵn Lẻ (S₀ và S₂ bắt buộc phải là số chẵn: 0 hoặc 2) để loại bỏ các trường hợp mâu thuẫn.'
+    },
     clues: [
-      'Tiên đề Bảo toàn Tần suất: Tổng giá trị S0 + S1 + S2 + S3 = 4.',
-      'Tiên đề Chẵn Lẻ Gödel: Ô S0 và S2 phải có giá trị chẵn (S0, S2 ∈ {0, 2}).',
-      'Quy luật Tự tham chiếu: Giá trị tại ô thứ i (0-3) phải bằng chính xác số lần chữ số i xuất hiện trong 4 ô.'
+      'Tiên đề 1: Bảo toàn Tần suất - Tổng giá trị S₀ + S₁ + S₂ + S₃ bắt buộc phải bằng 4.',
+      'Tiên đề 2: Chẵn Lẻ Gödel - Các ô S₀ và S₂ bắt buộc phải có giá trị là số chẵn (0 hoặc 2).',
+      'Tiên đề 3: Tính nhất quán - Không ô nào có thể vượt quá số lượng vị trí khả dụng (0 đến 3).'
     ],
     hints: [
-      'Tổng 4 chữ số phải luôn bằng 4 vì có đúng 4 vị trí trong dãy số.',
-      'S0 không thể bằng 0 (vì nếu bằng 0 thì không có số 0 nào, dẫn đến mâu thuẫn). Do S0 chẵn nên S0 = 2.',
-      'Khi S0 = 2, có hai số 0 ở các vị trí khác (S1=0, S3=0). Chữ số 2 xuất hiện ở S0 và chính S2. Nghiệm chuẩn xác là [2, 0, 2, 0].'
+      'Nếu S₀ = 2, nghĩa là có đúng hai số 0 trong dãy số.',
+      'Hai số 0 đó sẽ rơi vào ô S₁ và S₃ (tức là S₁ = 0 và S₃ = 0).',
+      'Nghiệm duy nhất thỏa mãn trọn vẹn: [2, 0, 2, 0] (Có 2 số 0, 0 số 1, 2 số 2, 0 số 3).'
     ]
   }
 ];
 
-// Helper method to retrieve puzzle by ID
-PUZZLES_DATA.getById = function (id) {
-  return PUZZLES_DATA.find(function (p) { return p.id === id; }) || null;
+PUZZLES_DATA.getById = function(id) {
+  return this.find(p => p.id === id) || null;
 };
 
-// Export cho cả trình duyệt (window) lẫn Node.js (module.exports)
 if (typeof window !== 'undefined') {
   window.PUZZLES_DATA = PUZZLES_DATA;
 }
-
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = PUZZLES_DATA;
-  module.exports.PUZZLES_DATA = PUZZLES_DATA;
+  module.exports = { PUZZLES_DATA };
 }
 
 
@@ -1798,6 +2047,7 @@ const PuzzleEngine = (function () {
       clues: currentPuzzle.clues ? currentPuzzle.clues.slice() : [],
       hints: currentPuzzle.hints ? currentPuzzle.hints.slice() : [],
       description: currentPuzzle.description || '',
+      rules: currentPuzzle.rules ? Object.assign({}, currentPuzzle.rules) : null,
       baseXP: currentPuzzle.baseXP || 0,
       characters: currentPuzzle.characters ? currentPuzzle.characters.slice() : []
     };
@@ -3593,11 +3843,51 @@ const UIController = (function () {
       });
     }
 
+    // Rules Modal open/close
+    const btnRules = document.getElementById('btn-rules');
+    if (btnRules) {
+      btnRules.addEventListener('click', () => {
+        playSound('click');
+        openRulesModal();
+      });
+    }
+
+    const btnQuickRulesDetail = document.getElementById('btn-quick-rules-detail');
+    if (btnQuickRulesDetail) {
+      btnQuickRulesDetail.addEventListener('click', () => {
+        playSound('click');
+        openRulesModal();
+      });
+    }
+
+    const btnCloseRules = document.getElementById('btn-close-rules-modal');
+    if (btnCloseRules) {
+      btnCloseRules.addEventListener('click', () => {
+        playSound('click');
+        closeRulesModal();
+      });
+    }
+
+    const btnRulesAck = document.getElementById('btn-rules-ack');
+    if (btnRulesAck) {
+      btnRulesAck.addEventListener('click', () => {
+        playSound('click');
+        closeRulesModal();
+      });
+    }
+
     // Modal background click to close
     const questModal = document.getElementById('quest-modal');
     if (questModal) {
       questModal.addEventListener('click', (e) => {
         if (e.target === questModal) closeQuestModal();
+      });
+    }
+
+    const rulesModal = document.getElementById('rules-modal');
+    if (rulesModal) {
+      rulesModal.addEventListener('click', (e) => {
+        if (e.target === rulesModal) closeRulesModal();
       });
     }
 
@@ -3713,7 +4003,96 @@ const UIController = (function () {
   }
 
   /**
-   * 3. Render Clues & Deductive Notebook
+   * 3. Render Stage Rules & How to play
+   */
+  function renderStageRules(rules, puzzle) {
+    if (!puzzle) return;
+    const pRules = rules || puzzle.rules || {};
+
+    // 1. Render Quick Rules in Deductive Notebook
+    const quickContainer = document.getElementById('stage-rules-quick-container');
+    if (quickContainer) {
+      quickContainer.innerHTML = `
+        <div class="rules-quick-row">
+          <span class="rules-tag-pill goal">MỤC TIÊU</span>
+          <span class="rules-quick-desc">${pRules.goal || puzzle.description}</span>
+        </div>
+        <div class="rules-quick-row">
+          <span class="rules-tag-pill control">THAO TÁC</span>
+          <span class="rules-quick-desc">${pRules.controls || 'Nhấp chuột trên bàn cờ để tương tác.'}</span>
+        </div>
+        <div class="rules-quick-row">
+          <span class="rules-tag-pill paradox">NGHỊCH LÝ</span>
+          <span class="rules-quick-desc">${pRules.paradox || 'Tìm quy luật logic ẩn để giải.'}</span>
+        </div>
+      `;
+    }
+
+    // 2. Render Full Rules Modal Content
+    const modalBody = document.getElementById('rules-modal-body');
+    const modalTag = document.getElementById('rules-stage-tag');
+    const modalTitle = document.getElementById('rules-stage-title');
+    const modalSubtitle = document.getElementById('rules-stage-subtitle');
+
+    if (modalTag) modalTag.textContent = `MÀN ${puzzle.id}`;
+    if (modalTitle) modalTitle.textContent = puzzle.title;
+    if (modalSubtitle) modalSubtitle.textContent = puzzle.subtitle || 'Quy tắc suy luận logic & cơ chế vận hành';
+
+    if (modalBody) {
+      modalBody.innerHTML = `
+        <div class="rules-block-card">
+          <div class="rules-block-header">
+            <span class="rules-icon">🎯</span>
+            <span class="rules-block-title">MỤC TIÊU CHIẾN THẮNG</span>
+          </div>
+          <div class="rules-block-content">${pRules.goal || puzzle.description}</div>
+        </div>
+
+        <div class="rules-block-card">
+          <div class="rules-block-header">
+            <span class="rules-icon">🕹️</span>
+            <span class="rules-block-title">CƠ CHẾ & CÁCH THAO TÁC</span>
+          </div>
+          <div class="rules-block-content">${pRules.controls || 'Nhấp chuột vào các phần tử trên Canvas để thay đổi trạng thái.'}</div>
+        </div>
+
+        <div class="rules-block-card highlight-paradox">
+          <div class="rules-block-header">
+            <span class="rules-icon">⚖️</span>
+            <span class="rules-block-title">QUY LUẬT NGHỊCH LÝ CỐT LÕI</span>
+          </div>
+          <div class="rules-block-content">${pRules.paradox || 'Mỗi câu đố đều có chứng minh nghiệm duy nhất.'}</div>
+        </div>
+
+        <div class="rules-block-card highlight-tip">
+          <div class="rules-block-header">
+            <span class="rules-icon">💡</span>
+            <span class="rules-block-title">CHIẾN LƯỢC SUY LUẬN & ĐIỂM THƯỞNG</span>
+          </div>
+          <div class="rules-block-content">
+            <p>${pRules.tips || 'Quan sát kỹ các tiên đề để tìm ra điểm mù logic.'}</p>
+            <div class="rules-bonus-notes">
+              <span class="bonus-tag">⚡ Tối ưu: ≤ ${puzzle.optimalMoves} nước đi (+50 XP)</span>
+              <span class="bonus-tag">🛡️ Không dùng Gợi Ý (+100 XP)</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  function openRulesModal() {
+    const modal = document.getElementById('rules-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
+
+  function closeRulesModal() {
+    const modal = document.getElementById('rules-modal');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  /**
+   * 4. Render Clues & Deductive Notebook
    */
   function renderClues(clues, unlockedHints = []) {
     // 1. Axioms
@@ -3949,6 +4328,9 @@ const UIController = (function () {
   return {
     init,
     updateHUD,
+    renderStageRules,
+    openRulesModal,
+    closeRulesModal,
     renderClues,
     renderContradictions,
     showToast,
@@ -4030,7 +4412,10 @@ const UIController = (function () {
     const puzzle = getPuzzleMeta();
     const puzzleType = puzzle.type || stageId;
 
-    // Update Clue Board
+    // Update Stage Rules & Clue Board
+    if (UIController.renderStageRules) {
+      UIController.renderStageRules(puzzle.rules, puzzle);
+    }
     UIController.renderClues(puzzle.clues, unlockedHintsByStage[stageId] || []);
 
     // Update HUD stats
